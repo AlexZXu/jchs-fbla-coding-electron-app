@@ -3,12 +3,11 @@ import './App.css';
 import { useState } from 'react';
 import { doc, getDoc } from "firebase/firestore";
 import { db } from '../../lib/firebase';
+import Login from '../main/Login';
 
 function Hello() {
   return (
-    <div>
-      <Link to="hello">Click here to go to hello</Link>
-    </div>
+    Login()
   );
 }
 
@@ -49,7 +48,7 @@ export default function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Hello />} />
+        <Route path="/" element={<Login />} />
         <Route path="/hello" element={<Hello2 />} />
       </Routes>
     </Router>
