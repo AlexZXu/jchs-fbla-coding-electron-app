@@ -1,15 +1,16 @@
 /* eslint-disable */
 import styles from './styles/Home.module.css'
 import { Link } from 'react-router-dom';
+import React from 'react';
 function App() {
   return (
     <div className={styles["dashboard-container"]}>
       <nav className={styles["navbar"]}>
-        <Link className={styles["nav-button"]} to="/home">Home</Link>
-        <button className={styles["nav-button"]}>Balance Details</button>
-        <button className={styles["nav-button"]}>Budgeting</button>
+        <Link className={`${styles["nav-button"]} ${styles["active"]}`} to="/home">Home</Link>
+        <Link className={styles["nav-button"]} to="/balance">Balance Details</Link>
+        <Link className={styles["nav-button"]} to="/budget">Budgeting</Link>
         <Link className={styles["nav-button"]} to="/transactions">Transactions</Link>
-        <button className={styles["nav-button"]}>Settings</button>
+        <Link className={styles["nav-button"]} to="/settings">Settings</Link>
       </nav>
       <div className={styles["dashboard-content"]}>
         <div className={styles["overview-box"]}>
