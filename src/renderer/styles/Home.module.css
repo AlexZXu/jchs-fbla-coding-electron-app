@@ -29,10 +29,14 @@ body {
   font-size: 16px;
 }
 
-.nav-button.active {
+.nav-button .active {
   background-color: #fff;
   color: #0056b3;
   border-radius: 5px;
+  background: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
 }
 
 .dashboard-content {

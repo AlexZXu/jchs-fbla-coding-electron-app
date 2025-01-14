@@ -1,28 +1,22 @@
 /* eslint-disable */
-import styles from './styles/Home.module.css'
+
+import React from 'react';
+import styles from './styles/Transactions.module.css'
 import { Link } from 'react-router-dom';
-function App() {
+
+function TransactionScreen() {
   return (
     <div className={styles["dashboard-container"]}>
       <nav className={styles["navbar"]}>
         <Link className={styles["nav-button"]} to="/home">Home</Link>
         <button className={styles["nav-button"]}>Balance Details</button>
         <button className={styles["nav-button"]}>Budgeting</button>
-        <Link className={styles["nav-button"]} to="/transactions">Transactions</Link>
+        <Link className={styles["nav-button active"]} to="/transactions">Transactions</Link>
         <button className={styles["nav-button"]}>Settings</button>
       </nav>
-      <div className={styles["dashboard-content"]}>
-        <div className={styles["overview-box"]}>
-          <h2>Overview</h2>
-          <p>Current Balance</p>
-          <h3>$19,076,721.74</h3>
-          <p>Income this month</p>
-          <p className={styles["income"]}>$340,045.23</p>
-          <p>Expenses this month</p>
-          <p className={styles["expenses"]}>$201,304.89</p>
-        </div>
-        <div className={styles["recent-transactions-box"]}>
-          <h2>Recent Transactions</h2>
+      <div className={styles["transactions-content"]}>
+        <div className={styles["transactions-box"]}>
+          <h2>All Transactions</h2>
           <table>
             <thead>
               <tr>
@@ -54,26 +48,11 @@ function App() {
               </tr>
             </tbody>
           </table>
-          <button>Add Transactions</button>
-        </div>
-        <div className={styles["budget-box"]}>
-          <h2>Budget This Month</h2>
-          <p>Total Budget Spent</p>
-          <p>$112,840.83 / $250,000</p>
-          <p>Budget Remaining</p>
-          <p>$137,159.17</p>
-        </div>
-        <div className={styles["saving-goal-box"]}>
-          <h2>Saving Goal</h2>
-          <p>Amount Saved</p>
-          <p>$20,000 / $50,000</p>
-          <div className={styles["progress-bar"]}>
-            <div className={styles["progress"]} style={{ width: '40%' }}></div>
-          </div>
+          <button className={styles["add-button"]}>Add Transactions</button>
         </div>
       </div>
     </div>
   );
 }
 
-export default App;
+export default TransactionScreen;
