@@ -9,8 +9,9 @@
 
 .login-box {
   background-color: white;
-  padding: 20px;
+  padding: 30px;
   border-radius: 10px;
+  width: 50%;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
@@ -37,6 +38,7 @@
   margin-bottom: 5px;
   font-size: 14px;
   color: #333;
+  margin-top: 15px;
 }
 
 .input-group input {
@@ -48,7 +50,7 @@
 
 .links {
   margin-top: 20px;
-  text-align: left;
+  text-align: center;
 }
 
 .links a {
@@ -62,4 +64,16 @@
 .links a span {
   color: #007bff;
   text-decoration: underline;
+}
+
+
+.submit-button {
+  background-color: #007bff;
+  color: #fff;
+  width: 100%;
+  padding: 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 15px;
 }
