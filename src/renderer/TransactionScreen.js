@@ -9,10 +9,10 @@ function TransactionScreen() {
     <div className={styles["dashboard-container"]}>
       <nav className={styles["navbar"]}>
         <Link className={styles["nav-button"]} to="/home">Home</Link>
-        <button className={styles["nav-button"]}>Balance Details</button>
-        <button className={styles["nav-button"]}>Budgeting</button>
-        <Link className={styles["nav-button active"]} to="/transactions">Transactions</Link>
-        <button className={styles["nav-button"]}>Settings</button>
+        <Link className={styles["nav-button"]} to="/balance">Balance Details</Link>
+        <Link className={styles["nav-button"]} to="/budget">Budgeting</Link>
+        <Link className={`${styles["nav-button"]} ${styles["active"]}`} to="/transactions">Transactions</Link>
+        <Link className={styles["nav-button"]} to="/settings">Settings</Link>
       </nav>
       <div className={styles["transactions-content"]}>
         <div className={styles["transactions-box"]}>

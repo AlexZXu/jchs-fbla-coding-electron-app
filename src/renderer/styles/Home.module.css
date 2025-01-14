@@ -29,14 +29,23 @@ body {
   font-size: 16px;
 }
 
-.nav-button .active {
+.nav-button.active {
   background-color: #fff;
   color: #0056b3;
   border-radius: 5px;
-  background: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  font-size: 16px;
+  position: relative;
+}
+
+.nav-button.active::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: lightblue;
+  z-index: -1;
+  border-radius: 5px;
 }
 
 .dashboard-content {

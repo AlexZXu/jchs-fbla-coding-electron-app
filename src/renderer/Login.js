@@ -43,7 +43,7 @@ function Login() {
     <div className={styles["login-container"]}>
       <div className={styles["login-box"]}>
         <img
-          src="logo.png"
+          src={require("../../assets/logo.png")}
           alt="FINCORP Logo"
           className="logo"
         />
