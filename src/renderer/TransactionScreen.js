@@ -3,6 +3,7 @@
 import React from 'react';
 import styles from './styles/Transactions.module.css'
 import { Link } from 'react-router-dom';
+import TransactionList from './TransactionList';
 
 function TransactionScreen() {
   return (
@@ -17,37 +18,7 @@ function TransactionScreen() {
       <div className={styles["transactions-content"]}>
         <div className={styles["transactions-box"]}>
           <h2>All Transactions</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Name</th>
-                <th>Amount</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>1/8/2025</td>
-                <td>Papa John's</td>
-                <td>+10,000</td>
-              </tr>
-              <tr>
-                <td>1/8/2025</td>
-                <td>Papa John's</td>
-                <td>-5,730</td>
-              </tr>
-              <tr>
-                <td>1/8/2025</td>
-                <td>Papa John's</td>
-                <td>+6,750</td>
-              </tr>
-              <tr>
-                <td>1/8/2025</td>
-                <td>Papa John's</td>
-                <td>+750</td>
-              </tr>
-            </tbody>
-          </table>
+          <TransactionList />
           <button className={styles["add-button"]}>Add Transactions</button>
         </div>
       </div>
