@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './styles/Auth.module.css'
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import React from 'react';
@@ -15,6 +15,8 @@ function SignUp() {
   const [verify, setVerify] = React.useState("")
   const [errorMessage, setErrorMessage] = React.useState("")
 
+  const navigate = useNavigate();
+
   async function signup(e) {
     e.preventDefault();
     createUserWithEmailAndPassword(auth, email, password)
@@ -23,8 +25,8 @@ function SignUp() {
       const user = userCredential.user;
 
       window.localStorage.setItem("user_id", user.uid)
-      navigate("/home")
-
+      console.log(user)
+      navigate('/login');
       // ...
     })
     .catch((error) => {
@@ -37,15 +39,11 @@ function SignUp() {
   return (
     <div className={styles["login-container"]}>
       <div className={styles["login-box"]}>
-        <div className={styles["logo-container"]}>
-          <img
-            src={require("../../assets/logo.png")}
-            alt="FINCORP Logo"
-            className={styles["logo"]}
-          />
-          FinApp
-        </div>
-
+        <img
+          src={require("../../assets/logo.png")}
+          alt="FINCORP Logo"
+          className="logo"
+        />
         <h2>Sign Up</h2>
         {
           stage == 1 ?

@@ -73,7 +73,6 @@ const createWindow = async () => {
     show: false,
     width: 1024,
     height: 728,
-    title: 'Financial Corporation®', // Set the window title here
     icon: getAssetPath('logo.png'), // Set the path to your custom icon here
     webPreferences: {
       preload: app.isPackaged
