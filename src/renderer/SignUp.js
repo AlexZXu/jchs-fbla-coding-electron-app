@@ -23,7 +23,8 @@ function SignUp() {
       const user = userCredential.user;
 
       window.localStorage.setItem("user_id", user.uid)
-      console.log(user)
+      navigate("/home")
+
       // ...
     })
     .catch((error) => {
@@ -36,11 +37,15 @@ function SignUp() {
   return (
     <div className={styles["login-container"]}>
       <div className={styles["login-box"]}>
-        <img
-          src={require("../../assets/logo.png")}
-          alt="FINCORP Logo"
-          className="logo"
-        />
+        <div className={styles["logo-container"]}>
+          <img
+            src={require("../../assets/logo.png")}
+            alt="FINCORP Logo"
+            className={styles["logo"]}
+          />
+          FinApp
+        </div>
+
         <h2>Sign Up</h2>
         {
           stage == 1 ?

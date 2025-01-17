@@ -12,7 +12,7 @@ function Settings() {
         <Link className={styles["nav-button"]} to="/transactions">Transactions</Link>
         <Link className={`${styles["nav-button"]} ${styles["active"]}`} to="/settings">Settings</Link>
       </nav>
-      <div className={styles["dashboard-content"]}>
+      <div className={styles["settings-content"]}>
         <div className={styles["settings-box"]}>
           <h2>Settings</h2>
           <ul className={styles["settings-list"]}>

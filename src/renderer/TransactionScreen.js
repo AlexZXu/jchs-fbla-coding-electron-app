@@ -2,10 +2,39 @@
 
 import React from 'react';
 import styles from './styles/Transactions.module.css'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import TransactionList from './TransactionList';
+import { db } from '../../lib/firebase';
+import { collection, addDoc, Timestamp } from 'firebase/firestore';
 
 function TransactionScreen() {
+  const [addOpen, setAddOpen] = React.useState(false)
+
+  const [name, setName] = React.useState("")
+  const [amount, setAmount] = React.useState("")
+  const [additionalNotes, setAdditionalNotes] = React.useState("")
+  const navigate = useNavigate()
+
+  function cancel() {
+    setAddOpen("")
+    setName("")
+    setAmount("")
+    setAdditionalNotes("")
+  }
+
+  async function submit() {
+    const collectionRef = collection(db, "transactions");
+    const payload = {
+      name: name,
+      amount: parseInt(amount),
+      time: Timestamp.now(),
+      uid: "tFzlKj78hucNhqvoYKImxS1qXBq1"
+    }
+
+    await addDoc(collectionRef, payload)
+    navigate("/transactions")
+  }
+
   return (
     <div className={styles["dashboard-container"]}>
       <nav className={styles["navbar"]}>
@@ -17,11 +46,28 @@ function TransactionScreen() {
       </nav>
       <div className={styles["transactions-content"]}>
         <div className={styles["transactions-box"]}>
-          <h2>All Transactions</h2>
+          <h2 className={styles["transactions-title"]}>All Transactions</h2>
           <TransactionList />
-          <button className={styles["add-button"]}>Add Transactions</button>
+          <button className={styles["add-button"]} onClick={() => {setAddOpen(true)}}>Add Transactions</button>
         </div>
       </div>
+
+      {
+        addOpen &&
+        <div className={styles["add-transaction-container"]}>
+          <h2 className={styles["transactions-title"]} style={{textAlign: 'center'}}>New Transaction</h2>
+          <div>Name</div>
+          <input className={styles["transaction-input"]} onChange={(e) => {setName(e.target.value)}} value={name}/>
+          <div>Amount</div>
+          <input className={styles["transaction-input"]} onChange={(e) => {setAmount(e.target.value)}} value={amount} />
+          <div>Additional Notes</div>
+          <input className={styles["transaction-input"]} onChange={(e) => {setAdditionalNotes(e.target.value)}} value={additionalNotes} />
+          <div className={styles["button-container"]}>
+            <button onClick={cancel} className={styles["cancel-button"]}>Cancel</button>
+            <button onClick={submit} className={styles["submit-button"]}>Submit</button>
+          </div>
+        </div>
+      }
     </div>
   );
 }

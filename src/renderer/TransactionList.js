@@ -2,8 +2,9 @@
 
 import React from 'react'
 import styles from './styles/Transactions.module.css'
-import { collection, getDocs, query, where } from 'firebase/firestore'
+import { collection, getDocs, query, where, Timestamp } from 'firebase/firestore'
 import { db } from '../../lib/firebase'
+import dayjs from 'dayjs'
 
 function TransactionList() {
   const [transactionArray, setTransactionArray] = React.useState([]);
@@ -24,18 +25,38 @@ function TransactionList() {
       })
 
       setTransactionArray(transactionData)
+      console.log(transactionData)
     }
 
     fetchData()
   }, [])
 
   return (
-    <div className={styles["transaction-container"]}>
+    <div className={styles["transactions-container"]}>
+      <div className={styles["transaction-header"]}>
+        <div style={{marginLeft: '5px'}}>
+          Date
+        </div>
+        <div style={{marginLeft: '5px'}}>
+          Name
+        </div>
+        <div style={{textAlign: 'right', marginRight: '5px'}}>
+          Amount
+        </div>
+      </div>
       {
         transactionArray.map(item => {
           return (
-            <div key={item.id}>
-              f
+            <div className={styles["transaction"]} key={item.id}>
+              <div>
+                {dayjs(new Timestamp(item.time.seconds, item.time.nanoseconds).toDate()).format('M/D/YYYY')}
+              </div>
+              <div>
+                {item.name}
+              </div>
+              <div className={styles["transaction-amount"]}>
+                {item.amount}
+              </div>
             </div>
           )
         })

@@ -1,6 +1,6 @@
 body {
   background-color: #007bff;
-  font-family: Arial, sans-serif;
+  font-family: "Inter";
   margin: 0;
   padding: 0;
 }
@@ -111,6 +111,7 @@ body {
   text-align: center;
   padding: 20px;
   border-radius: 8px;
+  font-weight: 600;
   width: 30%;
 }
 
@@ -125,4 +126,20 @@ body {
 
 .set-budget-button:hover, .check-history-button:hover {
   background-color: #d0d0d0;
+}
+
+
+.overview-title {
+  font-weight: 600;
+  font-size: 24px;
+}
+
+.overview-subtitle {
+  font-weight: 400;
+  font-size: 18px;
+}
+
+.overview-balance {
+  font-weight: 600;
+  font-size: 24px;
 }

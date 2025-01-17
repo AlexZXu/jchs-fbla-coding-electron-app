@@ -1,6 +1,6 @@
 body {
   background-color: #007bff;
-  font-family: Arial, sans-serif;
+  font-family: "Inter";
   margin: 0;
   padding: 0;
 }
@@ -48,6 +48,18 @@ body {
   border-radius: 5px;
 }
 
+.add-button {
+  background-color: #e0e0e0;
+  color: #000;
+  padding: 10px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
+  display: inline-block;
+}
+
 .dashboard-content {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -72,10 +84,13 @@ h2 {
 
 .income {
   color: green;
+  font-weight: 600;
+
 }
 
 .expenses {
   color: red;
+  font-weight: 600;
 }
 
 table {
@@ -99,4 +114,19 @@ table td {
 .progress {
   height: 10px;
   background-color: #007bff;
+}
+
+.overview-title {
+  font-weight: 600;
+  font-size: 24px;
+}
+
+.overview-subtitle {
+  font-weight: 400;
+  font-size: 18px;
+}
+
+.overview-balance {
+  font-weight: 600;
+  font-size: 24px;
 }

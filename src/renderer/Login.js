@@ -42,11 +42,15 @@ function Login() {
   return (
     <div className={styles["login-container"]}>
       <div className={styles["login-box"]}>
-        <img
-          src={require("../../assets/logo.png")}
-          alt="FINCORP Logo"
-          className="logo"
-        />
+        <div className={styles["logo-container"]}>
+          <img
+            src={require("../../assets/logo.png")}
+            alt="FINCORP Logo"
+            className={styles["logo"]}
+          />
+          FinApp
+        </div>
+
         <h2>Login</h2>
         <form className={styles["input-group"]}>
           <label>Email</label>

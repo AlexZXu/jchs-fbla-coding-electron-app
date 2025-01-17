@@ -5,6 +5,7 @@
   align-items: center;
   height: 100vh;
   background-color: #007bff;
+  font-family: "Inter";
 }
 
 .login-box {
@@ -25,6 +26,7 @@
 .login-box h2 {
   margin-bottom: 20px;
   font-size: 20px;
+  font-weight: 600;
   color: #333;
 }
 
@@ -76,4 +78,19 @@
   border-radius: 5px;
   cursor: pointer;
   margin-top: 15px;
+}
+
+.logo-container {
+  display: flex;
+  height: 80px;
+  align-items: center;
+  font-weight: 600;
+  font-size: 24px;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+.logo {
+  height: 100%;
 }
