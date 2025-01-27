@@ -6,17 +6,27 @@ import { Link, useNavigate } from 'react-router-dom';
 import TransactionList from './TransactionList';
 import { db } from '../../lib/firebase';
 import { collection, addDoc, Timestamp } from 'firebase/firestore';
+import dayjs from 'dayjs';
+import { useHistory } from 'react-router'
 
 function TransactionScreen() {
   const [addOpen, setAddOpen] = React.useState(false)
 
+  const [date, setDate] = React.useState("")
   const [name, setName] = React.useState("")
   const [amount, setAmount] = React.useState("")
   const [additionalNotes, setAdditionalNotes] = React.useState("")
+
   const navigate = useNavigate()
 
+  React.useEffect(() => {
+    const day = dayjs(new Date()).format("YYYY-MM-DD")
+    setDate(day);
+  }, []);
+
   function cancel() {
-    setAddOpen("")
+    setAddOpen(false)
+    setDate("")
     setName("")
     setAmount("")
     setAdditionalNotes("")
@@ -27,12 +37,15 @@ function TransactionScreen() {
     const payload = {
       name: name,
       amount: parseInt(amount),
-      time: Timestamp.now(),
-      uid: "tFzlKj78hucNhqvoYKImxS1qXBq1"
+      date: date,
+      timestamp: Timestamp.now(),
+      additionalNotes: additionalNotes,
+      uid: "tFzlKj78hucNhqvoYKImxS1qXBq1",
     }
 
     await addDoc(collectionRef, payload)
-    navigate("/transactions")
+
+    cancel()
   }
 
   return (
@@ -47,7 +60,7 @@ function TransactionScreen() {
       <div className={styles["transactions-content"]}>
         <div className={styles["transactions-box"]}>
           <h2 className={styles["transactions-title"]}>All Transactions</h2>
-          <TransactionList />
+          <TransactionList addOpen={addOpen} />
           <button className={styles["add-button"]} onClick={() => {setAddOpen(true)}}>Add Transactions</button>
         </div>
       </div>
@@ -56,6 +69,8 @@ function TransactionScreen() {
         addOpen &&
         <div className={styles["add-transaction-container"]}>
           <h2 className={styles["transactions-title"]} style={{textAlign: 'center'}}>New Transaction</h2>
+          <div>Date</div>
+          <input className={styles["transaction-input"]} type="date" onChange={(e) => {setDate(e.target.value)}} value={date}/>
           <div>Name</div>
           <input className={styles["transaction-input"]} onChange={(e) => {setName(e.target.value)}} value={name}/>
           <div>Amount</div>

@@ -2,18 +2,18 @@
 
 import React from 'react'
 import styles from './styles/Transactions.module.css'
-import { collection, getDocs, query, where, Timestamp } from 'firebase/firestore'
+import { collection, getDocs, query, where, Timestamp, orderBy } from 'firebase/firestore'
 import { db } from '../../lib/firebase'
 import dayjs from 'dayjs'
 
-function TransactionList() {
+function TransactionList({addOpen}) {
   const [transactionArray, setTransactionArray] = React.useState([]);
 
   React.useEffect(() => {
     const fetchData = async () => {
       const transactionData = []
 
-      const q = await query(collection(db, "transactions"), where("uid", "==", "tFzlKj78hucNhqvoYKImxS1qXBq1"))
+      const q = await query(collection(db, "transactions"), where("uid", "==", "tFzlKj78hucNhqvoYKImxS1qXBq1"), orderBy("date", "desc"))
 
       const querySnap = await getDocs(q)
 
@@ -29,7 +29,7 @@ function TransactionList() {
     }
 
     fetchData()
-  }, [])
+  }, [addOpen])
 
   return (
     <div className={styles["transactions-container"]}>
@@ -49,7 +49,7 @@ function TransactionList() {
           return (
             <div className={styles["transaction"]} key={item.id}>
               <div>
-                {dayjs(new Timestamp(item.time.seconds, item.time.nanoseconds).toDate()).format('M/D/YYYY')}
+                {dayjs(item.date).format('M/D/YYYY')}
               </div>
               <div>
                 {item.name}
