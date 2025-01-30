@@ -28,8 +28,10 @@ function Login() {
     .then((userCredential) => {
       // Signed in
       const user = userCredential.user;
+      //store user id in local storage
+      sessionStorage.setItem("uid", user.uid);
 
-      navigate("/home")
+      navigate("/home");
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -59,7 +61,7 @@ function Login() {
           <input type="password" placeholder="Enter your password" onChange={(e) => {setPassword(e.target.value)}} value={password} />
           {errorMessage}
 
-          <button type="submit" onClick={login} className={styles["submit-button"]}>Log In</button>
+          <button onClick={login} className={styles["submit-button"]}>Log In</button>
         </form>
         <div className={styles["links"]}>
           <a href="/">Forgot username or password?</a>

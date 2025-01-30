@@ -1,31 +1,22 @@
 /* eslint-disable */
 
+import fetchRecords from '../../lib/fetchRecords';
 import React from 'react'
 import styles from './styles/Transactions.module.css'
-import { collection, getDocs, query, where, Timestamp, orderBy } from 'firebase/firestore'
-import { db } from '../../lib/firebase'
+import 'overlayscrollbars/overlayscrollbars.css';
+import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import dayjs from 'dayjs'
+import { IoOpenOutline } from "react-icons/io5";
 
-function TransactionList({addOpen}) {
+function TransactionList({addOpen, height, setTransactionDetailOpen, setTransactionId}) {
   const [transactionArray, setTransactionArray] = React.useState([]);
 
   React.useEffect(() => {
     const fetchData = async () => {
-      const transactionData = []
-
-      const q = await query(collection(db, "transactions"), where("uid", "==", "tFzlKj78hucNhqvoYKImxS1qXBq1"), orderBy("date", "desc"))
-
-      const querySnap = await getDocs(q)
-
-      querySnap.forEach((doc) => {
-        let data = doc.data()
-        data.id = doc.id
-
-        transactionData.push(data)
-      })
+      const transactionData = await fetchRecords("transactions");
+      console.log(transactionData)
 
       setTransactionArray(transactionData)
-      console.log(transactionData)
     }
 
     fetchData()
@@ -40,27 +31,34 @@ function TransactionList({addOpen}) {
         <div style={{marginLeft: '5px'}}>
           Name
         </div>
-        <div style={{textAlign: 'right', marginRight: '5px'}}>
+        <div style={{marginRight: '5px'}}>
           Amount
         </div>
       </div>
-      {
-        transactionArray.map(item => {
-          return (
-            <div className={styles["transaction"]} key={item.id}>
-              <div>
-                {dayjs(item.date).format('M/D/YYYY')}
-              </div>
-              <div>
-                {item.name}
-              </div>
-              <div className={styles["transaction-amount"]}>
-                {item.amount}
-              </div>
-            </div>
-          )
-        })
-      }
+      <OverlayScrollbarsComponent style={{height: height}}>
+        <div style={{display: "flex", flexDirection: "column", gap: '6px'}}>
+          {
+              transactionArray.map(item => {
+                return (
+                  <div className={styles["transaction"]} key={item.id}>
+                    <div>
+                      {dayjs(item.date).format('M/D/YYYY')}
+                    </div>
+                    <div>
+                      {item.name}
+                    </div>
+                    <div className={styles["transaction-amount"]}>
+                      {item.amount < 0 ? "" : "+"}{(Math.round(item.amount * 100) / 100).toFixed(2)}
+                    </div>
+                    <div>
+                      <button onClick={() => {setTransactionDetailOpen(true); setTransactionId(item.id); console.log("test")}}><IoOpenOutline /></button>
+                    </div>
+                  </div>
+                )
+              })
+            }
+        </div>
+      </OverlayScrollbarsComponent>
     </div>
   )
 }
