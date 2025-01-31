@@ -1,9 +1,6 @@
 /* eslint-disable */
 import { MemoryRouter as Router, Routes, Route, Link} from 'react-router-dom';
 import './App.css';
-import { useState } from 'react';
-import { doc, getDoc, Transaction } from "firebase/firestore";
-import { db } from '../../lib/firebase';
 import Login from './Login';
 import SignUp from './SignUp';
 import HomeScreen from './HomeScreen';
@@ -14,6 +11,7 @@ import GeneralSettings from './GeneralSettings';
 import HelpSettings from './HelpSettings';
 import Budget from './Budget';
 import Balance from './Balance';
+import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
 
 export default function App() {
   return (

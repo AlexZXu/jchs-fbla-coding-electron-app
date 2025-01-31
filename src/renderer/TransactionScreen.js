@@ -15,6 +15,8 @@ function TransactionScreen() {
   const [addOpen, setAddOpen] = React.useState(false);
   const [transactionDetailOpen, setTransactionDetailOpen] = React.useState(false);
   const [transactionId, setTransactionId] = React.useState(0);
+  const [trigger, setTrigger] = React.useState(false);
+
   const navigate = useNavigate()
 
   React.useEffect(() => {
@@ -43,6 +45,7 @@ function TransactionScreen() {
 
   function cancel() {
     setAddOpen(false)
+    setTransactionDetailOpen(false)
     setDate("")
     setName("")
     setAmount("")
@@ -65,6 +68,7 @@ function TransactionScreen() {
     await addDoc(collectionRef, payload)
 
     cancel()
+    setTrigger(!trigger)
   }
 
   async function update() {
@@ -81,6 +85,8 @@ function TransactionScreen() {
     }
 
     await setDoc(docRef, payload)
+    setTrigger(!trigger)
+    cancel()
   }
 
   return (
@@ -95,7 +101,7 @@ function TransactionScreen() {
       <div className={styles["transactions-content"]}>
         <div className={styles["transactions-box"]}>
           <h2 className={styles["transactions-title"]}>All Transactions</h2>
-          <TransactionList addOpen={addOpen} height="100%" setTransactionDetailOpen={setTransactionDetailOpen} setTransactionId={setTransactionId}/>
+          <TransactionList trigger={trigger} height="100%" setTransactionDetailOpen={setTransactionDetailOpen} setTransactionId={setTransactionId}/>
           <button className={styles["add-button"]} onClick={() => {setAddOpen(true)}}>Add Transactions</button>
         </div>
       </div>

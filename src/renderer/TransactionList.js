@@ -8,19 +8,19 @@ import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import dayjs from 'dayjs'
 import { IoOpenOutline } from "react-icons/io5";
 
-function TransactionList({addOpen, height, setTransactionDetailOpen, setTransactionId}) {
+function TransactionList({trigger, height, setTransactionDetailOpen, setTransactionId}) {
   const [transactionArray, setTransactionArray] = React.useState([]);
 
+  const fetchData = async () => {
+    const transactionData = await fetchRecords("transactions");
+    console.log(transactionData)
+
+    setTransactionArray(transactionData)
+  }
+
   React.useEffect(() => {
-    const fetchData = async () => {
-      const transactionData = await fetchRecords("transactions");
-      console.log(transactionData)
-
-      setTransactionArray(transactionData)
-    }
-
     fetchData()
-  }, [addOpen])
+  }, [trigger])
 
   return (
     <div className={styles["transactions-container"]}>
@@ -51,7 +51,7 @@ function TransactionList({addOpen, height, setTransactionDetailOpen, setTransact
                       {item.amount < 0 ? "" : "+"}{(Math.round(item.amount * 100) / 100).toFixed(2)}
                     </div>
                     <div>
-                      <button onClick={() => {setTransactionDetailOpen(true); setTransactionId(item.id); console.log("test")}}><IoOpenOutline /></button>
+                      <button onClick={() => {setTransactionDetailOpen(true); setTransactionId(item.id);}}><IoOpenOutline /></button>
                     </div>
                   </div>
                 )

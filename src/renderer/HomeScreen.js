@@ -10,6 +10,7 @@ import fetchSingleRecordId from '../../lib/fetchSingleRecordId';
 import { IoClose } from "react-icons/io5";
 import { db } from '../../lib/firebase';
 import { collection, addDoc, Timestamp, updateDoc, setDoc, doc } from 'firebase/firestore';
+import { MdEdit } from "react-icons/md";
 
 import {
   OverlayScrollbars,
@@ -22,6 +23,13 @@ function App() {
   const [balanceDetails, setBalanceDetails] = React.useState({});
   const [transactionDetailOpen, setTransactionDetailOpen] = React.useState(false);
   const [transactionId, setTransactionId] = React.useState(0);
+  const [trigger, setTrigger] = React.useState(false);
+
+  const [currBalance, setCurrBalance] = React.useState(0)
+  const [incomeMonth, setIncomeMonth] = React.useState(0)
+  const [expenseMonth, setExpenseMonth] = React.useState(0)
+
+  const [balanceEditMode, setBalanceEditMode] = React.useState(false)
 
   const [date, setDate] = React.useState("")
   const [name, setName] = React.useState("")
@@ -42,22 +50,41 @@ function App() {
     fetchData()
   }, [transactionDetailOpen])
 
-    React.useEffect(() => {
-      const fetchData = async () => {
-        const balanceData = await fetchSingleRecord("balances");
-        console.log(balanceData)
+  async function getBalance() {
+    const balanceData = await fetchSingleRecord("balances");
+    console.log(balanceData)
 
-        setBalanceDetails(balanceData)
-      }
+    setBalanceDetails(balanceData)
+  }
 
-      fetchData()
-    }, [])
+  React.useEffect(() => {
+    getBalance()
+  }, [])
 
   function cancel() {
+    setTransactionDetailOpen(false)
     setDate("")
     setName("")
     setAmount("")
     setAdditionalNotes("")
+  }
+
+  async function save() {
+    const balance_id = balanceDetails.id
+    const docRef = doc(db, "balances", balance_id);
+    const uid = sessionStorage.getItem("uid")
+
+    const payload = {
+      currentBalance: parseFloat(currBalance),
+      expensesMonth: parseFloat(expenseMonth),
+      incomeMonth: parseFloat(incomeMonth),
+      uid: uid
+    }
+
+    await setDoc(docRef, payload, { merge: true })
+
+    getBalance()
+    setBalanceEditMode(false);
   }
 
   async function update() {
@@ -74,14 +101,19 @@ function App() {
     }
 
     await setDoc(docRef, payload)
+
+    setTrigger(!trigger)
+
+    cancel()
   }
 
-  function cancel() {
-    setDate("")
-    setName("")
-    setAmount("")
-    setAdditionalNotes("")
+  function editBalanceStart() {
+    setBalanceEditMode(true)
+    setCurrBalance(balanceDetails.currentBalance)
+    setIncomeMonth(balanceDetails.incomeMonth)
+    setExpenseMonth(balanceDetails.expensesMonth)
   }
+
 
   return (
     <div className={styles["dashboard-container"]}>
@@ -94,18 +126,41 @@ function App() {
       </nav>
       <div className={styles["dashboard-content"]}>
         <div className={styles["overview-box"]}>
-          <h2 className={styles["overview-title"]}>Overview</h2>
+          <div style={{display: 'flex', height: '40px', alignItems: 'center', justifyContent: 'space-between'}}>
+            <div className={styles["overview-title"]}>Overview</div>
+            <button style={{fontSize: "24px"}} onClick={() => {editBalanceStart()}}><MdEdit/></button>
+          </div>
           <p className={styles["overview-subtitle"]}>Current Balance</p>
-          <h3 className={styles["overview-balance"]}>${balanceDetails.currentBalance}</h3>
+          {
+            balanceEditMode ?
+            <input className={styles["balance-input"]} onChange={(e) => {setCurrBalance(e.target.value)}} value={currBalance}></input>
+            :
+            <h3 className={styles["overview-balance"]}>${(Math.round(balanceDetails.currentBalance * 100) / 100).toFixed(2)}</h3>
+          }
           <p className={styles["overview-subtitle"]}>Income this month</p>
-          <p className={styles["income"]}>${balanceDetails.incomeMonth}</p>
+          {
+            balanceEditMode ?
+            <input className={styles["balance-input"]} onChange={(e) => {setIncomeMonth(e.target.value)}} value={incomeMonth}></input>
+            :
+            <p className={styles["income"]}>${(Math.round(balanceDetails.incomeMonth * 100) / 100).toFixed(2)}</p>
+          }
           <p className={styles["overview-subtitle"]}>Expenses this month</p>
-          <p className={styles["expenses"]}>${balanceDetails.expensesMonth}</p>
+          {
+            balanceEditMode ?
+            <input className={styles["balance-input"]} onChange={(e) => {setExpenseMonth(e.target.value)}} value={expenseMonth}></input>
+            :
+            <p className={styles["expenses"]}>${(Math.round(balanceDetails.expensesMonth * 100) / 100).toFixed(2)}</p>
+          }
+          {
+            balanceEditMode &&
+            <button className={styles["save-button"]} onClick={save}>Save</button>
+          }
+
         </div>
         <div className={styles["recent-transactions-box"]}>
           <h2 className={styles["overview-title"]}>Recent Transactions</h2>
           <div className={styles["list-container"]}>
-            <TransactionList height="160px" setTransactionDetailOpen={setTransactionDetailOpen} setTransactionId={setTransactionId}/>
+            <TransactionList height={balanceEditMode ? "220px" : "160px"} setTransactionDetailOpen={setTransactionDetailOpen} trigger={trigger} setTransactionId={setTransactionId}/>
           </div>
           <Link to="/transactions" className={styles["add-button"]} style={{width: "100%"}}>View Transactions</Link>
         </div>

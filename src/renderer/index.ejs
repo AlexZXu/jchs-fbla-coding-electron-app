@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html data-overlayscrollbars-initialize>
   <head>
     <meta charset="utf-8" />
     <meta
@@ -10,7 +10,19 @@
     <script type="text/javascript" src="path/to/overlayscrollbars.browser.es.js" defer></script>
     <title>Financial Corporation®</title>
   </head>
-  <body>
+  <body data-overlayscrollbars-initialize id="#body">
     <div id="root"></div>
   </body>
+  <script>
+    import 'overlayscrollbars/overlayscrollbars.css';
+    import 'overlayscrollbars/styles/overlayscrollbars.css';
+
+    var {
+      OverlayScrollbars,
+      ScrollbarsHidingPlugin,
+      SizeObserverPlugin,
+      ClickScrollPlugin
+    } = OverlayScrollbarsGlobal;
+    const osInstance = OverlayScrollbars(document.querySelector('#body'), {});
+  </script>
 </html>
