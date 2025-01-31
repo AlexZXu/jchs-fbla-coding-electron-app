@@ -100,7 +100,7 @@ function TransactionScreen() {
       </nav>
       <div className={styles["transactions-content"]}>
         <div className={styles["transactions-box"]}>
-          <h2 className={styles["transactions-title"]}>All Transactions</h2>
+          <h2 className={styles["section-title"]}>All Transactions</h2>
           <TransactionList trigger={trigger} height="100%" setTransactionDetailOpen={setTransactionDetailOpen} setTransactionId={setTransactionId}/>
           <button className={styles["add-button"]} onClick={() => {setAddOpen(true)}}>Add Transactions</button>
         </div>

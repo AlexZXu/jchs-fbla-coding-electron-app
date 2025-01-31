@@ -109,6 +109,18 @@ th, td {
   border-radius: 8px;
 }
 
+
+.section-title {
+  border: solid;
+  background: linear-gradient(to right, #006fe6d0 0%, #004696d0 100%);
+  color: white;
+  font-weight: 600;
+  font-size: 20px;
+  padding: 8px;
+  padding-left: 15px;
+  border-radius: 15px;
+}
+
 .transaction-header {
   display: grid;
   grid-template-columns: 1fr 2fr 0.85fr;
