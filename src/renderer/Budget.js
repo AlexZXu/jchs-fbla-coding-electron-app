@@ -2,10 +2,13 @@ import React from 'react';
 import styles from './styles/Budget.module.css';
 import { Link } from 'react-router-dom';
 import fetchSingleRecord from '../../lib/fetchSingleRecord';
+import { doc, setDoc } from 'firebase/firestore';
+import { db } from '../../lib/firebase';
 
 function Budget() {
   const [focus, setFocus] = React.useState(0)
   const [focusAmount, setFocusAmount] = React.useState(0)
+  const [budgetId, setBudgetId] = React.useState("");
 
   const [budgetDetails, setBudgetDetails] = React.useState({
     goal: 0,
@@ -23,10 +26,9 @@ function Budget() {
   async function getBudget() {
     const balanceData = await fetchSingleRecord("generalBudgets");
     const pastBalanceData = await fetchSingleRecord("generalBudgets", "2025-01")
-    console.log(pastBalanceData)
-    console.log(balanceData)
     setBudgetDetails(balanceData)
     setPastBudgetDetails(pastBalanceData)
+    setBudgetId(balanceData.id)
   }
 
   async function getBalance() {
@@ -35,6 +37,18 @@ function Budget() {
     setIncomeMonth(balanceData.incomeMonth)
     setPastIncomeMonth(pastBalanceData.incomeMonth)
   }
+
+  async function setAmountAsBudget() {
+    const newBudgetAmount = incomeMonth * focusAmount;
+    const docRef = doc(db, "generalBudgets", budgetId);
+    const payload = {
+      goal: newBudgetAmount
+    }
+
+    await setDoc(docRef, payload, { merge: true })
+    getBudget()
+  }
+
 
   React.useEffect(() => {
     getBudget()
@@ -162,7 +176,7 @@ function Budget() {
               </div>
             </div>
             <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <button className={`${styles['set-budget-button']} ${focus === 0 ? styles['disabled'] : styles['enabled']}`} disabled={focus === 0}>
+              <button className={`${styles['set-budget-button']} ${focus === 0 ? styles['disabled'] : styles['enabled']}`} disabled={focus === 0} onClick={setAmountAsBudget}>
                 Set As Budget
               </button>
             </div>
@@ -178,10 +192,10 @@ function Budget() {
             <p style={{ fontWeight: '600', fontSize: '24px' }}>${pastIncomeMonth.toFixed(2)}</p>
             <p className={styles['overview-subtitle']}>Details</p>
             <p style={{ fontWeight: '600', fontSize: '24px' }}>
-              $102.39 over budget
+              {pastBudgetDetails.totalSpent > pastBudgetDetails.goal ? `$${(pastBudgetDetails.totalSpent - pastBudgetDetails.goal).toFixed(2)} spent over budget` : `$${(pastBudgetDetails.goal - pastBudgetDetails.totalSpent).toFixed(2)} under budget`}
             </p>
             <p style={{ fontWeight: '600', fontSize: '24px' }}>
-              92% of income that month
+              {(pastBudgetDetails.totalSpent / pastIncomeMonth * 100).toFixed(2)}% of income that month
             </p>
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <button className={styles['check-history-button']}>
