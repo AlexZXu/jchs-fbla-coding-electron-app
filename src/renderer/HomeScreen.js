@@ -38,7 +38,7 @@ function App() {
 
   React.useEffect(() => {
     const fetchData = async () => {
-      if (transactionDetailOpen == true) {
+      if (transactionDetailOpen === true) {
         const transactionData = await fetchSingleRecordId("transactions", transactionId)
         setName(transactionData.name)
         setAmount(transactionData.amount)
@@ -180,6 +180,7 @@ function App() {
           <div className={styles["progress-bar"]}>
             <div className={styles["progress"]} style={{ width: '40%' }}></div>
           </div>
+          <button className={styles["edit-button"]}>Edit Targets</button>
         </div>
       </div>
       {
