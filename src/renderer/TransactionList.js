@@ -32,6 +32,9 @@ function TransactionList({trigger, height, setTransactionDetailOpen, setTransact
           Name
         </div>
         <div style={{marginRight: '5px'}}>
+          Category
+        </div>
+        <div style={{marginRight: '5px'}}>
           Amount
         </div>
       </div>
@@ -46,6 +49,9 @@ function TransactionList({trigger, height, setTransactionDetailOpen, setTransact
                     </div>
                     <div>
                       {item.name}
+                    </div>
+                    <div>
+                      {item.category}
                     </div>
                     <div className={styles["transaction-amount"]}>
                       {item.amount < 0 ? "" : "+"}{(Math.round(item.amount * 100) / 100).toFixed(2)}
