@@ -133,6 +133,10 @@ body {
   justify-content: space-between;
 }
 
+.selected {
+  border: 2px solid black;
+}
+
 .recommendation {
   text-align: center;
   padding: 20px;
@@ -150,10 +154,21 @@ body {
   display: inline-block;
   cursor: pointer;
   width: 100%;
+  font-weight: 500;
 }
 
 .set-budget-button:hover, .check-history-button:hover {
   background-color: #d0d0d0;
+}
+
+.set-budget-button.enabled {
+  background-color: #2E7D32;
+  cursor: pointer;
+}
+
+.set-budget-button.disabled {
+  background-color: #e0e0e0;
+  cursor: not-allowed;
 }
 
 .section-title {

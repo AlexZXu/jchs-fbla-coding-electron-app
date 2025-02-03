@@ -71,7 +71,7 @@ function App() {
   }
 
   async function getSavings() {
-    const savingsData = await fetchSingleRecord("savings")
+    const savingsData = await fetchSingleRecord("savings", null)
     setSavingsGoal(savingsData.goal)
     setSavings(savingsData.totalSaved)
   }
