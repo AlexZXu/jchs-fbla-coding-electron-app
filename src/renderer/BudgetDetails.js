@@ -5,19 +5,68 @@ import { Link } from "react-router-dom";
 import styles from "./styles/BudgetDetails.module.css";
 import { db } from '../../lib/firebase';
 import { collection, addDoc, Timestamp, updateDoc, setDoc, doc } from 'firebase/firestore';
-
+import twoDecimal from "../../lib/TwoDecimal";
+import fetchSingleRecord from "../../lib/fetchSingleRecord";
 const BudgetDetails = () => {
-  const budgetData = [
-    { category: "Dining", amount: 38.84, percentage: 34 },
-    { category: "Gas", amount: 29.03, percentage: 26 },
-    { category: "Savings", amount: 60.35, percentage: 37 },
-    { category: "Entertainment", amount: 30.26, percentage: 17 },
-    { category: "Gifts", amount: 15.07, percentage: 9 },
-    { category: "Essentials", amount: 5.14, percentage: 2 },
-  ];
+  const budgetData = {
+    categories: {
+      dining: {
+        goal: 0,
+        spent: 0
+      },
+      entertainment: {
+        goal: 0,
+        spent: 0
+      },
+      essentials: {
+        goal: 0,
+        spent: 0
+      },
+      gas: {
+        goal: 0,
+        spent: 0,
+      },
+      savings: {
+        goal: 0,
+        spent: 0,
+      },
+      other: {
+        goal: 0,
+        spent: 0,
+      },
+    },
+    goal: 0,
+    totalSpent: 0
+  }
 
-  const totalBudget = 250;
-  const totalSpent = budgetData.reduce((sum, item) => sum + item.amount, 0);
+  const [goalData, setGoalData] = React.useState([
+    {category: "Dining", goal: 23.32},
+    {category: "Gas", goal: 45.32},
+    {category: "Savings", goal: 24.00},
+    {category: "Entertainment", goal: 50.00},
+    {category: "Essentials", goal: 60.00},
+    {category: "Other", goal: 32.00},
+  ])
+
+  function modifyGoalData(category, value) {
+    let previousGoalData = [...goalData]
+    previousGoalData.find(i => i.category == category).goal = value
+    console.log(previousGoalData)
+
+    setGoalData(previousGoalData)
+  }
+
+  async function getBudget() {
+    const balanceData = await fetchSingleRecord("generalBudgets");
+
+    console.log(balanceData)
+  }
+
+  React.useState(() => {
+    getBudget()
+  }, [])
+
+  const [editOpen, setEditOpen] = React.useState(false)
 
   return (
     <div className={styles["dashboard-container"]}>
@@ -32,11 +81,19 @@ const BudgetDetails = () => {
       <div className={styles["budgeting-content"]}>
         <h2 className={styles["section-title"]}>Budget Summary</h2>
         <div className={styles["budget-list"]}>
-          {budgetData.map((item) => (
-            <div className={styles["budget-item"]} key={item.category}>
-              <span className={styles["budget-category"]}>{item.category}</span>
+          {Object.keys(budgetData.categories).map((item) => (
+            <div className={styles["budget-item"]} key={item}>
+              <span className={styles["budget-category"]}>{item}</span>
               <div className={styles["budget-amount"]}>
-                <span className={styles.amount}>${item.amount.toFixed(2)}</span>
+                <span className={styles.amount}>${twoDecimal(budgetData.categories[item].spent)} /</span>
+                {
+                  editOpen ?
+                  <input className={styles["budget-input"]} value={goalData.find(i => i.category == item.toUpperCase()).goal} onChange={(e) => {modifyGoalData(item, e.target.value)}}>
+                  </input> :
+                  <span className={styles["budget-goal"]}>
+                    {twoDecimal(budgetData.categories[item].goal)}
+                  </span>
+                }
                 <span className={styles.percentage}>{item.percentage}%</span>
               </div>
               <button className={styles["see-more"]}>See More</button>
@@ -46,7 +103,7 @@ const BudgetDetails = () => {
 
         <div style={{display: 'flex'}}>
           <h3 className={styles["total-spent"]}>
-            ${totalSpent.toFixed(2)} / ${totalBudget}
+            ${budgetData.totalSpent.toFixed(2)} / ${budgetData.goal}
           </h3>
           <div className={styles["progress-bar"]}>
             <div className={styles["progress"]} style={{ width: '45.7%' }}></div>
@@ -54,7 +111,15 @@ const BudgetDetails = () => {
         </div>
 
         <div className={styles["button-group"]}>
-          <button className={styles["edit-button"]}>Edit Targets</button>
+          {
+            editOpen ?
+            <>
+             <button className={styles["cancel-button"]} onClick={() => {setEditOpen(true)}}>Cancel</button>
+             <button className={styles["submit-button"]} onClick={() => {}}>Submit</button>
+            </>
+            :
+            <button className={styles["edit-button"]} onClick={() => {setEditOpen(true)}}>Edit Budgets</button>
+          }
           <Link className={styles["go-back"]} to="/budget">Go Back</Link>
         </div>
 

@@ -135,6 +135,7 @@ table td {
   background-color: #e0e0e0;
   border-radius: 5px;
   overflow: hidden;
+  margin-bottom: 15px;
 }
 
 .progress {
@@ -156,7 +157,14 @@ table td {
 
 .overview-balance {
   font-weight: 600;
-  font-size: 26px;
+  font-size: 50px;
   color: #0f172b;
 }
 
+.edit-button {
+  background-color: #4CAF50;
+  padding: 10px;
+  font-weight: 500;
+  border-radius: 5px;
+  color: white;
+}
