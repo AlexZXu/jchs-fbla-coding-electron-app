@@ -1,6 +1,8 @@
+/* eslint-disable */
+
 import React from "react";
-import styles from "./styles/BudgetDetails.module.css";
 import { Link } from "react-router-dom";
+import styles from "./styles/BudgetDetails.module.css";
 import { db } from '../../lib/firebase';
 import { collection, addDoc, Timestamp, updateDoc, setDoc, doc } from 'firebase/firestore';
 
@@ -18,33 +20,44 @@ const BudgetDetails = () => {
   const totalSpent = budgetData.reduce((sum, item) => sum + item.amount, 0);
 
   return (
-    <div className={styles.budgetContainer}>
-      <nav className={styles.navBar}>
-        <Link className={styles.navItem} to="/home">Home</Link>
-        <Link className={styles.navItem} to="/balance">Balance Details</Link>
-        <Link className={`${styles.navItem} ${styles.active}`} to="/budget/details">Budgeting</Link>
-        <Link className={styles.navItem} to="/transactions">Transactions</Link>
-        <Link className={styles.navItem} to="/settings">Settings</Link>
+    <div className={styles["dashboard-container"]}>
+      <nav className={styles["navbar"]}>
+        <Link className={styles["nav-button"]} to="/home">Home</Link>
+        <Link className={styles["nav-button"]} to="/balance">Balance Details</Link>
+        <Link className={`${styles["nav-button"]} ${styles.active}`} to="/budget/details">Budgeting</Link>
+        <Link className={styles["nav-button"]} to="/transactions">Transactions</Link>
+        <Link className={styles["nav-button"]} to="/settings">Settings</Link>
       </nav>
 
-      <div className={styles.budgetContent}>
-        <h2 className={styles.budgetTitle}>Budget Summary</h2>
-        <div className={styles.budgetList}>
+      <div className={styles["budgeting-content"]}>
+        <h2 className={styles["section-title"]}>Budget Summary</h2>
+        <div className={styles["budget-list"]}>
           {budgetData.map((item) => (
-            <div className={styles.budgetItem} key={item.category}>
-              <span className={styles.budgetCategory}>{item.category}</span>
-              <div className={styles.budgetAmount}>
+            <div className={styles["budget-item"]} key={item.category}>
+              <span className={styles["budget-category"]}>{item.category}</span>
+              <div className={styles["budget-amount"]}>
                 <span className={styles.amount}>${item.amount.toFixed(2)}</span>
                 <span className={styles.percentage}>{item.percentage}%</span>
               </div>
-              <button className={styles.seeMore}>See More</button>
+              <button className={styles["see-more"]}>See More</button>
             </div>
           ))}
         </div>
-        <h3 className={styles.totalSpent}>
-          ${totalSpent.toFixed(2)} / ${totalBudget}
-        </h3>
-        <Link className={styles.goBack} to="/budget">Go Back</Link>
+
+        <div style={{display: 'flex'}}>
+          <h3 className={styles["total-spent"]}>
+            ${totalSpent.toFixed(2)} / ${totalBudget}
+          </h3>
+          <div className={styles["progress-bar"]}>
+            <div className={styles["progress"]} style={{ width: '45.7%' }}></div>
+          </div>
+        </div>
+
+        <div>
+
+        <Link className={styles["go-back"]} to="/budget">Go Back</Link>
+        </div>
+
       </div>
     </div>
   );

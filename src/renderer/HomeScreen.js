@@ -165,8 +165,11 @@ function App() {
         </div>
         <div className={styles["budget-box"]}>
           <h2 className={styles["overview-title"]}>Budget This Month</h2>
-          <p className={styles["overview-subtitle"]}>Total Budget Spent</p>
+          <p className={styles["overview-subtitle"]} style={{marginTop: '1px'}}>Total Budget Spent</p>
           <p style={{fontSize: '20px', fontWeight: '600', marginTop: '-8px'}}>$112,840.83 / $250,000</p>
+          <div className={styles["progress-bar"]}>
+              <div className={styles["progress"]} style={{ width: '45.7%', background: '#fcd12a' }}></div>
+            </div>
           <p className={styles["overview-subtitle"]}>Budget Remaining</p>
           <p style={{fontSize: '20px', fontWeight: '600', marginTop: '-8px'}}>$137,159.17</p>
         </div>

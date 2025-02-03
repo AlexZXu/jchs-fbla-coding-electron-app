@@ -6,7 +6,7 @@ import { MdEdit } from "react-icons/md";
 import {doc, setDoc} from 'firebase/firestore'
 import { db } from '../../lib/firebase';
 import fetchRecords from '../../lib/fetchRecords';
-import { LineChart } from 'recharts';
+import { LineChart, XAxis, YAxis, Line, ResponsiveContainer, Tooltip, Legend } from 'recharts';
 
 function Balance() {
   const [balanceDetails, setBalanceDetails] = React.useState({currentBalance: 0, incomeMonth: 0, incomeYear: 0, expensesMonth: 0, expensesYear: 0});
@@ -35,7 +35,8 @@ function Balance() {
   }
 
   async function getBalanceHistory() {
-    const balanceHistoryData = await fetchRecords("balances", "month")
+    const balanceHistoryData = await fetchRecords("balances", "month", "asc")
+    console.log(balanceHistoryData)
     setBalanceHistory(balanceHistoryData)
   }
 
@@ -140,10 +141,20 @@ function Balance() {
         <div className={styles["summary-boxes"]}>
           <div className={styles["summary-box"]} style={{borderRight: '1px solid rgb(100 116 139)'}}>
             <div className={styles["summary-title"]}>Income & Expenses History</div>
-            <div>
-              <LineChart width={400} height={400} data={balanceHistory}>
-
-              </LineChart>
+            <div style={{width: '100%', height: '100%', marginLeft: '-20px', marginTop: '5px'}}>
+                {
+                  balanceHistory.length > 0 &&
+                  <ResponsiveContainer width="90%" height="100%">
+                    <LineChart width={400} height={400} data={balanceHistory}>
+                      <XAxis dataKey="month"/>
+                      <YAxis />
+                      <Line type="monotone" name="Income" dataKey="incomeMonth" stroke="#008000" />
+                      <Line type="monotone" name="Expenses" dataKey="expensesMonth" stroke="#DC143C" />
+                      <Tooltip />
+                      <Legend />
+                    </LineChart>
+                  </ResponsiveContainer>
+                }
             </div>
           </div>
           <div className={styles["summary-box"]}>
