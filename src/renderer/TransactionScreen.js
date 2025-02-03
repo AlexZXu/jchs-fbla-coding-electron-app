@@ -12,12 +12,14 @@ import fetchSingleRecordId from '../../lib/fetchSingleRecordId';
 import { IoClose } from "react-icons/io5";
 import { MdCategory } from 'react-icons/md';
 import fetchSingleRecord from '../../lib/fetchSingleRecord';
+import { IoOpenOutline } from "react-icons/io5";
 
 function TransactionScreen() {
   const [addOpen, setAddOpen] = React.useState(false);
   const [transactionDetailOpen, setTransactionDetailOpen] = React.useState(false);
   const [transactionId, setTransactionId] = React.useState(0);
   const [trigger, setTrigger] = React.useState(false);
+  const [transactionConfirmOpen, setTransactionConfirmOpen] = React.useState(false);
 
   const navigate = useNavigate()
 
@@ -51,29 +53,38 @@ function TransactionScreen() {
 
 
   async function updateBalanceandBudget(category, newValue, oldValue) {
-    const keys = ["Entertainment", "Essentials", "Dining", "Gas", "Other", "Savings"]
+    const keys = ["Entertainment", "Essentials", "Dining", "Gas", "Other", "Savings"];
+    const change = newValue - oldValue;
+    console.log(change)
 
-    const change = newValue - oldValue
-
-    let payload = {
+    let balancePayload = {
       currentBalance: balanceDetails.currentBalance + change
-    }
+    };
 
     if (change < 0) {
-      payload.expensesMonth = balanceDetails.expensesMonth - change
-      payload.expensesYear = balanceDetails.expensesYear - change
+      balancePayload.expensesMonth = balanceDetails.expensesMonth - change;
+      balancePayload.expensesYear = balanceDetails.expensesYear - change;
     }
     if (change > 0) {
-      payload.incomeMonth = balanceDetails.incomeMonth + change
-      payload.incomeYear = balanceDetails.incomeYear + change
+      balancePayload.incomeMonth = balanceDetails.incomeMonth + change;
+      balancePayload.incomeYear = balanceDetails.incomeYear + change;
     }
 
-    const docRef = doc(db, "balances", balanceDetails.id);
-    const uid = sessionStorage.getItem("uid")
-    await setDoc(docRef, payload, {merge: true})
+    const balanceDocRef = doc(db, "balances", balanceDetails.id);
+    await setDoc(balanceDocRef, balancePayload, { merge: true });
 
     if (keys.includes(category)) {
+      let budgetPayload = {
+        categories: {},
+        totalSpent: budgetData.totalSpent - change
+      };
+      budgetPayload.categories[category.toLowerCase()] = {
+        spent: budgetData.categories[category.toLowerCase()].spent - change
+      };
+      console.log(budgetPayload)
 
+      const budgetDocRef = doc(db, "generalBudgets", budgetData.id);
+      await setDoc(budgetDocRef, budgetPayload, { merge: true });
     }
   }
 
@@ -119,7 +130,7 @@ function TransactionScreen() {
     }
 
     await addDoc(collectionRef, payload)
-    updateBalanceandBudget("", parseFloat(amount), 0)
+    updateBalanceandBudget(category, parseFloat(amount), 0)
 
     cancel()
     setTrigger(!trigger)
@@ -143,6 +154,7 @@ function TransactionScreen() {
     setTrigger(!trigger)
     cancel()
   }
+
 
   return (
     <div className={styles["dashboard-container"]}>
@@ -221,6 +233,7 @@ function TransactionScreen() {
           <input className={styles["transaction-input"]} style={{borderColor: '#e6e6e6'}} onChange={(e) => {setAdditionalNotes(e.target.value)}} value={additionalNotes} />
           <div className={styles["button-container"]}>
             <button onClick={update} className={styles["submit-button"]}>Update</button>
+            <button onClick={() => {setTransactionDetailOpen(true); setTransactionId(item.id);}}><IoOpenOutline /></button>
           </div>
         </div>
       }
