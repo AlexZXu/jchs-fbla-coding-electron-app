@@ -12,7 +12,17 @@ function Budget() {
 
   const [budgetDetails, setBudgetDetails] = React.useState({
     goal: 0,
-    totalSpent: 0
+    totalSpent: 0,
+    categories: {
+      savings: {
+        goal: 0,
+        spent: 0
+      },
+      dining: {
+        goal: 0,
+        spent: 0
+      }
+    }
   })
 
   const [pastBudgetDetails, setPastBudgetDetails] = React.useState({
@@ -99,27 +109,27 @@ function Budget() {
             </div>
 
             <div className={styles['budget-progress']}>
-              <h3 className={styles['overview-subtitle']}>Budget This Month</h3>
+              <h3 className={styles['overview-subtitle']}>Monthly Savings</h3>
               <h1 style={{ fontWeight: '600', fontSize: '17px' }}>
-                $114,159.17 / $250,000
+                ${budgetDetails.categories.savings.spent} / ${budgetDetails.categories.savings.goal}
               </h1>
               <div className={styles['progress-bar']}>
                 <div
                   className={styles['progress']}
-                  style={{ width: '45.7%' }}
+                  style={{ width: `${(budgetDetails.categories.savings.spent / budgetDetails.categories.savings.goal) * 100}%` }}
                 ></div>
               </div>
             </div>
 
             <div className={styles['budget-progress']}>
-              <h3 className={styles['overview-subtitle']}>Budget This Month</h3>
+              <h3 className={styles['overview-subtitle']}>Monthly Dining Budget</h3>
               <h1 style={{ fontWeight: '600', fontSize: '17px' }}>
-                $114,159.17 / $250,000
+                ${budgetDetails.categories.dining.spent} / ${budgetDetails.categories.dining.goal}
               </h1>
               <div className={styles['progress-bar']}>
                 <div
                   className={styles['progress']}
-                  style={{ width: '45.7%' }}
+                  style={{ width: `${(budgetDetails.categories.dining.spent / budgetDetails.categories.dining.goal) * 100}%` }}
                 ></div>
               </div>
             </div>
