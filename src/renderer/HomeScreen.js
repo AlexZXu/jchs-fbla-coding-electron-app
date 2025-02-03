@@ -38,7 +38,7 @@ function App() {
 
   React.useEffect(() => {
     const fetchData = async () => {
-      if (transactionDetailOpen == true) {
+      if (transactionDetailOpen === true) {
         const transactionData = await fetchSingleRecordId("transactions", transactionId)
         setName(transactionData.name)
         setAmount(transactionData.amount)
