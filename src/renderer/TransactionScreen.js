@@ -12,12 +12,14 @@ import fetchSingleRecordId from '../../lib/fetchSingleRecordId';
 import { IoClose } from "react-icons/io5";
 import { MdCategory } from 'react-icons/md';
 import fetchSingleRecord from '../../lib/fetchSingleRecord';
+import { IoOpenOutline } from "react-icons/io5";
 
 function TransactionScreen() {
   const [addOpen, setAddOpen] = React.useState(false);
   const [transactionDetailOpen, setTransactionDetailOpen] = React.useState(false);
   const [transactionId, setTransactionId] = React.useState(0);
   const [trigger, setTrigger] = React.useState(false);
+  const [transactionConfirmOpen, setTransactionConfirmOpen] = React.useState(false);
 
   const navigate = useNavigate()
 
@@ -144,6 +146,7 @@ function TransactionScreen() {
     cancel()
   }
 
+
   return (
     <div className={styles["dashboard-container"]}>
       <nav className={styles["navbar"]}>
@@ -221,6 +224,7 @@ function TransactionScreen() {
           <input className={styles["transaction-input"]} style={{borderColor: '#e6e6e6'}} onChange={(e) => {setAdditionalNotes(e.target.value)}} value={additionalNotes} />
           <div className={styles["button-container"]}>
             <button onClick={update} className={styles["submit-button"]}>Update</button>
+            <button onClick={() => {setTransactionDetailOpen(true); setTransactionId(item.id);}}><IoOpenOutline /></button>
           </div>
         </div>
       }
