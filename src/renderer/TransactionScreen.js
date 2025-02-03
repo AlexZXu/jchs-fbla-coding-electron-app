@@ -10,6 +10,7 @@ import dayjs from 'dayjs';
 import { useHistory } from 'react-router'
 import fetchSingleRecordId from '../../lib/fetchSingleRecordId';
 import { IoClose } from "react-icons/io5";
+import { MdCategory } from 'react-icons/md';
 
 function TransactionScreen() {
   const [addOpen, setAddOpen] = React.useState(false);
@@ -26,6 +27,7 @@ function TransactionScreen() {
 
   const [date, setDate] = React.useState("")
   const [name, setName] = React.useState("")
+  const [category, setCategory] = React.useState("")
   const [amount, setAmount] = React.useState("")
   const [additionalNotes, setAdditionalNotes] = React.useState("")
 
@@ -34,6 +36,7 @@ function TransactionScreen() {
       if (transactionDetailOpen == true) {
         const transactionData = await fetchSingleRecordId("transactions", transactionId)
         setName(transactionData.name)
+        setCategory(transactionData.category)
         setAmount(transactionData.amount)
         setDate(transactionData.date)
         setAdditionalNotes(transactionData.additionalNotes)
@@ -48,6 +51,7 @@ function TransactionScreen() {
     setTransactionDetailOpen(false)
     setDate("")
     setName("")
+    setCategory("")
     setAmount("")
     setAdditionalNotes("")
   }
@@ -60,6 +64,7 @@ function TransactionScreen() {
       name: name,
       amount: parseInt(amount),
       date: date,
+      category: category,
       timestamp: Timestamp.now(),
       additionalNotes: additionalNotes,
       uid: uid,
@@ -79,6 +84,7 @@ function TransactionScreen() {
       name: name,
       amount: parseInt(amount),
       date: date,
+      category: category,
       timestamp: Timestamp.now(),
       additionalNotes: additionalNotes,
       uid: uid,
@@ -119,6 +125,10 @@ function TransactionScreen() {
             <input className={styles["transaction-input"]} onChange={(e) => {setName(e.target.value)}} value={name}/>
           </div>
           <div className={styles["transaction-field"]}>
+            <div>Category</div>
+            <input className={styles["transaction-input"]} onChange={(e) => {setCategory(e.target.value)}} value={category} />
+          </div>
+          <div className={styles["transaction-field"]}>
             <div>Amount</div>
             <input className={styles["transaction-input"]} onChange={(e) => {setAmount(e.target.value)}} value={amount} type="number" />
           </div>
@@ -146,6 +156,8 @@ function TransactionScreen() {
           <input className={styles["transaction-input"]} style={{borderColor: '#e6e6e6'}} type="date" onChange={(e) => {setDate(e.target.value)}} value={date} />
           <div>Name</div>
           <input className={styles["transaction-input"]} style={{borderColor: '#e6e6e6'}} onChange={(e) => {setName(e.target.value)}} value={name} />
+          <div>Category</div>
+          <input className={styles["transaction-input"]} style={{borderColor: '#e6e6e6'}} onChange={(e) => {setCategory(e.target.value)}} value={category} />
           <div>Amount</div>
           <input className={styles["transaction-input"]} style={{borderColor: '#e6e6e6'}} onChange={(e) => {setAmount(e.target.value)}} value={amount} type="number" />
           <div>Additional Notes</div>

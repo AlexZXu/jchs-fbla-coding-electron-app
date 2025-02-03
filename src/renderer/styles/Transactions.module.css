@@ -133,6 +133,7 @@ th, td {
 }
 
 .transaction-amount {
+  font-weight: 500;
 }
 
 .add-transaction-container {
