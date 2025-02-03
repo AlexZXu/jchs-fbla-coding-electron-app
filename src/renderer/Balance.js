@@ -276,7 +276,7 @@ function Balance() {
                   <BarChart width={400} height={400} data={savingsHistory}>
                     <XAxis dataKey="month" />
                     <YAxis />
-                    <Bar dataKey="goal" fill="#008000" name="Savings Goal"/>
+                    <Bar dataKey="categories.savings.goal" fill="#008000" name="Savings Goal"/>
                     <Bar dataKey="categories.savings.spent" fill="#DC143C" name="Actual Savings"/>
                     <Tooltip />
                     <Legend />

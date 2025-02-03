@@ -188,21 +188,21 @@ function App() {
         <div className={styles["budget-box"]}>
           <h2 className={styles["overview-title"]}>Budget This Month</h2>
           <p className={styles["overview-subtitle"]} style={{marginTop: '1px'}}>Total Budget Spent</p>
-          <p style={{fontSize: '20px', fontWeight: '600', marginTop: '-8px'}}>${budgetSpent} / ${budgetGoal}</p>
+          <p style={{fontSize: '20px', fontWeight: '600', marginTop: '-8px'}}>${budgetSpent.toFixed(2)} / ${budgetGoal.toFixed(2)}</p>
           <div className={styles["progress-bar"]}>
               <div className={styles["progress"]} style={{ width: `${budgetSpent / budgetGoal * 100}%` , background: '#fcd12a' }}></div>
             </div>
           <p className={styles["overview-subtitle"]}>Budget Remaining</p>
-          <p style={{fontSize: '20px', fontWeight: '600', marginTop: '-8px'}}>${budgetRemaining}</p>
+          <p style={{fontSize: '20px', fontWeight: '600', marginTop: '-8px'}}>${budgetRemaining.toFixed(2)}</p>
         </div>
         <div className={styles["saving-goal-box"]}>
           <h2 className={styles["overview-title"]}>Saving Goal</h2>
           <p className={styles["overview-subtitle"]}>Amount Saved</p>
-          <p  style={{fontSize: '20px', fontWeight: '600', marginTop: '-8px'}}>${savings} / ${savingsGoal}</p>
+          <p  style={{fontSize: '20px', fontWeight: '600', marginTop: '-8px'}}>${savings.toFixed(2)} / ${savingsGoal.toFixed(2)}</p>
           <div className={styles["progress-bar"]}>
             <div className={styles["progress"]} style={{ width: `${savings / savingsGoal * 100}%` }}></div>
           </div>
-          <button className={styles["edit-button"]}>Edit Targets</button>
+          <button className={styles["edit-button"]}>Edit Goal</button>
         </div>
       </div>
       {
