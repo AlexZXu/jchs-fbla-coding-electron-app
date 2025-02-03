@@ -101,7 +101,7 @@ th, td {
 .transaction {
   background: linear-gradient(to right, #006fe6d0 0%, #004696d0 100%);
   display: grid;
-  grid-template-columns: 1fr 2fr 0.7fr 0.1fr;
+  grid-template-columns: 1fr 1fr 1fr .8fr;
   padding: 12px;
   color: white;
   font-size: 16px;
@@ -123,7 +123,7 @@ th, td {
 
 .transaction-header {
   display: grid;
-  grid-template-columns: 1fr 2fr 0.85fr;
+  grid-template-columns: 1fr 1fr 1fr .80fr;
   margin-bottom: 0px;
   font-weight: 600;
   border-bottom: 1px solid rgb(226, 222, 222);
