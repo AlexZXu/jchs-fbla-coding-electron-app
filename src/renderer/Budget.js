@@ -11,7 +11,7 @@ function Budget() {
 
   const [budgetDetails, setBudgetDetails] = React.useState({
     goal: 0.001,
-    spent: 0,
+    totalSpent: 0,
     dining: 0,
     entertainment: 0,
     essentials: 0
@@ -47,9 +47,9 @@ function Budget() {
           <div className={styles["budget-progress-list"]}>
             <div className={styles["budget-progress"]}>
               <h3 className={styles["overview-subtitle"]}>Budget This Month</h3>
-              <h1 style={{fontWeight: '600', fontSize: '17px'}}>${(Math.round(budgetDetails.spent * 100) / 100).toFixed(2)} / ${(Math.round(budgetDetails.goal * 100) / 100).toFixed(2)} </h1>
+              <h1 style={{fontWeight: '600', fontSize: '17px'}}>${(Math.round(budgetDetails.totalSpent * 100) / 100).toFixed(2)} / ${(Math.round(budgetDetails.goal * 100) / 100).toFixed(2)} </h1>
               <div className={styles["progress-bar"]}>
-                <div className={styles["progress"]} style={{ width: '45.7%' }}></div>
+                <div className={styles["progress"]} style={{ width: `${budgetDetails.totalSpent / budgetDetails.goal * 100}%` }}></div>
               </div>
             </div>
 

@@ -36,6 +36,13 @@ function App() {
   const [amount, setAmount] = React.useState("")
   const [additionalNotes, setAdditionalNotes] = React.useState("")
 
+  const [budgetGoal, setBudgetGoal] = React.useState(0)
+  const [budgetSpent, setBudgetSpent] = React.useState(0)
+  const [budgetRemaining, setBudgetRemaining] = React.useState(0)
+
+  const [savingsGoal, setSavingsGoal] = React.useState(0)
+  const [savings, setSavings] = React.useState(0)
+
   React.useEffect(() => {
     const fetchData = async () => {
       if (transactionDetailOpen === true) {
@@ -56,8 +63,23 @@ function App() {
     setBalanceDetails(balanceData)
   }
 
+  async function getBudget() {
+    const budgetData = await fetchSingleRecord("generalBudgets")
+    setBudgetGoal(budgetData.goal)
+    setBudgetSpent(budgetData.totalSpent)
+    setBudgetRemaining(budgetData.goal - budgetData.totalSpent)
+  }
+
+  async function getSavings() {
+    const savingsData = await fetchSingleRecord("savings")
+    setSavingsGoal(savingsData.goal)
+    setSavings(savingsData.totalSaved)
+  }
+
   React.useEffect(() => {
     getBalance()
+    getBudget()
+    getSavings()
   }, [])
 
   function cancel() {
@@ -166,19 +188,19 @@ function App() {
         <div className={styles["budget-box"]}>
           <h2 className={styles["overview-title"]}>Budget This Month</h2>
           <p className={styles["overview-subtitle"]} style={{marginTop: '1px'}}>Total Budget Spent</p>
-          <p style={{fontSize: '20px', fontWeight: '600', marginTop: '-8px'}}>$112,840.83 / $250,000</p>
+          <p style={{fontSize: '20px', fontWeight: '600', marginTop: '-8px'}}>${budgetSpent} / ${budgetGoal}</p>
           <div className={styles["progress-bar"]}>
-              <div className={styles["progress"]} style={{ width: '45.7%', background: '#fcd12a' }}></div>
+              <div className={styles["progress"]} style={{ width: `${budgetSpent / budgetGoal * 100}%` , background: '#fcd12a' }}></div>
             </div>
           <p className={styles["overview-subtitle"]}>Budget Remaining</p>
-          <p style={{fontSize: '20px', fontWeight: '600', marginTop: '-8px'}}>$137,159.17</p>
+          <p style={{fontSize: '20px', fontWeight: '600', marginTop: '-8px'}}>${budgetRemaining}</p>
         </div>
         <div className={styles["saving-goal-box"]}>
           <h2 className={styles["overview-title"]}>Saving Goal</h2>
           <p className={styles["overview-subtitle"]}>Amount Saved</p>
-          <p  style={{fontSize: '20px', fontWeight: '600', marginTop: '-8px'}}>$20,000 / $50,000</p>
+          <p  style={{fontSize: '20px', fontWeight: '600', marginTop: '-8px'}}>${savings} / ${savingsGoal}</p>
           <div className={styles["progress-bar"]}>
-            <div className={styles["progress"]} style={{ width: '40%' }}></div>
+            <div className={styles["progress"]} style={{ width: `${savings / savingsGoal * 100}%` }}></div>
           </div>
         </div>
       </div>
