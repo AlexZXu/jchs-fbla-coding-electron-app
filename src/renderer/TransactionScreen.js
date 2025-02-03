@@ -11,6 +11,7 @@ import { useHistory } from 'react-router'
 import fetchSingleRecordId from '../../lib/fetchSingleRecordId';
 import { IoClose } from "react-icons/io5";
 import { MdCategory } from 'react-icons/md';
+import fetchSingleRecord from '../../lib/fetchSingleRecord';
 
 function TransactionScreen() {
   const [addOpen, setAddOpen] = React.useState(false);
@@ -31,6 +32,47 @@ function TransactionScreen() {
   const [amount, setAmount] = React.useState("")
   const [additionalNotes, setAdditionalNotes] = React.useState("")
 
+  const [balanceDetails, setBalanceDetails] = React.useState();
+  const [budgetData, setBudgetData] = React.useState()
+
+  async function getBalance() {
+    const balanceData = await fetchSingleRecord("balances");
+
+    console.log(balanceData)
+    setBalanceDetails(balanceData)
+  }
+
+  async function getBudget() {
+    const budgetData = await fetchSingleRecord("generalBudgets")
+
+    console.log(budgetData)
+    setBudgetData(budgetData)
+  }
+
+
+  function updateBalanceandBudget(category, newValue, oldValue) {
+    const keys = ["Entertainment", "Essentials", "Dining", "Gas", "Other", "Savings"]
+
+    const change = newValue - oldValue
+
+    let payload = {
+      currentBalance: balanceDetails.currentBalance + change
+    }
+
+    if (change < 0) {
+      payload.expensesMonth = balanceDetails.expensesMonth - change
+      payload.expensesYear = balanceDetails.expensesYear - change
+    }
+    if (change > 0) {
+      payload.incomeMonth = balanceDetails.incomeMonth + change
+      payload.incomeYear = balanceDetails.incomeYear + change
+    }
+
+    if (keys.includes(category)) {
+
+    }
+  }
+
   React.useEffect(() => {
     const fetchData = async () => {
       if (transactionDetailOpen == true) {
@@ -44,6 +86,8 @@ function TransactionScreen() {
     }
 
     fetchData()
+    getBalance()
+    getBudget()
   }, [transactionDetailOpen])
 
   function cancel() {
@@ -126,7 +170,15 @@ function TransactionScreen() {
           </div>
           <div className={styles["transaction-field"]}>
             <div>Category</div>
-            <input className={styles["transaction-input"]} onChange={(e) => {setCategory(e.target.value)}} value={category} />
+            <input className={styles["transaction-input"]} onChange={(e) => {setCategory(e.target.value)}} value={category} list="categories"/>
+            <datalist id="categories">
+              <option value="Entertainment" />
+              <option value="Dining" />
+              <option value="Essentials" />
+              <option value="Gas" />
+              <option value="Other" />
+              <option value="Savings" />
+            </datalist>
           </div>
           <div className={styles["transaction-field"]}>
             <div>Amount</div>

@@ -154,21 +154,21 @@ function App() {
           <div className={styles["overview-subtitle"]}>Current Balance</div>
           {
             balanceEditMode ?
-            <input className={styles["balance-input"]} onChange={(e) => {setCurrBalance(e.target.value)}} value={currBalance}></input>
+            <input className={styles["balance-input"]} onChange={(e) => {setCurrBalance(e.target.value)}} type="number"  value={currBalance}></input>
             :
             <h3 className={styles["overview-balance"]}>${(Math.round(balanceDetails.currentBalance * 100) / 100).toFixed(2)}</h3>
           }
           <div className={styles["overview-subtitle"]}>Income this month</div>
           {
             balanceEditMode ?
-            <input className={styles["balance-input"]} onChange={(e) => {setIncomeMonth(e.target.value)}} value={incomeMonth}></input>
+            <input className={styles["balance-input"]} onChange={(e) => {setIncomeMonth(e.target.value)}} type="number" value={incomeMonth}></input>
             :
             <div className={styles["income"]}>${(Math.round(balanceDetails.incomeMonth * 100) / 100).toFixed(2)}</div>
           }
           <div className={styles["overview-subtitle"]}>Expenses this month</div>
           {
             balanceEditMode ?
-            <input className={styles["balance-input"]} onChange={(e) => {setExpenseMonth(e.target.value)}} value={expenseMonth}></input>
+            <input className={styles["balance-input"]} onChange={(e) => {setExpenseMonth(e.target.value)}} type="number"  value={expenseMonth}></input>
             :
             <div className={styles["expenses"]}>${(Math.round(balanceDetails.expensesMonth * 100) / 100).toFixed(2)}</div>
           }
