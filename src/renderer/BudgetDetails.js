@@ -8,12 +8,8 @@ import { collection, addDoc, Timestamp, updateDoc, setDoc, doc } from 'firebase/
 import twoDecimal from "../../lib/TwoDecimal";
 import fetchSingleRecord from "../../lib/fetchSingleRecord";
 const BudgetDetails = () => {
-  const budgetData = {
+  const [budgetData, setBudgetData] = React.useState({
     categories: {
-      dining: {
-        goal: 0,
-        spent: 0
-      },
       entertainment: {
         goal: 0,
         spent: 0
@@ -22,11 +18,11 @@ const BudgetDetails = () => {
         goal: 0,
         spent: 0
       },
-      gas: {
+      dining: {
         goal: 0,
-        spent: 0,
+        spent: 0
       },
-      savings: {
+      gas: {
         goal: 0,
         spent: 0,
       },
@@ -34,10 +30,16 @@ const BudgetDetails = () => {
         goal: 0,
         spent: 0,
       },
+      savings: {
+        goal: 0,
+        spent: 0,
+      },
     },
     goal: 0,
     totalSpent: 0
-  }
+  })
+
+  const [budgetId, setBudgetId] = React.useState(0)
 
   const [goalData, setGoalData] = React.useState([
     {category: "Dining", goal: 23.32},
@@ -49,17 +51,75 @@ const BudgetDetails = () => {
   ])
 
   function modifyGoalData(category, value) {
+    console.log(value)
     let previousGoalData = [...goalData]
-    previousGoalData.find(i => i.category == category).goal = value
-    console.log(previousGoalData)
+    console.log(category)
+    previousGoalData.forEach((el, id) => {
+      console.log(el, id)
+      if (el.category.toLowerCase() == category.toLowerCase()) {
+        previousGoalData[id].goal = Number(value)
+      }
+    })
 
     setGoalData(previousGoalData)
   }
 
-  async function getBudget() {
-    const balanceData = await fetchSingleRecord("generalBudgets");
+  const [keys, setKeys] = React.useState(["Entertainment", "Essentials", "Dining", "Gas", "Other", "Savings"])
 
-    console.log(balanceData)
+  async function getBudget() {
+    const budgetData = await fetchSingleRecord("generalBudgets");
+
+    for (const item of goalData) {
+      item.goal = budgetData.categories[item.category.toLowerCase()].goal
+    }
+
+    setBudgetId(budgetData.id)
+
+    setBudgetData(budgetData)
+  }
+
+  function cancel() {
+    setEditOpen(false)
+
+    getBudget()
+  }
+
+  async function update() {
+    const docRef = doc(db, "generalBudgets", budgetId);
+    const uid = sessionStorage.getItem("uid")
+
+    const payload = {
+      categories: {
+        entertainment: {
+          goal: goalData[3].goal
+        },
+        essentials: {
+          goal: goalData[4].goal
+        },
+        dining: {
+          goal: goalData[0].goal
+        },
+        gas: {
+          goal: goalData[1].goal
+        },
+        other: {
+          goal: goalData[5].goal
+        },
+        savings: {
+          goal: goalData[2].goal
+        }
+      }
+    }
+
+    await setDoc(docRef, payload, {merge: true})
+
+  }
+
+  async function submit() {
+    await update()
+
+    await getBudget()
+    setEditOpen(false)
   }
 
   React.useState(() => {
@@ -81,17 +141,17 @@ const BudgetDetails = () => {
       <div className={styles["budgeting-content"]}>
         <h2 className={styles["section-title"]}>Budget Summary</h2>
         <div className={styles["budget-list"]}>
-          {Object.keys(budgetData.categories).map((item) => (
+          {keys.map((item) => (
             <div className={styles["budget-item"]} key={item}>
               <span className={styles["budget-category"]}>{item}</span>
               <div className={styles["budget-amount"]}>
-                <span className={styles.amount}>${twoDecimal(budgetData.categories[item].spent)} /</span>
+                <span className={styles.amount}>${twoDecimal(budgetData.categories[item.toLowerCase()].spent)} /</span>
                 {
                   editOpen ?
-                  <input className={styles["budget-input"]} value={goalData.find(i => i.category == item.toUpperCase()).goal} onChange={(e) => {modifyGoalData(item, e.target.value)}}>
+                  <input className={styles["budget-input"]} value={goalData.find(i => i.category.toUpperCase() == item.toUpperCase()).goal} onChange={(e) => {modifyGoalData(item, e.target.value)}}>
                   </input> :
                   <span className={styles["budget-goal"]}>
-                    {twoDecimal(budgetData.categories[item].goal)}
+                    {twoDecimal(budgetData.categories[item.toLowerCase()].goal)}
                   </span>
                 }
                 <span className={styles.percentage}>{item.percentage}%</span>
@@ -114,8 +174,8 @@ const BudgetDetails = () => {
           {
             editOpen ?
             <>
-             <button className={styles["cancel-button"]} onClick={() => {setEditOpen(true)}}>Cancel</button>
-             <button className={styles["submit-button"]} onClick={() => {}}>Submit</button>
+             <button className={styles["cancel-button"]} onClick={() => {cancel()}}>Cancel</button>
+             <button className={styles["submit-button"]} onClick={() => {submit()}}>Submit</button>
             </>
             :
             <button className={styles["edit-button"]} onClick={() => {setEditOpen(true)}}>Edit Budgets</button>
