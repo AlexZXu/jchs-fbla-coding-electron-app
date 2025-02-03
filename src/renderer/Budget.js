@@ -16,18 +16,40 @@ function Budget() {
         <Link className={styles["nav-button"]} to="/transactions">Transactions</Link>
         <Link className={styles["nav-button"]} to="/settings">Settings</Link>
       </nav>
+
+
+
       <div className={styles["budgeting-content"]}>
         <div className={styles["budget-box"]}>
-          <h2 className={styles["overview-title"]}>Budgeting</h2>
-          <h3 className={styles["overview-subtitle"]}>Budget This Month</h3>
-          <h1 style={{fontWeight: '600', fontSize: '18px'}}>$114,159.17 / $250,000</h1>
-          <div className={styles["progress-bar"]}>
-            <div className={styles["progress"]} style={{ width: '45.7%' }}></div>
+          <h2 className={styles["section-title"]}>Budgeting</h2>
+          <div className={styles["budget-progress-list"]}>
+            <div className={styles["budget-progress"]}>
+              <h3 className={styles["overview-subtitle"]}>Budget This Month</h3>
+              <h1 style={{fontWeight: '600', fontSize: '17px'}}>$114,159.17 / $250,000</h1>
+              <div className={styles["progress-bar"]}>
+                <div className={styles["progress"]} style={{ width: '45.7%' }}></div>
+              </div>
+            </div>
+
+            <div className={styles["budget-progress"]}>
+              <h3 className={styles["overview-subtitle"]} >Budget This Month</h3>
+              <h1 style={{fontWeight: '600', fontSize: '17px'}}>$114,159.17 / $250,000</h1>
+              <div className={styles["progress-bar"]}>
+                <div className={styles["progress"]} style={{ width: '45.7%' }}></div>
+              </div>
+            </div>
+
+            <div className={styles["budget-progress"]}>
+              <h3 className={styles["overview-subtitle"]}>Budget This Month</h3>
+              <h1 style={{fontWeight: '600', fontSize: '17px'}}>$114,159.17 / $250,000</h1>
+              <div className={styles["progress-bar"]}>
+                <div className={styles["progress"]} style={{ width: '45.7%' }}></div>
+              </div>
+            </div>
+
           </div>
-          <p className={styles["overview-subtitle"]} style={{marginBottom: '-4px'}}>Amount Spent</p>
-          <div className={styles["amount-spent-box"]}>
-            <h3>$135,840.83</h3>
-          </div>
+          <Link to="/transactions" className={styles["view-button"]} style={{width: "100%"}}>View Detailed Budget</Link>
+
         </div>
         <div className={styles["recommendations-and-history"]}>
           <div className={styles["recommendations-box"]}>
@@ -46,16 +68,20 @@ function Budget() {
                 <p>$272,000</p>
               </div>
             </div>
-            <button className={styles["set-budget-button"]}>Set As Budget</button>
+            <div style={{display: 'flex', justifyContent: 'center'}}>
+              <button className={styles["set-budget-button"]}>Set As Budget</button>
+            </div>
           </div>
           <div className={styles["history-box"]}>
             <h3 className={styles["overview-title"]}>Budget History</h3>
             <p className={styles["overview-subtitle"]}>Previous Month Budget</p>
-            <p style={{fontWeight: '600', fontSize: '24px', marginTop: '-10px'}}>$300,000</p>
+            <p style={{fontWeight: '600', fontSize: '24px'}}>$300,000</p>
             <p className={styles["overview-subtitle"]}>Details</p>
-            <p style={{fontWeight: '600', fontSize: '24px', marginTop: '-10px' }}>$102.39 over budget</p>
-            <p style={{fontWeight: '600', fontSize: '24px', marginTop: '-10px'}}>92% of income that month</p>
-            <button className={styles["check-history-button"]}>Check History</button>
+            <p style={{fontWeight: '600', fontSize: '24px' }}>$102.39 over budget</p>
+            <p style={{fontWeight: '600', fontSize: '24px'}}>92% of income that month</p>
+            <div style={{display: 'flex', justifyContent: 'center'}}>
+              <button className={styles["check-history-button"]}>Check History</button>
+            </div>
           </div>
         </div>
       </div>

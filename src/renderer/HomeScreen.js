@@ -20,7 +20,7 @@ import {
 } from 'overlayscrollbars';
 
 function App() {
-  const [balanceDetails, setBalanceDetails] = React.useState({});
+  const [balanceDetails, setBalanceDetails] = React.useState({currentBalance: 0, incomeMonth: 0, incomeYear: 0, expensesMonth: 0, expensesYear: 0});
   const [transactionDetailOpen, setTransactionDetailOpen] = React.useState(false);
   const [transactionId, setTransactionId] = React.useState(0);
   const [trigger, setTrigger] = React.useState(false);
@@ -52,7 +52,6 @@ function App() {
 
   async function getBalance() {
     const balanceData = await fetchSingleRecord("balances");
-    console.log(balanceData)
 
     setBalanceDetails(balanceData)
   }
@@ -130,26 +129,26 @@ function App() {
             <div className={styles["overview-title"]}>Overview</div>
             <button style={{fontSize: "24px"}} onClick={() => {editBalanceStart()}}><MdEdit/></button>
           </div>
-          <p className={styles["overview-subtitle"]}>Current Balance</p>
+          <div className={styles["overview-subtitle"]}>Current Balance</div>
           {
             balanceEditMode ?
             <input className={styles["balance-input"]} onChange={(e) => {setCurrBalance(e.target.value)}} value={currBalance}></input>
             :
             <h3 className={styles["overview-balance"]}>${(Math.round(balanceDetails.currentBalance * 100) / 100).toFixed(2)}</h3>
           }
-          <p className={styles["overview-subtitle"]}>Income this month</p>
+          <div className={styles["overview-subtitle"]}>Income this month</div>
           {
             balanceEditMode ?
             <input className={styles["balance-input"]} onChange={(e) => {setIncomeMonth(e.target.value)}} value={incomeMonth}></input>
             :
-            <p className={styles["income"]}>${(Math.round(balanceDetails.incomeMonth * 100) / 100).toFixed(2)}</p>
+            <div className={styles["income"]}>${(Math.round(balanceDetails.incomeMonth * 100) / 100).toFixed(2)}</div>
           }
-          <p className={styles["overview-subtitle"]}>Expenses this month</p>
+          <div className={styles["overview-subtitle"]}>Expenses this month</div>
           {
             balanceEditMode ?
             <input className={styles["balance-input"]} onChange={(e) => {setExpenseMonth(e.target.value)}} value={expenseMonth}></input>
             :
-            <p className={styles["expenses"]}>${(Math.round(balanceDetails.expensesMonth * 100) / 100).toFixed(2)}</p>
+            <div className={styles["expenses"]}>${(Math.round(balanceDetails.expensesMonth * 100) / 100).toFixed(2)}</div>
           }
           {
             balanceEditMode &&
@@ -160,7 +159,7 @@ function App() {
         <div className={styles["recent-transactions-box"]}>
           <h2 className={styles["overview-title"]}>Recent Transactions</h2>
           <div className={styles["list-container"]}>
-            <TransactionList height={balanceEditMode ? "220px" : "160px"} setTransactionDetailOpen={setTransactionDetailOpen} trigger={trigger} setTransactionId={setTransactionId}/>
+            <TransactionList height={balanceEditMode ? "210px" : "160px"} setTransactionDetailOpen={setTransactionDetailOpen} trigger={trigger} setTransactionId={setTransactionId}/>
           </div>
           <Link to="/transactions" className={styles["add-button"]} style={{width: "100%"}}>View Transactions</Link>
         </div>

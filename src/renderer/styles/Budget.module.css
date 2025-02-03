@@ -49,12 +49,26 @@ body {
 }
 
 .budgeting-content {
-  display: flex;
-  align-items: center;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   height: 530px;
-  border: solid;
   margin-top: 20px;
+}
+
+.view-button {
+  background-color: #dfa4ff;
+  color: #000;
+  padding: 10px;
+  margin-top: 20px;
+  box-shadow: rgba(251, 219, 77, 0.434) 0px 7px 29px 0px;
+  border: none;
+  border-radius: 5px;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+  display: inline-block;
 }
 
 .budget-box {
@@ -62,9 +76,18 @@ body {
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 500px;
+  width: 80%;
   margin-bottom: 20px;
-  text-align: center;
+}
+
+.budget-progress {
+  width: 210px;
+
+}
+
+.budget-progress-list {
+  display: flex;
+  justify-content: space-between;
 }
 
 .progress-bar {
@@ -72,7 +95,7 @@ body {
   background-color: #e0e0e0;
   border-radius: 5px;
   overflow: hidden;
-  margin: 20px 0;
+  margin: 10px 0;
 }
 
 .progress {
@@ -92,7 +115,8 @@ body {
 .recommendations-and-history {
   display: flex;
   justify-content: space-between;
-  width: 100%;
+  width: 92%;
+  gap: 25px;
 }
 
 .recommendations-box, .history-box {
@@ -100,11 +124,12 @@ body {
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 48%;
+  width: 100%;
 }
 
 .recommendations {
   display: flex;
+  margin-top: 25px;
   justify-content: space-between;
 }
 
@@ -122,17 +147,31 @@ body {
   padding: 10px;
   border-radius: 8px;
   margin-top: 20px;
+  display: inline-block;
   cursor: pointer;
+  width: 100%;
 }
 
 .set-budget-button:hover, .check-history-button:hover {
   background-color: #d0d0d0;
 }
 
+.section-title {
+  background: linear-gradient(to right, #006fe6d0 0%, #004696d0 100%);
+  color: white;
+  font-weight: 600;
+  font-size: 20px;
+  padding: 8px;
+  padding-left: 15px;
+  border-radius: 15px;
+}
+
 
 .overview-title {
   font-weight: 600;
   font-size: 24px;
+  border-bottom: solid 1px rgb(168, 161, 161);
+  margin-bottom: 12px;
 }
 
 .overview-subtitle {

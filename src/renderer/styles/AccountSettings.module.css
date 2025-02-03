@@ -64,14 +64,6 @@ body {
   width: 500px;
 }
 
-h2 {
-  margin-bottom: 20px;
-}
-
-p {
-  font-size: 18px;
-  margin: 10px 0;
-}
 
 .account-actions {
   display: flex;

@@ -11,3 +11,12 @@ body {
   margin: 0;
   box-sizing: border-box;
 }
+
+#root {
+  height: 100%;
+}
+
+p {
+  margin: 0;
+
+}

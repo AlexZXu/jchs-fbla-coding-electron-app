@@ -12,7 +12,7 @@ function TransactionList({trigger, height, setTransactionDetailOpen, setTransact
   const [transactionArray, setTransactionArray] = React.useState([]);
 
   const fetchData = async () => {
-    const transactionData = await fetchRecords("transactions");
+    const transactionData = await fetchRecords("transactions", "date");
     console.log(transactionData)
 
     setTransactionArray(transactionData)
