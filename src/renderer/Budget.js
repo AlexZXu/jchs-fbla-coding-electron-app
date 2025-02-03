@@ -166,6 +166,11 @@ function Budget() {
                 Set As Budget
               </button>
             </div>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <button className={`${styles['set-budget-button']} ${focus === 0 ? styles['disabled'] : styles['enabled']}`} disabled={focus === 0}>
+                Set As Budget
+              </button>
+            </div>
           </div>
           <div className={styles['history-box']}>
             <h3 className={styles['overview-title']}>Budget History</h3>
