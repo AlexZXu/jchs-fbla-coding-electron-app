@@ -105,14 +105,14 @@ body {
 }
 
 .income {
-  color: green;
+  color: #2E7D32;
   font-size: 22px;
   font-weight: 600;
   margin-top: 2px;
 }
 
 .expenses {
-  color: red;
+  color: #D32F2F;
   font-size: 22px;
   font-weight: 600;
   margin-top: 2px;
