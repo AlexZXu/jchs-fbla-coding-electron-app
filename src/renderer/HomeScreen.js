@@ -202,7 +202,7 @@ function App() {
           <div className={styles["progress-bar"]}>
             <div className={styles["progress"]} style={{ width: `${savings / savingsGoal * 100}%` }}></div>
           </div>
-          <button className={styles["edit-button"]}>Edit Targets</button>
+          <button className={styles["edit-button"]}>Edit Goal</button>
         </div>
       </div>
       {
