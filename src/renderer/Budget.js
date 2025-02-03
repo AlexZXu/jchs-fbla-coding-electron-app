@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './styles/Budget.module.css';
 import { Link } from 'react-router-dom';
 import fetchSingleRecord from '../../lib/fetchSingleRecord';
+import fetchSinglePastRecord from '../../lib/fetchSinglePastRecord'
 
 function Budget() {
   const [budgetAmount, setBudgetAmount] = React.useState(250000);
@@ -18,6 +19,7 @@ function Budget() {
 
   async function getBudget() {
     const balanceData = await fetchSingleRecord("generalBudgets");
+    const pastBalanceData = await fetchSinglePastRecord("generalBudgets")
 
     console.log(balanceData)
     setBudgetDetails(balanceData)

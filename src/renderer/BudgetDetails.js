@@ -53,9 +53,9 @@ const BudgetDetails = () => {
           </div>
         </div>
 
-        <div>
-
-        <Link className={styles["go-back"]} to="/budget">Go Back</Link>
+        <div className={styles["button-group"]}>
+          <button className={styles["edit-button"]}>Edit Targets</button>
+          <Link className={styles["go-back"]} to="/budget">Go Back</Link>
         </div>
 
       </div>
