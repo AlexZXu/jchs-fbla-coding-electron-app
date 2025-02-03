@@ -1,11 +1,31 @@
 import React from 'react';
 import styles from './styles/Budget.module.css';
 import { Link } from 'react-router-dom';
+import fetchSingleRecord from '../../lib/fetchSingleRecord';
 
 function Budget() {
   const [budgetAmount, setBudgetAmount] = React.useState(250000);
   const [focus, setFocus] = React.useState(0)
   const [focusAmount, setFocusAmount] = React.useState(0)
+
+  const [budgetDetails, setBudgetDetails] = React.useState({
+    goal: 0.001,
+    spent: 0,
+    dining: 0,
+    entertainment: 0,
+    essentials: 0
+  })
+
+  async function getBudget() {
+    const balanceData = await fetchSingleRecord("generalBudgets");
+
+    console.log(balanceData)
+    setBudgetDetails(balanceData)
+  }
+
+  React.useEffect(() => {
+    getBudget()
+  }, [])
 
   return (
     <div className={styles["dashboard-container"]}>
@@ -25,7 +45,7 @@ function Budget() {
           <div className={styles["budget-progress-list"]}>
             <div className={styles["budget-progress"]}>
               <h3 className={styles["overview-subtitle"]}>Budget This Month</h3>
-              <h1 style={{fontWeight: '600', fontSize: '17px'}}>$114,159.17 / $250,000</h1>
+              <h1 style={{fontWeight: '600', fontSize: '17px'}}>${(Math.round(budgetDetails.spent * 100) / 100).toFixed(2)} / ${(Math.round(budgetDetails.goal * 100) / 100).toFixed(2)} </h1>
               <div className={styles["progress-bar"]}>
                 <div className={styles["progress"]} style={{ width: '45.7%' }}></div>
               </div>
