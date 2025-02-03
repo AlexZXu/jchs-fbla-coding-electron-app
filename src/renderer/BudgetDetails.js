@@ -148,13 +148,13 @@ const BudgetDetails = () => {
                 <span className={styles.amount}>${twoDecimal(budgetData.categories[item.toLowerCase()].spent)} /</span>
                 {
                   editOpen ?
-                  <input className={styles["budget-input"]} value={goalData.find(i => i.category.toUpperCase() == item.toUpperCase()).goal} onChange={(e) => {modifyGoalData(item, e.target.value)}}>
+                  <input className={styles["budget-input"]} value={goalData.find(i => i.category.toUpperCase() == item.toUpperCase()).goal} onChange={(e) => {modifyGoalData(item, e.target.value)}} type="number">
                   </input> :
                   <span className={styles["budget-goal"]}>
                     {twoDecimal(budgetData.categories[item.toLowerCase()].goal)}
                   </span>
                 }
-                <span className={styles.percentage}>{item.percentage}%</span>
+                <span className={styles.percentage}>{((goalData.find(i => i.category.toUpperCase() == item.toUpperCase()).goal / budgetData.goal) * 100).toFixed(1)}%</span>
               </div>
               <button className={styles["see-more"]}>See More</button>
             </div>
