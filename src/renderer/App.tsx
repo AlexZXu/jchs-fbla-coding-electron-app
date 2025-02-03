@@ -10,6 +10,7 @@ import AccountSettings from './AccountSettings';
 import GeneralSettings from './GeneralSettings';
 import HelpSettings from './HelpSettings';
 import Budget from './Budget';
+import BudgetDetails from './BudgetDetails';
 import Balance from './Balance';
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
 
@@ -22,6 +23,7 @@ export default function App() {
         <Route path="/home" element={<HomeScreen />} />
         <Route path="/balance" element={<Balance />} />
         <Route path="/budget" element={<Budget />} />
+        <Route path="/budget/details" element={<BudgetDetails />} />
         <Route path="/transactions" element={<TransactionScreen />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/settings/account" element={<AccountSettings />} />

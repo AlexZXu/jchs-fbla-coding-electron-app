@@ -48,7 +48,7 @@ function Budget() {
             </div>
 
           </div>
-          <Link to="/transactions" className={styles["view-button"]} style={{width: "100%"}}>View Detailed Budget</Link>
+          <Link to="/budget/details" className={styles["view-button"]} style={{width: "100%"}}>View Detailed Budget</Link>
 
         </div>
         <div className={styles["recommendations-and-history"]}>

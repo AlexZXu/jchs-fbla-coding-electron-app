@@ -1,0 +1,107 @@
+.budgetContainer {
+  background-color: #007bff;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: Arial, sans-serif;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  background-color: #0056b3;
+  padding: 10px 0;
+}
+
+.navItem {
+  background: none;
+  border: none;
+  color: white;
+  padding: 10px 15px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.active {
+  background-color: white;
+  color: #2d5eb3;
+  border-radius: 5px;
+}
+
+.budgetContent {
+  background-color: white;
+  width: 60%;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.budgetTitle {
+  background: linear-gradient(to right, #2d5eb3, #4a76c4);
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 20px;
+}
+
+.budgetList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.budgetItem {
+  width: 45%;
+  background: linear-gradient(to right, #2d5eb3, #4a76c4);
+  padding: 10px;
+  border-radius: 5px;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.budgetAmount {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+}
+
+.amount {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.percentage {
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.seeMore {
+  background: lightgray;
+  border: none;
+  color: black;
+  padding: 5px;
+  font-size: 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 5px;
+}
+
+.totalSpent {
+  font-size: 24px;
+  margin-top: 15px;
+}
+
+.goBack {
+  background: lightgray;
+  border: none;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
