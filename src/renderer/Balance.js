@@ -246,13 +246,15 @@ function Balance() {
                       type="monotone"
                       name="Income"
                       dataKey="incomeMonth"
-                      stroke="#008000"
+                      stroke="#2E7D32"
+                      strokeWidth={2}
                     />
                     <Line
                       type="monotone"
                       name="Expenses"
                       dataKey="expensesMonth"
-                      stroke="#DC143C"
+                      stroke="#D32F2F"
+                      strokeWidth={2}
                     />
                     <Tooltip />
                     <Legend />
@@ -276,8 +278,8 @@ function Balance() {
                   <BarChart width={400} height={400} data={savingsHistory}>
                     <XAxis dataKey="month" />
                     <YAxis />
-                    <Bar dataKey="categories.savings.goal" fill="#008000" name="Savings Goal"/>
-                    <Bar dataKey="categories.savings.spent" fill="#DC143C" name="Actual Savings"/>
+                    <Bar dataKey="categories.savings.goal" fill="#1E88E5" name="Savings Goal"/>
+                    <Bar dataKey="categories.savings.spent" fill="#F57C00" name="Actual Savings"/>
                     <Tooltip />
                     <Legend />
                   </BarChart>

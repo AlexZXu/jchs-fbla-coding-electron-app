@@ -84,13 +84,13 @@ h2 {
 }
 
 .income {
-  color: green;
+  color: #2E7D32;
   font-size: 22px;
   font-weight: 600;
 }
 
 .expenses {
-  color: red;
+  color: #D32F2F;
   font-weight: 600;
   font-size: 22px;
 }
