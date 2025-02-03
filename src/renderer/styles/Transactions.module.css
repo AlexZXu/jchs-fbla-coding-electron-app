@@ -101,7 +101,7 @@ th, td {
 .transaction {
   background: linear-gradient(to right, #006fe6d0 0%, #004696d0 100%);
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr .8fr;
+  grid-template-columns: 1fr 1fr 1fr .7fr 0fr;
   padding: 12px;
   color: white;
   font-size: 16px;
