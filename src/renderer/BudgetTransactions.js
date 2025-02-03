@@ -12,8 +12,14 @@ import fetchSingleRecordId from '../../lib/fetchSingleRecordId';
 import { IoClose } from "react-icons/io5";
 import { MdCategory } from 'react-icons/md';
 import fetchSingleRecord from '../../lib/fetchSingleRecord';
+import {useLocation} from 'react-router-dom';
 
-function TransactionScreen() {
+
+function BudgetTransactions() {
+  const location = useLocation()
+  const category = location.state.category
+  console.log(category)
+
   const [addOpen, setAddOpen] = React.useState(false);
   const [transactionDetailOpen, setTransactionDetailOpen] = React.useState(false);
   const [transactionId, setTransactionId] = React.useState(0);
@@ -28,7 +34,6 @@ function TransactionScreen() {
 
   const [date, setDate] = React.useState("")
   const [name, setName] = React.useState("")
-  const [category, setCategory] = React.useState("")
   const [amount, setAmount] = React.useState("")
   const [additionalNotes, setAdditionalNotes] = React.useState("")
 
@@ -82,7 +87,6 @@ function TransactionScreen() {
       if (transactionDetailOpen == true) {
         const transactionData = await fetchSingleRecordId("transactions", transactionId)
         setName(transactionData.name)
-        setCategory(transactionData.category)
         setAmount(transactionData.amount)
         setDate(transactionData.date)
         setAdditionalNotes(transactionData.additionalNotes)
@@ -99,7 +103,6 @@ function TransactionScreen() {
     setTransactionDetailOpen(false)
     setDate("")
     setName("")
-    setCategory("")
     setAmount("")
     setAdditionalNotes("")
   }
@@ -156,7 +159,7 @@ function TransactionScreen() {
       <div className={styles["transactions-content"]}>
         <div className={styles["transactions-box"]}>
           <h2 className={styles["section-title"]}>All Transactions</h2>
-          <TransactionList trigger={trigger} height="370px" setTransactionDetailOpen={setTransactionDetailOpen} setTransactionId={setTransactionId}/>
+          <TransactionList trigger={trigger} height="370px" setTransactionDetailOpen={setTransactionDetailOpen} setTransactionId={setTransactionId} category={category}/>
           <button className={styles["add-button"]} onClick={() => {setAddOpen(true)}}>Add Transactions</button>
         </div>
       </div>
@@ -175,7 +178,7 @@ function TransactionScreen() {
           </div>
           <div className={styles["transaction-field"]}>
             <div>Category</div>
-            <input className={styles["transaction-input"]} onChange={(e) => {setCategory(e.target.value)}} value={category} list="categories"/>
+            <input className={styles["transaction-input"]} value={category} readonly list="categories"/>
             <datalist id="categories">
               <option value="Entertainment" />
               <option value="Dining" />
@@ -214,7 +217,7 @@ function TransactionScreen() {
           <div>Name</div>
           <input className={styles["transaction-input"]} style={{borderColor: '#e6e6e6'}} onChange={(e) => {setName(e.target.value)}} value={name} />
           <div>Category</div>
-          <input className={styles["transaction-input"]} style={{borderColor: '#e6e6e6'}} onChange={(e) => {setCategory(e.target.value)}} value={category} />
+          <input className={styles["transaction-input"]} style={{borderColor: '#e6e6e6'}} value={category} />
           <div>Amount</div>
           <input className={styles["transaction-input"]} style={{borderColor: '#e6e6e6'}} onChange={(e) => {setAmount(e.target.value)}} value={amount} type="number" />
           <div>Additional Notes</div>
@@ -228,4 +231,4 @@ function TransactionScreen() {
   );
 }
 
-export default TransactionScreen;
+export default BudgetTransactions;

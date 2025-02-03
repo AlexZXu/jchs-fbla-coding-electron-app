@@ -7,12 +7,19 @@ import 'overlayscrollbars/overlayscrollbars.css';
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import dayjs from 'dayjs'
 import { IoOpenOutline } from "react-icons/io5";
+import fetchRecordsFilter from '../../lib/fetchRecordsFilter';
 
-function TransactionList({trigger, height, setTransactionDetailOpen, setTransactionId}) {
+function TransactionList({trigger, height, setTransactionDetailOpen, setTransactionId, category}) {
   const [transactionArray, setTransactionArray] = React.useState([]);
 
   const fetchData = async () => {
-    const transactionData = await fetchRecords("transactions", "date", "desc");
+    let transactionData;
+    if (!category) {
+      transactionData = await fetchRecords("transactions", "date", "desc");
+    }
+    else {
+      transactionData = await fetchRecordsFilter("transactions", "2025-02", category)
+    }
     console.log(transactionData)
 
     setTransactionArray(transactionData)

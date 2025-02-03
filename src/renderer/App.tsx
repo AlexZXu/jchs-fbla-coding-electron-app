@@ -12,7 +12,7 @@ import HelpSettings from './HelpSettings';
 import Budget from './Budget';
 import BudgetDetails from './BudgetDetails';
 import Balance from './Balance';
-import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
+import BudgetTransactions from './BudgetTransactions'
 
 export default function App() {
   return (
@@ -24,6 +24,7 @@ export default function App() {
         <Route path="/balance" element={<Balance />} />
         <Route path="/budget" element={<Budget />} />
         <Route path="/budget/details" element={<BudgetDetails />} />
+        <Route path="/budget/transactions" element={<BudgetTransactions />} />
         <Route path="/transactions" element={<TransactionScreen />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/settings/account" element={<AccountSettings />} />

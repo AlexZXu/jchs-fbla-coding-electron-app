@@ -156,7 +156,7 @@ const BudgetDetails = () => {
                 }
                 <span className={styles.percentage}>{((goalData.find(i => i.category.toUpperCase() == item.toUpperCase()).goal / budgetData.goal) * 100).toFixed(1)}%</span>
               </div>
-              <button className={styles["see-more"]}>See More</button>
+              <Link className={styles["see-more"]} to="/budget/transactions" state={{category: item}}>See More</Link>
             </div>
           ))}
         </div>
