@@ -180,6 +180,7 @@ function App() {
           <div className={styles["progress-bar"]}>
             <div className={styles["progress"]} style={{ width: '40%' }}></div>
           </div>
+          <button className={styles["edit-button"]}>Edit Targets</button>
         </div>
       </div>
       {
