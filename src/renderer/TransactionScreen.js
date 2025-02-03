@@ -53,29 +53,38 @@ function TransactionScreen() {
 
 
   async function updateBalanceandBudget(category, newValue, oldValue) {
-    const keys = ["Entertainment", "Essentials", "Dining", "Gas", "Other", "Savings"]
+    const keys = ["Entertainment", "Essentials", "Dining", "Gas", "Other", "Savings"];
+    const change = newValue - oldValue;
+    console.log(change)
 
-    const change = newValue - oldValue
-
-    let payload = {
+    let balancePayload = {
       currentBalance: balanceDetails.currentBalance + change
-    }
+    };
 
     if (change < 0) {
-      payload.expensesMonth = balanceDetails.expensesMonth - change
-      payload.expensesYear = balanceDetails.expensesYear - change
+      balancePayload.expensesMonth = balanceDetails.expensesMonth - change;
+      balancePayload.expensesYear = balanceDetails.expensesYear - change;
     }
     if (change > 0) {
-      payload.incomeMonth = balanceDetails.incomeMonth + change
-      payload.incomeYear = balanceDetails.incomeYear + change
+      balancePayload.incomeMonth = balanceDetails.incomeMonth + change;
+      balancePayload.incomeYear = balanceDetails.incomeYear + change;
     }
 
-    const docRef = doc(db, "balances", balanceDetails.id);
-    const uid = sessionStorage.getItem("uid")
-    await setDoc(docRef, payload, {merge: true})
+    const balanceDocRef = doc(db, "balances", balanceDetails.id);
+    await setDoc(balanceDocRef, balancePayload, { merge: true });
 
     if (keys.includes(category)) {
+      let budgetPayload = {
+        categories: {},
+        totalSpent: budgetData.totalSpent - change
+      };
+      budgetPayload.categories[category.toLowerCase()] = {
+        spent: budgetData.categories[category.toLowerCase()].spent - change
+      };
+      console.log(budgetPayload)
 
+      const budgetDocRef = doc(db, "generalBudgets", budgetData.id);
+      await setDoc(budgetDocRef, budgetPayload, { merge: true });
     }
   }
 
@@ -121,7 +130,7 @@ function TransactionScreen() {
     }
 
     await addDoc(collectionRef, payload)
-    updateBalanceandBudget("", parseFloat(amount), 0)
+    updateBalanceandBudget(category, parseFloat(amount), 0)
 
     cancel()
     setTrigger(!trigger)
