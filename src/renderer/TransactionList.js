@@ -18,6 +18,7 @@ function TransactionList({trigger, height, setTransactionDetailOpen, setTransact
       transactionData = await fetchRecords("transactions", "date", "desc");
     }
     else {
+      console.log("CATEGORY: " + category)
       transactionData = await fetchRecordsFilter("transactions", "2025-02", category)
     }
     console.log(transactionData)
