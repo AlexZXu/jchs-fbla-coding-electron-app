@@ -90,6 +90,7 @@ function App() {
     setSavings(savingsData.totalSaved)
   }
 
+
   React.useEffect(() => {
     //Gets the values
     getBalance()
@@ -142,6 +143,19 @@ function App() {
     setTrigger(!trigger)
 
     cancel()
+  }
+
+
+  async function updateSaving() {
+    const docRef = doc(db, "savings", savingsId)
+
+    const payload = {
+      goal: Number(newSavingsGoal)
+    }
+
+    await setDoc(docRef, payload)
+    setTrigger(!trigger)
+    setEditingGoal(false)
   }
 
   //Allows the balance to be edited
