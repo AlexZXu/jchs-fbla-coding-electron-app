@@ -84,13 +84,13 @@ h2 {
 }
 
 .income {
-  color: #2E7D32;
+  color: green;
   font-size: 22px;
   font-weight: 600;
 }
 
 .expenses {
-  color: #D32F2F;
+  color: red;
   font-weight: 600;
   font-size: 22px;
 }
@@ -167,4 +167,22 @@ table td {
   font-weight: 500;
   border-radius: 5px;
   color: white;
+}
+.cancel-button {
+  background: #e1e1e1;
+  padding-left: 20px;
+  color: black;
+  border-radius: 5px;
+  padding-right: 20px;
+  font-weight: 500;
+
+}
+
+.submit-button {
+  background: #4CAF50;
+  padding-left: 20px;
+  color: white;
+  border-radius: 5px;
+  padding-right: 20px;
+  font-weight: 500;
 }

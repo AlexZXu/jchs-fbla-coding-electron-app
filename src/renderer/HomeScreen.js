@@ -192,7 +192,7 @@ function App() {
           <p className={styles["overview-subtitle"]} style={{marginTop: '1px'}}>Total Budget Spent</p>
           <p style={{fontSize: '20px', fontWeight: '600', marginTop: '-8px'}}>${budgetSpent.toFixed(2)} / ${budgetGoal.toFixed(2)}</p>
           <div className={styles["progress-bar"]}>
-              <div className={styles["progress"]} style={{ width: `${budgetSpent / budgetGoal * 100}%` , background: '#fcd12a' }}></div>
+              <div className={styles["progress"]} style={{ width: `${budgetSpent / budgetGoal * 100}%` , background: '#09e33c' }}></div>
             </div>
           <p className={styles["overview-subtitle"]}>Budget Remaining</p>
           <p style={{fontSize: '20px', fontWeight: '600', marginTop: '-8px'}}>${budgetRemaining.toFixed(2)}</p>
