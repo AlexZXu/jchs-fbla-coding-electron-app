@@ -153,8 +153,9 @@ function App() {
       goal: Number(newSavingsGoal)
     }
 
-    await setDoc(docRef, payload)
-    setTrigger(!trigger)
+    await setDoc(docRef, payload, {merge: true})
+
+    getSavings()
     setEditingGoal(false)
   }
 
