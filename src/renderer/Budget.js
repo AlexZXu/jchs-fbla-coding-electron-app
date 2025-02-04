@@ -6,13 +6,15 @@ import fetchSingleRecord from '../../lib/fetchSingleRecord';
 import { doc, setDoc } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 
-//Function to 
+//Function for the budget section
 function Budget() {
+  //Constants to set the focus
   const [focus, setFocus] = React.useState(0)
   const [focusAmount, setFocusAmount] = React.useState(0)
   const [budgetId, setBudgetId] = React.useState("");
-
+  //constant to set the budget details
   const [budgetDetails, setBudgetDetails] = React.useState({
+    //sets all the values to 0
     goal: 0,
     totalSpent: 0,
     categories: {
@@ -26,15 +28,15 @@ function Budget() {
       }
     }
   })
-
+  //Constant setting all the past budgets initizaliting to 0
   const [pastBudgetDetails, setPastBudgetDetails] = React.useState({
     goal: 0,
     totalSpent: 0
   })
-
+  //sets the income and past income
   const [incomeMonth, setIncomeMonth] = React.useState(0)
   const [pastIncomeMonth, setPastIncomeMonth] = React.useState(1)
-
+  //gets the data for the budget
   async function getBudget() {
     const balanceData = await fetchSingleRecord("generalBudgets");
     const pastBalanceData = await fetchSingleRecord("generalBudgets", "2025-01")
@@ -42,14 +44,14 @@ function Budget() {
     setPastBudgetDetails(pastBalanceData)
     setBudgetId(balanceData.id)
   }
-
+  //gets the data for the balance
   async function getBalance() {
     const balanceData = await fetchSingleRecord("balances");
     const pastBalanceData = await fetchSingleRecord("balances", "2025-01")
     setIncomeMonth(balanceData.incomeMonth)
     setPastIncomeMonth(pastBalanceData.incomeMonth)
   }
-
+  //calculates the budget amount
   async function setAmountAsBudget() {
     const newBudgetAmount = incomeMonth * focusAmount;
     const docRef = doc(db, "generalBudgets", budgetId);
@@ -61,7 +63,7 @@ function Budget() {
     getBudget()
   }
 
-
+  //Gets the budget and balances
   React.useEffect(() => {
     getBudget()
     getBalance()

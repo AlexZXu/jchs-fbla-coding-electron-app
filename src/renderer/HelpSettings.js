@@ -1,7 +1,8 @@
+//Imports
 import React from 'react';
 import styles from './styles/HelpSettings.module.css';
 import { Link } from 'react-router-dom';
-
+//Function of the help settings
 function HelpSettings() {
   return (
     <div className={styles["dashboard-container"]}>

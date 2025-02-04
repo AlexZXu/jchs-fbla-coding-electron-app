@@ -1,5 +1,4 @@
-/* eslint-disable */
-
+//Imports
 import React from "react";
 import { Link } from "react-router-dom";
 import styles from "./styles/BudgetDetails.module.css";
@@ -7,7 +6,9 @@ import { db } from '../../lib/firebase';
 import { collection, addDoc, Timestamp, updateDoc, setDoc, doc } from 'firebase/firestore';
 import twoDecimal from "../../lib/TwoDecimal";
 import fetchSingleRecord from "../../lib/fetchSingleRecord";
+//Budget Details Specifics
 function BudgetDetails() {
+  //Constant of all the categories initialization
   const [budgetData, setBudgetData] = React.useState({
     categories: {
       entertainment: {
@@ -38,9 +39,9 @@ function BudgetDetails() {
     goal: 0,
     totalSpent: 0
   })
-
+  //Sets the budget id
   const [budgetId, setBudgetId] = React.useState(0)
-
+  //Creates the categories preused
   const [goalData, setGoalData] = React.useState([
     {category: "Dining", goal: 23.32},
     {category: "Gas", goal: 45.32},
@@ -49,13 +50,15 @@ function BudgetDetails() {
     {category: "Essentials", goal: 60.00},
     {category: "Other", goal: 32.00},
   ])
-
+  //Sets the goals of the savings
   const [goal, setGoal] = React.useState(0)
-
+  //Function to edit the goal
   function modifyGoalData(category, value) {
+    //Sets the variables
     let previousGoalData = [...goalData]
     let hasNegative = false
     previousGoalData.forEach((el, id) => {
+      //checks if the category matches
       if (el.category.toLowerCase() == category.toLowerCase()) {
         if (Number(value) < 0) {
           hasNegative = true;
@@ -63,45 +66,49 @@ function BudgetDetails() {
         previousGoalData[id].goal = Number(value)
       }
     })
-
+    //If its negative set a warning
     if (hasNegative == true) {
       setNegativeWarn(true);
     }
     else if (hasNegative == false) {
       setNegativeWarn(false);
     }
-
+    //SEts the goal data if it passes the checks
     setGoalData(previousGoalData)
   }
-
+  //Sets the constants of the categories
   const [keys, setKeys] = React.useState(["Entertainment", "Essentials", "Dining", "Gas", "Other", "Savings"])
 
   const [negativeWarn, setNegativeWarn] = React.useState(false);
 
+  //Gets the budget
   async function getBudget() {
+    //fetches the recrods
     const budgetData = await fetchSingleRecord("generalBudgets");
-
+    //sets all the items of the goal
     for (const item of goalData) {
       item.goal = budgetData.categories[item.category.toLowerCase()].goal
     }
-
+    //sets the values
     setBudgetId(budgetData.id)
 
     setGoal(budgetData.goal)
 
     setBudgetData(budgetData)
   }
-
+  //Function to cancel editing
   function cancel() {
     setEditOpen(false)
 
     getBudget()
   }
-
+  //Updates the values
   async function update() {
+    //get hte constants
     const docRef = doc(db, "generalBudgets", budgetId);
     const uid = sessionStorage.getItem("uid")
 
+    //Makes  alist of the categories and adding the goal data
     const payload = {
       categories: {
         entertainment: {
@@ -129,17 +136,19 @@ function BudgetDetails() {
     await setDoc(docRef, payload, {merge: true})
   }
 
+  //Function to submit the changes
   async function submit() {
+    //makes sure update and get the budget before locking changes
     await update()
 
     await getBudget()
     setEditOpen(false)
   }
-
+  //Gets the budget
   React.useState(() => {
     getBudget()
   }, [])
-
+  //Check is it is editable or not
   const [editOpen, setEditOpen] = React.useState(false)
 
   return (

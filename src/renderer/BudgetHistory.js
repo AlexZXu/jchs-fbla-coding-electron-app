@@ -1,3 +1,4 @@
+//Imports
 import styles from './styles/BudgetHistory.module.css'
 import { Link } from 'react-router-dom';
 import React from 'react';
@@ -5,8 +6,9 @@ import fetchRecords from '../../lib/fetchRecords';
 import dayjs from 'dayjs';
 import { IoClose, IoOpenOutline } from 'react-icons/io5';
 
-
+//Function for the budget history
 function BudgetHistory() {
+  //Set the constants
   const [budgetHistory, setBudgetHistory] = React.useState([])
   const [detailsOpen, setDetailsOpen] = React.useState(false)
   const [detailsTarget, setDetailsTarget] = React.useState(0)
@@ -16,21 +18,23 @@ function BudgetHistory() {
   const [goal, setGoal] = React.useState(0)
   const [spent, setSpent] = React.useState(0)
 
+  //Fetches the data from the database
   async function fetchData() {
     const budgetData = await fetchRecords("generalBudgets", "month", "desc");
 
     setBudgetHistory(budgetData)
   }
-
+  //SEts the details of the history
   function setDetails() {
+    //Gets the record
     const record = budgetHistory[detailsTarget]
-
+    //Sets all of the values
     setMonth(record.month)
     setCategories(record.categories)
     setGoal(record.goal)
     setSpent(record.totalSpent)
   }
-
+  //Calls the data
   React.useEffect(() => {
     fetchData()
   }, [])

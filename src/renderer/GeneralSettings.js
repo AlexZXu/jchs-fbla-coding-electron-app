@@ -1,7 +1,10 @@
+//imports
 import React from 'react';
 import styles from './styles/GeneralSettings.module.css';
 import { Link } from 'react-router-dom';
 
+
+//function to the general settings
 function GeneralSettings() {
   return (
     <div className={styles["dashboard-container"]}>
