@@ -15,8 +15,10 @@ function GeneralSettings() {
       <div className={styles["settings-content"]}>
         <div className={styles["general-box"]}>
           <h2 className={styles["section-title"]}>General</h2>
-          <p><strong>Language:</strong> English (United States)</p>
-          <p><strong>Currency:</strong> USD</p>
+          <div className={styles["settings-info"]}>
+            <p><strong>Language:</strong> English (United States)</p>
+            <p><strong>Currency:</strong> USD</p>
+          </div>
           <div className={styles["account-actions"]}>
             <Link className={styles["back-button"]} to="/settings">Back</Link>
           </div>

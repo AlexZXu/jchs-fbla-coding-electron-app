@@ -224,9 +224,12 @@ function Balance() {
             </div>
           </div>
           {balanceEditMode && (
-            <button className={styles['save-button']} onClick={save}>
-              Save
-            </button>
+            <div className={styles["button-group"]}>
+              <button className={styles['cancel-button']} onClick={() => {setBalanceEditMode(false)}}>Cancel</button>
+              <button className={styles['save-button']} onClick={save}>
+                Save
+              </button>
+            </div>
           )}
         </div>
 

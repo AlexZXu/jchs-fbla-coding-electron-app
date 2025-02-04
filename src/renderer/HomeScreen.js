@@ -42,6 +42,11 @@ function App() {
 
   const [savingsGoal, setSavingsGoal] = React.useState(0)
   const [savings, setSavings] = React.useState(0)
+  const [savingsId, setSavingsId] = React.useState(0)
+
+  const [newSavingsGoal, setNewSavingsGoal] = React.useState(0)
+
+  const [editingGoal, setEditingGoal] = React.useState(false)
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -75,7 +80,22 @@ function App() {
   async function getSavings() {
     const savingsData = await fetchSingleRecord("savings", null)
     setSavingsGoal(savingsData.goal)
+    setSavingsId(savingsData.id)
+    setNewSavingsGoal(savingsData.goal)
     setSavings(savingsData.totalSaved)
+  }
+
+  async function updateSaving() {
+    const docRef = doc(db, "savings", savingsId)
+
+    const payload = {
+      goal: Number(newSavingsGoal)
+    }
+
+    await setDoc(docRef, payload, { merge: true })
+
+    getSavings()
+    setEditingGoal(false)
   }
 
   React.useEffect(() => {
@@ -176,7 +196,10 @@ function App() {
           }
           {
             balanceEditMode &&
-            <button className={styles["save-button"]} onClick={save}>Save</button>
+            <div className={styles["button-group"]}>
+              <button className={styles["cancel-button"]} onClick={() => setBalanceEditMode(false)} style={{width: '100%'}}>Cancel</button>
+              <button className={styles["save-button"]} onClick={save} style={{width: '100%'}}>Save</button>
+            </div>
           }
 
         </div>
@@ -200,11 +223,26 @@ function App() {
         <div className={styles["saving-goal-box"]}>
           <h2 className={styles["overview-title"]}>Saving Goal</h2>
           <p className={styles["overview-subtitle"]}>Amount Saved</p>
-          <p  style={{fontSize: '20px', fontWeight: '600', marginTop: '-8px'}}>${savings.toFixed(2)} / ${savingsGoal.toFixed(2)}</p>
+          <div style={{fontSize: '20px', fontWeight: '600', marginTop: '5px', marginBottom: '5px'}}>
+            <span>${savings.toFixed(2)} / </span>
+            {
+              editingGoal ?
+              <input className={styles["savings-input"]} value={newSavingsGoal} onChange={(e) => {setNewSavingsGoal(e.target.value)}}></input> :
+              <span>${savingsGoal.toFixed(2)}</span>
+            }
+          </div>
           <div className={styles["progress-bar"]}>
             <div className={styles["progress"]} style={{ width: `${savings / savingsGoal * 100}%` }}></div>
           </div>
-          <button className={styles["edit-button"]}>Edit Goal</button>
+          {
+            editingGoal ?
+            <div className={styles["button-group"]}>
+              <button className={styles["cancel-button"]} onClick={() => {setEditingGoal(false)}} style={{paddingLeft: '15px', paddingRight: '15px'}}>Cancel</button>
+              <button className={styles["edit-button"]} onClick={() => {updateSaving();}} style={{paddingLeft: '15px', paddingRight: '15px'}}>Update</button>
+            </div>
+            :
+            <button className={styles["edit-button"]} onClick={() => {setEditingGoal(true)}}>Edit Goal</button>
+          }
         </div>
       </div>
       {
