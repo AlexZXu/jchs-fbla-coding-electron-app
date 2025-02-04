@@ -14,7 +14,7 @@ function Settings() {
       </nav>
       <div className={styles["settings-content"]}>
         <div className={styles["settings-box"]}>
-          <h2>Settings</h2>
+          <h2 className={styles["section-title"]}>Settings</h2>
           <ul className={styles["settings-list"]}>
             <Link to="/settings/account">
               <li className={styles["clickable"]}>
