@@ -61,13 +61,14 @@ body {
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 500px;
+  width: 600px;
+  height: 270px;
 }
 
 .account-actions {
   display: flex;
   justify-content: flex-start;
-  margin-top: 20px;
+  margin-top: 90px;
 }
 
 .back-button {
@@ -76,4 +77,16 @@ body {
   font-size: 16px;
   cursor: pointer;
   color: #000;
+}
+
+.section-title {
+  border: solid;
+  background: linear-gradient(to right, #006fe6d0 0%, #004696d0 100%);
+  color: white;
+  font-weight: 600;
+  font-size: 20px;
+  padding: 8px;
+  padding-left: 15px;
+  border-radius: 15px;
+  margin-bottom: 25px;
 }

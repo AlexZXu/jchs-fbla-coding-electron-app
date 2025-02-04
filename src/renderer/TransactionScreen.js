@@ -5,7 +5,7 @@ import styles from './styles/Transactions.module.css'
 import { Link, useNavigate } from 'react-router-dom';
 import TransactionList from './TransactionList';
 import { db } from '../../lib/firebase';
-import { collection, addDoc, Timestamp, updateDoc, setDoc, doc } from 'firebase/firestore';
+import { collection, addDoc, Timestamp, updateDoc, setDoc, doc, deleteDoc } from 'firebase/firestore';
 import dayjs from 'dayjs';
 import { useHistory } from 'react-router'
 import fetchSingleRecordId from '../../lib/fetchSingleRecordId';
@@ -54,7 +54,7 @@ function TransactionScreen() {
   }
 
 
-  async function updateBalanceandBudget(category, newValue, oldValue) {
+  async function updateBalanceandBudget(category, newValue, oldValue, isDelete) {
     const keys = ["Entertainment", "Essentials", "Dining", "Gas", "Other", "Savings"];
     const change = newValue - oldValue;
     console.log(change)
@@ -63,13 +63,25 @@ function TransactionScreen() {
       currentBalance: balanceDetails.currentBalance + change
     };
 
-    if (change < 0) {
-      balancePayload.expensesMonth = balanceDetails.expensesMonth - change;
-      balancePayload.expensesYear = balanceDetails.expensesYear - change;
+    if (isDelete) {
+      if (change < 0) {
+        balancePayload.incomeMonth = balanceDetails.incomeMonth + change;
+        balancePayload.incomeYear = balanceDetails.incomeYear + change;
+      }
+      if (change > 0) {
+        balancePayload.expensesMonth = balanceDetails.expensesMonth - change;
+        balancePayload.expensesMonth = balanceDetails.expensesMonth - change;
+      }
     }
-    if (change > 0) {
-      balancePayload.incomeMonth = balanceDetails.incomeMonth + change;
-      balancePayload.incomeYear = balanceDetails.incomeYear + change;
+    else {
+      if (change < 0) {
+        balancePayload.expensesMonth = balanceDetails.expensesMonth - change;
+        balancePayload.expensesYear = balanceDetails.expensesYear - change;
+      }
+      if (change > 0) {
+        balancePayload.incomeMonth = balanceDetails.incomeMonth + change;
+        balancePayload.incomeYear = balanceDetails.incomeYear + change;
+      }
     }
 
     const balanceDocRef = doc(db, "balances", balanceDetails.id);
@@ -132,8 +144,18 @@ function TransactionScreen() {
     }
 
     await addDoc(collectionRef, payload)
-    updateBalanceandBudget(category, parseFloat(amount), 0)
+    updateBalanceandBudget(category, parseFloat(amount), 0, false)
 
+    cancel()
+    setTrigger(!trigger)
+  }
+
+
+  function completeDelete() {
+    const docRef = doc(db, "transactions", transactionId)
+
+    deleteDoc(docRef)
+    updateBalanceandBudget(category, 0, parseFloat(amount), false)
     cancel()
     setTrigger(!trigger)
   }
@@ -247,7 +269,7 @@ function TransactionScreen() {
           <p className={styles["confirmation-message"]}> Are you sure you want to delete {name} from {date}?</p>
           <div className={styles["button-container"]}>
             <button className={styles["cancel-button"]} onClick={()=>{setConfirmRemoveOpen(false)}}>Cancel</button>
-            <button className={styles["delete-button"]}>Delete</button>
+            <button className={styles["delete-button"]} onClick={()=> {completeDelete(); setConfirmRemoveOpen(false);}}>Delete</button>
           </div>
         </div>
       }

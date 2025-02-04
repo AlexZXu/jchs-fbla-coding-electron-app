@@ -14,7 +14,7 @@ function AccountSettings() {
       </nav>
       <div className={styles["settings-content"]}>
         <div className={styles["account-box"]}>
-          <h2>Account</h2>
+          <h2 className={styles["section-title"]}>Account</h2>
           <p><strong>Username:</strong> RichBoi64</p>
           <p><strong>First Name:</strong> Warren</p>
           <p><strong>Last Name:</strong> Buffet</p>

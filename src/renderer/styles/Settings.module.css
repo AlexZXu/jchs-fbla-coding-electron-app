@@ -75,7 +75,7 @@ body {
 .settings-list li {
   display: flex;
   justify-content: space-between;
-  margin: 50px;
+  margin: 30px;
   padding: 10px 0;
   border-bottom: 1px solid #ddd;
 }
