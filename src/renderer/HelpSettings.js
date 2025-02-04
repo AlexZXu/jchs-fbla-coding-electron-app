@@ -14,7 +14,7 @@ function HelpSettings() {
       </nav>
       <div className={styles["settings-content"]}>
         <div className={styles["help-box"]}>
-          <h2>Help</h2>
+          <h2 className={styles["section-title"]}>Help</h2>
           <p><strong>About:</strong> Version 1.0.0</p>
           <div className={styles["account-actions"]}>
             <Link className={styles["back-button"]} to="/settings">Back</Link>
