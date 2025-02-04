@@ -50,21 +50,33 @@ const BudgetDetails = () => {
     {category: "Other", goal: 32.00},
   ])
 
+  const [goal, setGoal] = React.useState(0)
+
   function modifyGoalData(category, value) {
-    console.log(value)
     let previousGoalData = [...goalData]
-    console.log(category)
+    let hasNegative = false
     previousGoalData.forEach((el, id) => {
-      console.log(el, id)
       if (el.category.toLowerCase() == category.toLowerCase()) {
+        if (Number(value) < 0) {
+          hasNegative = true;
+        }
         previousGoalData[id].goal = Number(value)
       }
     })
+
+    if (hasNegative == true) {
+      setNegativeWarn(true);
+    }
+    else if (hasNegative == false) {
+      setNegativeWarn(false);
+    }
 
     setGoalData(previousGoalData)
   }
 
   const [keys, setKeys] = React.useState(["Entertainment", "Essentials", "Dining", "Gas", "Other", "Savings"])
+
+  const [negativeWarn, setNegativeWarn] = React.useState(false);
 
   async function getBudget() {
     const budgetData = await fetchSingleRecord("generalBudgets");
@@ -74,6 +86,8 @@ const BudgetDetails = () => {
     }
 
     setBudgetId(budgetData.id)
+
+    setGoal(budgetData.goal)
 
     setBudgetData(budgetData)
   }
@@ -108,11 +122,11 @@ const BudgetDetails = () => {
         savings: {
           goal: goalData[2].goal
         }
-      }
+      },
+      goal: Number(goal)
     }
 
     await setDoc(docRef, payload, {merge: true})
-
   }
 
   async function submit() {
@@ -162,9 +176,15 @@ const BudgetDetails = () => {
         </div>
 
         <div style={{display: 'flex'}}>
-          <h3 className={styles["total-spent"]}>
-            ${budgetData.totalSpent.toFixed(2)} / ${budgetData.goal}
-          </h3>
+          <div className={styles["total-spent"]}>
+            <span> ${budgetData.totalSpent.toFixed(2)} / </span>
+            {
+              editOpen ?
+              <input className={styles["goal-input"]} type="number" value={goal} onChange={(e) => {setGoal(e.target.value); if (Number(e.target.value) < 0) {setNegativeWarn(true)} else{setNegativeWarn(false)}}}></input>
+              :
+              <span> ${budgetData.goal}</span>
+            }
+          </div>
           <div className={styles["progress-bar"]}>
             <div className={styles["progress"]} style={{ width: '45.7%' }}></div>
           </div>
@@ -172,10 +192,14 @@ const BudgetDetails = () => {
 
         <div className={styles["button-group"]}>
           {
+            negativeWarn == true &&
+            <div className={styles["warning-message"]}>Budgets can't be negative!</div>
+          }
+          {
             editOpen ?
             <>
              <button className={styles["cancel-button"]} onClick={() => {cancel()}}>Cancel</button>
-             <button className={styles["submit-button"]} onClick={() => {submit()}}>Submit</button>
+             <button className={styles["submit-button"]} style={{background: negativeWarn ? "#808080" : "#4CAF50"}} onClick={() => {if (negativeWarn == false) {submit()}}}>Submit</button>
             </>
             :
             <button className={styles["edit-button"]} onClick={() => {setEditOpen(true)}}>Edit Budgets</button>

@@ -65,6 +65,8 @@ function App() {
 
   async function getBudget() {
     const budgetData = await fetchSingleRecord("generalBudgets")
+
+    console.log(budgetData)
     setBudgetGoal(budgetData.goal)
     setBudgetSpent(budgetData.totalSpent)
     setBudgetRemaining(budgetData.goal - budgetData.totalSpent)

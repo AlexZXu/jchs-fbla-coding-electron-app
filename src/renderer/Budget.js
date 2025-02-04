@@ -31,7 +31,7 @@ function Budget() {
   })
 
   const [incomeMonth, setIncomeMonth] = React.useState(0)
-  const [pastIncomeMonth, setPastIncomeMonth] = React.useState(0)
+  const [pastIncomeMonth, setPastIncomeMonth] = React.useState(1)
 
   async function getBudget() {
     const balanceData = await fetchSingleRecord("generalBudgets");

@@ -7,6 +7,9 @@ pids
 *.pid
 *.seed
 
+/src
+/lib
+
 # Coverage directory used by tools like istanbul
 coverage
 .eslintcache

@@ -152,15 +152,15 @@ function BudgetTransactions() {
       <nav className={styles["navbar"]}>
         <Link className={styles["nav-button"]} to="/home">Home</Link>
         <Link className={styles["nav-button"]} to="/balance">Balance Details</Link>
-        <Link className={styles["nav-button"]} to="/budget">Budgeting</Link>
-        <Link className={`${styles["nav-button"]} ${styles["active"]}`} to="/transactions">Transactions</Link>
+        <Link className={`${styles["nav-button"]} ${styles["active"]}`} to="/budget">Budgeting</Link>
+        <Link className={`${styles["nav-button"]}`} to="/transactions">Transactions</Link>
         <Link className={styles["nav-button"]} to="/settings">Settings</Link>
       </nav>
       <div className={styles["transactions-content"]}>
         <div className={styles["transactions-box"]}>
-          <h2 className={styles["section-title"]}>{category} Transactions</h2>
+          <h2 className={styles["section-title"]}><div>{category} Transactions</div><div><Link to="/budget/details" className={styles["back-button"]}>Go Back</Link></div></h2>
           <TransactionList trigger={trigger} height="370px" setTransactionDetailOpen={setTransactionDetailOpen} setTransactionId={setTransactionId} category={category}/>
-          <button className={styles["add-button"]} onClick={() => {setAddOpen(true)}}>Add Transactions</button>
+          <button className={styles["add-button"]} onClick={() => {setAddOpen(true)}}>Add {category} Transactions</button>
         </div>
       </div>
 

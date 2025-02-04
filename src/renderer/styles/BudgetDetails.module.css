@@ -106,6 +106,20 @@ body {
   border-radius: 6px;
 }
 
+.goal-input {
+  width: 45px;
+  padding: 2px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid gray;
+  font-weight: 400;
+}
+
+.goal-input::-webkit-inner-spin-button,
+.goal-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
 .amount {
   font-size: 18px;
 }
@@ -165,11 +179,13 @@ body {
   font-weight: 500;
   border-radius: 5px;
   color: white;
+  height: 100%;
 }
 
 .button-group {
   margin-top: 4px;
   display: flex;
+  align-items: center;
   gap: 12px;
   justify-content: center;
 }
@@ -179,9 +195,11 @@ body {
   padding-left: 20px;
   color: black;
   border-radius: 5px;
+  padding-top: 10px;
   padding-right: 20px;
   font-weight: 400;
   font-weight: 500;
+  padding-bottom: 10px;
 
 }
 
@@ -189,7 +207,15 @@ body {
   background: #4CAF50;
   padding-left: 20px;
   color: white;
+  padding-top: 10px;
+  padding-bottom: 10px;
   border-radius: 5px;
   padding-right: 20px;
   font-weight: 500;
+}
+
+.warning-message {
+  font-weight: 700;
+  color: red;
+  margin-left: -40px;
 }
