@@ -102,7 +102,7 @@ function Budget() {
                 <div
                   className={styles['progress']}
                   style={{
-                    width: `${(budgetDetails.totalSpent / budgetDetails.goal) * 100}%`,
+                    width: `${(budgetDetails.totalSpent / budgetDetails.goal) * 100}%`, background: '#00d22a',
                   }}
                 ></div>
               </div>
