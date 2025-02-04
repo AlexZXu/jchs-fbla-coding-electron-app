@@ -1,11 +1,13 @@
-/* eslint-disable */
+//Imports
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './styles/Auth.module.css'
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import React from 'react';
 import { auth } from '../../lib/firebase';
 
+//function for signing up
 function SignUp() {
+  //Initializing the constants
   const [stage, setStage] = React.useState(1);
 
   const [firstName, setFirstName] = React.useState("");
@@ -17,8 +19,10 @@ function SignUp() {
 
   const navigate = useNavigate();
 
+  //Function to sign up
   async function signup(e) {
     e.preventDefault();
+    //Checks user input
     createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed up
@@ -29,6 +33,7 @@ function SignUp() {
       navigate('/login');
       // ...
     })
+    //Catches for any errors that may occur
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;

@@ -1,5 +1,4 @@
-/* eslint-disable */
-
+//imports
 import React from 'react';
 import styles from './styles/Transactions.module.css'
 import { Link, useNavigate } from 'react-router-dom';
@@ -14,8 +13,9 @@ import { MdCategory } from 'react-icons/md';
 import fetchSingleRecord from '../../lib/fetchSingleRecord';
 import {useLocation} from 'react-router-dom';
 
-
+//function fo rthe budget transactions
 function BudgetTransactions() {
+  //SEts the constants
   const location = useLocation()
   const category = location.state.category
   console.log(category)
@@ -27,11 +27,13 @@ function BudgetTransactions() {
 
   const navigate = useNavigate()
 
+  //Formats the day into year-month-day format
   React.useEffect(() => {
     const day = dayjs(new Date()).format("YYYY-MM-DD")
     setDate(day);
   }, []);
 
+  //Sets all of the variables
   const [date, setDate] = React.useState("")
   const [name, setName] = React.useState("")
   const [amount, setAmount] = React.useState("")
@@ -40,39 +42,46 @@ function BudgetTransactions() {
   const [balanceDetails, setBalanceDetails] = React.useState();
   const [budgetData, setBudgetData] = React.useState()
 
+  //Gets the balance
   async function getBalance() {
+    //fetches the records
     const balanceData = await fetchSingleRecord("balances");
 
     console.log(balanceData)
     setBalanceDetails(balanceData)
   }
 
+  //Gets the budget values
   async function getBudget() {
+    //fetches the records
     const budgetData = await fetchSingleRecord("generalBudgets")
 
     console.log(budgetData)
     setBudgetData(budgetData)
   }
 
-
+  //Updates the values
   async function updateBalanceandBudget(category, newValue, oldValue) {
+    //sets the constants
     const keys = ["Entertainment", "Essentials", "Dining", "Gas", "Other", "Savings"]
 
     const change = newValue - oldValue
-
+    //Gets the lists
     let payload = {
       currentBalance: balanceDetails.currentBalance + change
     }
-
+    //Checks if it is an expense
     if (change < 0) {
       payload.expensesMonth = balanceDetails.expensesMonth - change
       payload.expensesYear = balanceDetails.expensesYear - change
     }
+    //Checks if it is an income
     if (change > 0) {
       payload.incomeMonth = balanceDetails.incomeMonth + change
       payload.incomeYear = balanceDetails.incomeYear + change
     }
 
+    //Sets the constants
     const docRef = doc(db, "balances", balanceDetails.id);
     const uid = sessionStorage.getItem("uid")
     await setDoc(docRef, payload, {merge: true})
@@ -81,10 +90,13 @@ function BudgetTransactions() {
 
     }
   }
-
+  //React
   React.useEffect(() => {
+    //Feetches the data
     const fetchData = async () => {
+      //Check if the data is open
       if (transactionDetailOpen == true) {
+        //Sets the values
         const transactionData = await fetchSingleRecordId("transactions", transactionId)
         setName(transactionData.name)
         setAmount(transactionData.amount)
@@ -92,12 +104,13 @@ function BudgetTransactions() {
         setAdditionalNotes(transactionData.additionalNotes)
       }
     }
-
+    //Gets all the data
     fetchData()
     getBalance()
     getBudget()
   }, [transactionDetailOpen])
-
+  
+  //Cancels the changes
   function cancel() {
     setAddOpen(false)
     setTransactionDetailOpen(false)
@@ -106,7 +119,8 @@ function BudgetTransactions() {
     setAmount("")
     setAdditionalNotes("")
   }
-
+  
+  //Submits the changes
   async function submit() {
     const collectionRef = collection(db, "transactions");
     const uid = sessionStorage.getItem("uid")
@@ -120,14 +134,14 @@ function BudgetTransactions() {
       additionalNotes: additionalNotes,
       uid: uid,
     }
-
+    //Updates the values
     await addDoc(collectionRef, payload)
     updateBalanceandBudget("", parseFloat(amount), 0)
-
+    //sets them to the normal
     cancel()
     setTrigger(!trigger)
   }
-
+  //Updates the values
   async function update() {
     const docRef = doc(db, "transactions", transactionId);
     const uid = sessionStorage.getItem("uid")
@@ -141,7 +155,7 @@ function BudgetTransactions() {
       additionalNotes: additionalNotes,
       uid: uid,
     }
-
+    
     await setDoc(docRef, payload)
     setTrigger(!trigger)
     cancel()

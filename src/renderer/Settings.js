@@ -1,7 +1,9 @@
+//Imports
 import React from 'react';
 import styles from './styles/Settings.module.css';
 import { Link } from 'react-router-dom';
 
+//Function for the settings
 function Settings() {
   return (
     <div className={styles["dashboard-container"]}>

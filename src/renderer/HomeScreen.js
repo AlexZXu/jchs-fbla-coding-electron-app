@@ -1,4 +1,4 @@
-/* eslint-disable */
+//Imports
 import styles from './styles/Home.module.css'
 import styles2 from './styles/Transactions.module.css'
 import { Link } from 'react-router-dom';
@@ -19,7 +19,9 @@ import {
   ClickScrollPlugin
 } from 'overlayscrollbars';
 
+//Function for the home page
 function App() {
+  //Sets the constants
   const [balanceDetails, setBalanceDetails] = React.useState({currentBalance: 0, incomeMonth: 0, incomeYear: 0, expensesMonth: 0, expensesYear: 0});
   const [transactionDetailOpen, setTransactionDetailOpen] = React.useState(false);
   const [transactionId, setTransactionId] = React.useState(0);
@@ -42,9 +44,17 @@ function App() {
 
   const [savingsGoal, setSavingsGoal] = React.useState(0)
   const [savings, setSavings] = React.useState(0)
+  const [savingsId, setSavingsId] = React.useState(0)
 
+  const [newSavingsGoal, setNewSavingsGoal] = React.useState(0)
+
+  const [editingGoal, setEditingGoal] = React.useState(false)
+
+  //Reacts
   React.useEffect(() => {
+    //fetches the data
     const fetchData = async () => {
+      //Check if it is open to set in the data
       if (transactionDetailOpen === true) {
         const transactionData = await fetchSingleRecordId("transactions", transactionId)
         setName(transactionData.name)
@@ -53,37 +63,45 @@ function App() {
         setAdditionalNotes(transactionData.additionalNotes)
       }
     }
-
+    //fecthes the data
     fetchData()
   }, [transactionDetailOpen])
 
+  //Gets the balance
   async function getBalance() {
     const balanceData = await fetchSingleRecord("balances");
-
+    //Sets the balance in
     setBalanceDetails(balanceData)
   }
 
+  //Gets the budget values
   async function getBudget() {
     const budgetData = await fetchSingleRecord("generalBudgets")
 
+    //SEts the values in
     console.log(budgetData)
     setBudgetGoal(budgetData.goal)
     setBudgetSpent(budgetData.totalSpent)
     setBudgetRemaining(budgetData.goal - budgetData.totalSpent)
   }
 
+  //Gets the saving goal
   async function getSavings() {
     const savingsData = await fetchSingleRecord("savings", null)
+    //Ssts the values
     setSavingsGoal(savingsData.goal)
+    setSavingsId(savingsData.id)
+    setNewSavingsGoal(savingsData.goal)
     setSavings(savingsData.totalSaved)
   }
 
   React.useEffect(() => {
+    //Gets the values
     getBalance()
     getBudget()
     getSavings()
   }, [])
-
+  //Cancels the editing
   function cancel() {
     setTransactionDetailOpen(false)
     setDate("")
@@ -91,7 +109,7 @@ function App() {
     setAmount("")
     setAdditionalNotes("")
   }
-
+  //Saves the changes made
   async function save() {
     const balance_id = balanceDetails.id
     const docRef = doc(db, "balances", balance_id);
@@ -105,15 +123,16 @@ function App() {
     }
 
     await setDoc(docRef, payload, { merge: true })
-
+    //Sets it and prevents edits
     getBalance()
     setBalanceEditMode(false);
   }
 
+  //Updates the values
   async function update() {
     const docRef = doc(db, "transactions", transactionId);
     const uid = sessionStorage.getItem("uid")
-
+    //goes through the entire values
     const payload = {
       name: name,
       amount: parseInt(amount),
@@ -130,6 +149,7 @@ function App() {
     cancel()
   }
 
+  //Allows the balance to be edited
   function editBalanceStart() {
     setBalanceEditMode(true)
     setCurrBalance(balanceDetails.currentBalance)
@@ -176,7 +196,10 @@ function App() {
           }
           {
             balanceEditMode &&
-            <button className={styles["save-button"]} onClick={save}>Save</button>
+            <div className={styles["button-group"]}>
+              <button className={styles["cancel-button"]} onClick={() => setBalanceEditMode(false)} style={{width: '100%'}}>Cancel</button>
+              <button className={styles["save-button"]} onClick={save} style={{width: '100%'}}>Save</button>
+            </div>
           }
 
         </div>
@@ -200,11 +223,26 @@ function App() {
         <div className={styles["saving-goal-box"]}>
           <h2 className={styles["overview-title"]}>Saving Goal</h2>
           <p className={styles["overview-subtitle"]}>Amount Saved</p>
-          <p  style={{fontSize: '20px', fontWeight: '600', marginTop: '-8px'}}>${savings.toFixed(2)} / ${savingsGoal.toFixed(2)}</p>
+          <div style={{fontSize: '20px', fontWeight: '600', marginTop: '5px', marginBottom: '5px'}}>
+            <span>${savings.toFixed(2)} / </span>
+            {
+              editingGoal ?
+              <input className={styles["savings-input"]} value={newSavingsGoal} onChange={(e) => {setNewSavingsGoal(e.target.value)}}></input> :
+              <span>${savingsGoal.toFixed(2)}</span>
+            }
+          </div>
           <div className={styles["progress-bar"]}>
             <div className={styles["progress"]} style={{ width: `${savings / savingsGoal * 100}%` }}></div>
           </div>
-          <button className={styles["edit-button"]}>Edit Goal</button>
+          {
+            editingGoal ?
+            <div className={styles["button-group"]}>
+              <button className={styles["cancel-button"]} onClick={() => {setEditingGoal(false)}} style={{paddingLeft: '15px', paddingRight: '15px'}}>Cancel</button>
+              <button className={styles["edit-button"]} onClick={() => {updateSaving();}} style={{paddingLeft: '15px', paddingRight: '15px'}}>Update</button>
+            </div>
+            :
+            <button className={styles["edit-button"]} onClick={() => {setEditingGoal(true)}}>Edit Goal</button>
+          }
         </div>
       </div>
       {

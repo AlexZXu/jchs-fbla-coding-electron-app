@@ -1,5 +1,4 @@
-/* eslint-disable */
-
+//Imports
 import React from 'react';
 import styles from './styles/Transactions.module.css'
 import { Link, useNavigate } from 'react-router-dom';
@@ -14,19 +13,27 @@ import { MdCategory } from 'react-icons/md';
 import fetchSingleRecord from '../../lib/fetchSingleRecord';
 import { IoOpenOutline } from "react-icons/io5";
 
+//Functions for the transactions
 function TransactionScreen() {
+  //Constants
   const [addOpen, setAddOpen] = React.useState(false);
   const [transactionDetailOpen, setTransactionDetailOpen] = React.useState(false);
   const [transactionId, setTransactionId] = React.useState(0);
   const [trigger, setTrigger] = React.useState(false);
+  const [transactionConfirmOpen, setTransactionConfirmOpen] = React.useState(false);
 
   const [confirmRemoveOpen, setConfirmRemoveOpen] = React.useState(false);
 
+  const navigate = useNavigate()
+
+  //React
   React.useEffect(() => {
+    //Sets the format of days
     const day = dayjs(new Date()).format("YYYY-MM-DD")
     setDate(day);
   }, []);
 
+  //Initializes the constants
   const [date, setDate] = React.useState("")
   const [name, setName] = React.useState("")
   const [category, setCategory] = React.useState("")
@@ -36,13 +43,14 @@ function TransactionScreen() {
   const [balanceDetails, setBalanceDetails] = React.useState();
   const [budgetData, setBudgetData] = React.useState()
 
+  //Gets teh balance data
   async function getBalance() {
     const balanceData = await fetchSingleRecord("balances");
 
     console.log(balanceData)
     setBalanceDetails(balanceData)
   }
-
+  //Gets the budget data
   async function getBudget() {
     const budgetData = await fetchSingleRecord("generalBudgets")
 
@@ -50,16 +58,17 @@ function TransactionScreen() {
     setBudgetData(budgetData)
   }
 
-
+  //Updates the balance of the budgets
   async function updateBalanceandBudget(category, newValue, oldValue, isDelete) {
+    //Gets the categories
     const keys = ["Entertainment", "Essentials", "Dining", "Gas", "Other", "Savings"];
     const change = newValue - oldValue;
     console.log(change)
-
+    //add the change into the balance
     let balancePayload = {
       currentBalance: balanceDetails.currentBalance + change
     };
-
+    //Checks if they are deleting gets rid of the expense/income
     if (isDelete) {
       if (change < 0) {
         balancePayload.incomeMonth = balanceDetails.incomeMonth + change;
@@ -70,6 +79,7 @@ function TransactionScreen() {
         balancePayload.expensesMonth = balanceDetails.expensesMonth - change;
       }
     }
+    //checks if they are adding in
     else {
       if (change < 0) {
         balancePayload.expensesMonth = balanceDetails.expensesMonth - change;
@@ -81,9 +91,12 @@ function TransactionScreen() {
       }
     }
 
+    //constants
     const balanceDocRef = doc(db, "balances", balanceDetails.id);
     await setDoc(balanceDocRef, balancePayload, { merge: true });
 
+    //Checks if it is in the category
+    //adds to the budget page
     if (keys.includes(category)) {
       let budgetPayload = {
         categories: {},
@@ -99,7 +112,9 @@ function TransactionScreen() {
     }
   }
 
+  //React
   React.useEffect(() => {
+    //fetches the data
     const fetchData = async () => {
       if (transactionDetailOpen == true) {
         const transactionData = await fetchSingleRecordId("transactions", transactionId)
@@ -110,12 +125,12 @@ function TransactionScreen() {
         setAdditionalNotes(transactionData.additionalNotes)
       }
     }
-
+    //Gets all the values
     fetchData()
     getBalance()
     getBudget()
   }, [transactionDetailOpen])
-
+  //Cancels any changes unwanted
   function cancel() {
     setAddOpen(false)
     setTransactionDetailOpen(false)
@@ -125,8 +140,9 @@ function TransactionScreen() {
     setAmount("")
     setAdditionalNotes("")
   }
-
+  //Submits any changes
   async function submit() {
+    //collets constants
     const collectionRef = collection(db, "transactions");
     const uid = sessionStorage.getItem("uid")
 
@@ -139,7 +155,7 @@ function TransactionScreen() {
       additionalNotes: additionalNotes,
       uid: uid,
     }
-
+    //updates the changes after gotten all the data
     await addDoc(collectionRef, payload)
     updateBalanceandBudget(category, parseFloat(amount), 0, false)
 
@@ -147,7 +163,7 @@ function TransactionScreen() {
     setTrigger(!trigger)
   }
 
-
+  //Makes sure the delet is necessary
   function completeDelete() {
     const docRef = doc(db, "transactions", transactionId)
 
@@ -156,7 +172,7 @@ function TransactionScreen() {
     cancel()
     setTrigger(!trigger)
   }
-
+  //Updates all the values
   async function update() {
     const docRef = doc(db, "transactions", transactionId);
     const uid = sessionStorage.getItem("uid")

@@ -69,7 +69,7 @@ body {
 .account-actions {
   display: flex;
   justify-content: space-between;
-  margin-top: 60px;
+  margin-top: 45px;
 }
 
 .back-button {
@@ -98,4 +98,10 @@ body {
   padding-left: 15px;
   border-radius: 15px;
   margin-bottom: 25px;
+}
+
+
+.settings-info {
+  padding: 10px;
+
 }
