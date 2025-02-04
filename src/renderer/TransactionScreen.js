@@ -21,6 +21,8 @@ function TransactionScreen() {
   const [trigger, setTrigger] = React.useState(false);
   const [transactionConfirmOpen, setTransactionConfirmOpen] = React.useState(false);
 
+  const [confirmRemoveOpen, setConfirmRemoveOpen] = React.useState(false);
+
   const navigate = useNavigate()
 
   React.useEffect(() => {
@@ -232,8 +234,20 @@ function TransactionScreen() {
           <div>Additional Notes</div>
           <input className={styles["transaction-input"]} style={{borderColor: '#e6e6e6'}} onChange={(e) => {setAdditionalNotes(e.target.value)}} value={additionalNotes} />
           <div className={styles["button-container"]}>
-            <button onClick={update} className={styles["submit-button"]}>Update</button>
-            <button onClick={() => {setTransactionDetailOpen(true); setTransactionId(item.id);}}><IoOpenOutline /></button>
+            <button onClick={update} className={`${styles["submit-button"]} ${confirmRemoveOpen ? styles["disabled"] : styles["enabled"]}`} disabled={confirmRemoveOpen}>Update</button>
+            <button onClick={() => {setConfirmRemoveOpen(true);}} className={`${styles["delete-button"]} ${confirmRemoveOpen ? styles["disabled"] : styles["enabled"]}`} disabled={confirmRemoveOpen}>Delete</button>
+          </div>
+        </div>
+      }
+
+      {
+        confirmRemoveOpen &&
+        <div className={styles["remove-box"]}>
+          <h1 className={styles["warning"]}>Warning!</h1>
+          <p className={styles["confirmation-message"]}> Are you sure you want to delete {name} from {date}?</p>
+          <div className={styles["button-container"]}>
+            <button className={styles["cancel-button"]} onClick={()=>{setConfirmRemoveOpen(false)}}>Cancel</button>
+            <button className={styles["delete-button"]}>Delete</button>
           </div>
         </div>
       }
