@@ -132,3 +132,39 @@ body {
   gap: 12px;
   box-shadow: 0px 5px 17px -7px rgba(0, 0, 0, 0.75);
 }
+
+.categories-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 5px;
+}
+
+.category-block {
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: center;
+  background: linear-gradient(to right, #003ae691 0%, #003996d0 100%);
+  color: white;
+  padding: 10px;
+}
+
+.category-title {
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.category-field {
+  font-weight: 400;
+}
+
+.category-overall {
+  padding: 10px;
+  font-size: 18px;
+}
+
+.category-overall-label {
+  font-weight: 600;
+}

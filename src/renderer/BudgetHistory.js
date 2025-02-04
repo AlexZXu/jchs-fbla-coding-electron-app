@@ -5,20 +5,30 @@ import fetchRecords from '../../lib/fetchRecords';
 import dayjs from 'dayjs';
 import { IoClose, IoOpenOutline } from 'react-icons/io5';
 
+
 function BudgetHistory() {
   const [budgetHistory, setBudgetHistory] = React.useState([])
   const [detailsOpen, setDetailsOpen] = React.useState(false)
   const [detailsTarget, setDetailsTarget] = React.useState(0)
 
+  const [month, setMonth] = React.useState("")
+  const [categories, setCategories] = React.useState({})
+  const [goal, setGoal] = React.useState(0)
+  const [spent, setSpent] = React.useState(0)
+
   async function fetchData() {
     const budgetData = await fetchRecords("generalBudgets", "month", "desc");
 
-    console.log(budgetData)
     setBudgetHistory(budgetData)
   }
 
-  async function fetchDetails() {
+  function setDetails() {
+    const record = budgetHistory[detailsTarget]
 
+    setMonth(record.month)
+    setCategories(record.categories)
+    setGoal(record.goal)
+    setSpent(record.totalSpent)
   }
 
   React.useEffect(() => {
@@ -55,7 +65,7 @@ function BudgetHistory() {
           </div>
           <div style={{display: "flex", flexDirection: "column", gap: '6px'}}>
             {
-                budgetHistory.map(item => {
+                budgetHistory.map((item, index) => {
                   return (
                     <div className={styles["budget-record"]} key={item.id}>
                       <div>
@@ -67,11 +77,11 @@ function BudgetHistory() {
                       <div>
                         ${item.goal.toFixed(2)}
                       </div>
-                      <div style={{color: (item.totalSpent / item.goal * 100) < 100 ? '#d6f5d0' : '#f7c6c6'}}>
+                      <div style={{color: (item.totalSpent / item.goal * 100) < 100 ? '#b3f5a6' : '#f7c6c6'}}>
                         {(item.totalSpent / item.goal * 100).toFixed(1)}%
                       </div>
                       <div>
-                        <button onClick={() => {setDetailsOpen(true); setDetailsTarget(item.id);}}><IoOpenOutline /></button>
+                        <button onClick={() => {setDetailsOpen(true); setDetailsTarget(index); setDetails()}}><IoOpenOutline /></button>
                       </div>
                     </div>
                   )
@@ -86,7 +96,49 @@ function BudgetHistory() {
             <div style={{display: 'flex', justifyContent: 'flex-end'}}>
               <button onClick={() => {setDetailsOpen(false);}}><IoClose /></button>
             </div>
-            {detailsTarget}
+            <div className='text-xl text-center font-semibold m-[-10px] text-slate-900'>
+             Budget for {dayjs(month + "-01").format('M/YYYY')}
+            </div>
+
+            <div className='text-lg text-center font-semibold text-blue-800'>
+              Categories
+            </div>
+            <div className={styles["categories-container"]}>
+              <div className={styles["category-block"]}>
+                <div className={styles["category-title"]}>Entertainment</div>
+                <div className={styles["category-field"]}>Spent: ${(categories.entertainment.spent).toFixed(2)}</div>
+                <div className={styles["category-field"]}>Budget: ${(categories.entertainment.goal).toFixed(2)}</div>
+              </div>
+              <div className={styles["category-block"]}>
+                <div className={styles["category-title"]}>Essentials</div>
+                <div className={styles["category-field"]}>Spent: ${(categories.essentials.spent).toFixed(2)}</div>
+                <div className={styles["category-field"]}>Budget: ${(categories.essentials.goal).toFixed(2)}</div>
+              </div>
+              <div className={styles["category-block"]}>
+                <div className={styles["category-title"]}>Dining</div>
+                <div className={styles["category-field"]}>Spent: ${(categories.dining.spent).toFixed(2)}</div>
+                <div className={styles["category-field"]}>Budget: ${(categories.dining.goal).toFixed(2)}</div>
+              </div>
+              <div className={styles["category-block"]}>
+                <div className={styles["category-title"]}>Gas</div>
+                <div className={styles["category-field"]}>Spent: ${(categories.gas.spent).toFixed(2)}</div>
+                <div className={styles["category-field"]}>Budget: ${(categories.gas.goal).toFixed(2)}</div>
+              </div>
+              <div className={styles["category-block"]}>
+                <div className={styles["category-title"]}>Other</div>
+                <div className={styles["category-field"]}>Spent: ${(categories.other.spent).toFixed(2)}</div>
+                <div className={styles["category-field"]}>Budget: ${(categories.other.goal).toFixed(2)}</div>
+              </div>
+              <div className={styles["category-block"]}>
+                <div className={styles["category-title"]}>Savings</div>
+                <div className={styles["category-field"]}>Saved: ${(categories.savings.spent).toFixed(2)}</div>
+                <div className={styles["category-field"]}>Budget: ${(categories.savings.goal).toFixed(2)}</div>
+              </div>
+            </div>
+            <div className={styles["category-overall"]}>
+              <div><span className={styles["category-overall-label"]}>Total Spent</span>: ${(spent).toFixed(2)}</div>
+              <div><span className={styles["category-overall-label"]}>Total Budgeted</span>: ${(goal).toFixed(2)}</div>
+            </div>
           </div>
         }
 
