@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import fetchSingleRecord from '../../lib/fetchSingleRecord';
 import { doc, setDoc } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
+import getProgressBarColor from '../../lib/color';
 
 //Function for the budget section
 function Budget() {
@@ -61,16 +62,6 @@ function Budget() {
 
     await setDoc(docRef, payload, { merge: true })
     getBudget()
-  }
-
-  function getProgressBarColor(percentage) {
-    if (percentage <= 30) {
-      return '#00d22a';
-    } else if (percentage <= 80) {
-      return '#fbc02d';
-    } else {
-      return '#e65100';
-    }
   }
 
   //Gets the budget and balances

@@ -11,13 +11,8 @@ import { IoClose } from "react-icons/io5";
 import { db } from '../../lib/firebase';
 import { collection, addDoc, Timestamp, updateDoc, setDoc, doc } from 'firebase/firestore';
 import { MdEdit } from "react-icons/md";
+import getProgressBarColor from '../../lib/color';
 
-import {
-  OverlayScrollbars,
-  ScrollbarsHidingPlugin,
-  SizeObserverPlugin,
-  ClickScrollPlugin
-} from 'overlayscrollbars';
 
 //Function for the home page
 function App() {
@@ -215,7 +210,7 @@ function App() {
           <p className={styles["overview-subtitle"]} style={{marginTop: '1px'}}>Total Budget Spent</p>
           <p style={{fontSize: '20px', fontWeight: '600', marginTop: '-8px'}}>${budgetSpent.toFixed(2)} / ${budgetGoal.toFixed(2)}</p>
           <div className={styles["progress-bar"]}>
-              <div className={styles["progress"]} style={{ width: `${budgetSpent / budgetGoal * 100}%` , background: '#FFA500' }}></div>
+              <div className={styles["progress"]} style={{ width: `${budgetSpent / budgetGoal * 100}%` , background: getProgressBarColor(budgetSpent / budgetGoal * 100) }}></div>
             </div>
           <p className={styles["overview-subtitle"]}>Budget Remaining</p>
           <p style={{fontSize: '20px', fontWeight: '600', marginTop: '-8px'}}>${budgetRemaining.toFixed(2)}</p>
@@ -232,7 +227,7 @@ function App() {
             }
           </div>
           <div className={styles["progress-bar"]}>
-            <div className={styles["progress"]} style={{ width: `${savings / savingsGoal * 100}%`, background: '#09e33c' }}></div>
+            <div className={styles["progress"]} style={{ width: `${savings / savingsGoal * 100}%` }}></div>
           </div>
           {
             editingGoal ?
