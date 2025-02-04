@@ -1,3 +1,4 @@
+//Imports
 import React from 'react';
 import styles from './styles/Budget.module.css';
 import { Link } from 'react-router-dom';
@@ -5,6 +6,7 @@ import fetchSingleRecord from '../../lib/fetchSingleRecord';
 import { doc, setDoc } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 
+//Function to 
 function Budget() {
   const [focus, setFocus] = React.useState(0)
   const [focusAmount, setFocusAmount] = React.useState(0)

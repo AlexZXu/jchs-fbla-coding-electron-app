@@ -1,3 +1,4 @@
+//Imports
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { MdEdit } from "react-icons/md";
@@ -8,7 +9,9 @@ import fetchSingleRecord from '../../lib/fetchSingleRecord';
 import { db } from '../../lib/firebase';
 import fetchRecords from '../../lib/fetchRecords';
 
+//Function for balance page
 function Balance() {
+  //Sets the balance details all to 0
   const [balanceDetails, setBalanceDetails] = React.useState({
     currentBalance: 0,
     incomeMonth: 0,
@@ -16,16 +19,19 @@ function Balance() {
     expensesMonth: 0,
     expensesYear: 0,
   });
+  //Constants to for checking if it is editing or not
   const [balanceEditMode, setBalanceEditMode] = React.useState(false);
+  //Constants to set the values in a list of the graphs
   const [balanceHistory, setBalanceHistory] = React.useState([]);
   const [savingsHistory, setSavingsHistory] = React.useState([]);
-
+  //Constants to set the values of the data
   const [currBalance, setCurrBalance] = React.useState(0);
   const [incomeMonth, setIncomeMonth] = React.useState(0);
   const [expenseMonth, setExpenseMonth] = React.useState(0);
   const [incomeYear, setIncomeYear] = React.useState(0);
   const [expenseYear, setExpenseYear] = React.useState(0);
 
+  //Function to edit the balance details
   function editBalanceStart() {
     setBalanceEditMode(true);
     setCurrBalance(balanceDetails.currentBalance);
@@ -34,26 +40,27 @@ function Balance() {
     setExpenseMonth(balanceDetails.expensesMonth);
     setExpenseYear(balanceDetails.expensesYear);
   }
-
+  //Function to get the balance and fetch the data
   async function getBalance() {
     const balanceData = await fetchSingleRecord('balances');
 
     setBalanceDetails(balanceData);
   }
-
+  //Function to get the history data for the graph
   async function getBalanceHistory() {
     const balanceHistoryData = await fetchRecords('balances', 'month', 'asc');
     console.log(balanceHistoryData);
     setBalanceHistory(balanceHistoryData);
   }
-
+  //Function to get the savings history for the graph
   async function getSavingsHistory() {
     const savingsHistoryData = await fetchRecords('generalBudgets', 'month', 'asc');
     console.log(savingsHistoryData);
     setSavingsHistory(savingsHistoryData);
   }
-
+  //Function to save any changes made to the balance details
   async function save() {
+    //Set the constants
     const balance_id = balanceDetails.id;
     const docRef = doc(db, 'balances', balance_id);
     const uid = sessionStorage.getItem('uid');
@@ -66,19 +73,21 @@ function Balance() {
       expensesYear: parseFloat(expenseYear),
       uid,
     };
-
+    //waits for the merge
     await setDoc(docRef, payload, { merge: true });
 
+    //Sets the balance data and lcoks it
     getBalance();
     setBalanceEditMode(false);
   }
-
+  //Calls the data with React to use
   React.useEffect(() => {
     getBalance();
     getBalanceHistory();
     getSavingsHistory()
   }, []);
 
+  //HTML
   return (
     <div className={styles['dashboard-container']}>
       <nav className={styles.navbar}>
