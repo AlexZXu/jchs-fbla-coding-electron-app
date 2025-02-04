@@ -203,6 +203,18 @@ body {
 
 }
 
+
+.sum-button {
+  background: #ed7530;
+  padding-left: 20px;
+  color: white;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 5px;
+  padding-right: 20px;
+  font-weight: 500;
+}
+
 .submit-button {
   background: #4CAF50;
   padding-left: 20px;
@@ -217,5 +229,5 @@ body {
 .warning-message {
   font-weight: 700;
   color: red;
-  margin-left: -40px;
+  margin-left: -20px;
 }

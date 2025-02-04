@@ -172,7 +172,7 @@ function TransactionScreen() {
     cancel()
     setTrigger(!trigger)
   }
-  //Updates all the values 
+  //Updates all the values
   async function update() {
     const docRef = doc(db, "transactions", transactionId);
     const uid = sessionStorage.getItem("uid")
@@ -209,7 +209,14 @@ function TransactionScreen() {
           <button className={styles["add-button"]} onClick={() => {setAddOpen(true)}}>Add Transactions</button>
         </div>
       </div>
-
+      <datalist id="categories">
+        <option value="Entertainment" />
+        <option value="Dining" />
+        <option value="Essentials" />
+        <option value="Gas" />
+        <option value="Other" />
+        <option value="Savings" />
+      </datalist>
       {
         addOpen &&
         <div className={styles["add-transaction-container"]}>
@@ -225,14 +232,6 @@ function TransactionScreen() {
           <div className={styles["transaction-field"]}>
             <div>Category</div>
             <input className={styles["transaction-input"]} onChange={(e) => {setCategory(e.target.value)}} value={category} list="categories"/>
-            <datalist id="categories">
-              <option value="Entertainment" />
-              <option value="Dining" />
-              <option value="Essentials" />
-              <option value="Gas" />
-              <option value="Other" />
-              <option value="Savings" />
-            </datalist>
           </div>
           <div className={styles["transaction-field"]}>
             <div>Amount</div>
@@ -263,7 +262,7 @@ function TransactionScreen() {
           <div>Name</div>
           <input className={styles["transaction-input"]} style={{borderColor: '#e6e6e6'}} onChange={(e) => {setName(e.target.value)}} value={name} />
           <div>Category</div>
-          <input className={styles["transaction-input"]} style={{borderColor: '#e6e6e6'}} onChange={(e) => {setCategory(e.target.value)}} value={category} />
+          <input className={styles["transaction-input"]} style={{borderColor: '#e6e6e6'}} onChange={(e) => {setCategory(e.target.value)}} value={category} list="categories" />
           <div>Amount</div>
           <input className={styles["transaction-input"]} style={{borderColor: '#e6e6e6'}} onChange={(e) => {setAmount(e.target.value)}} value={amount} type="number" />
           <div>Additional Notes</div>

@@ -72,10 +72,33 @@ function BudgetDetails() {
     }
     else if (hasNegative == false) {
       setNegativeWarn(false);
+
+    //   //shift
+    //   if (goal > 0) {
+    //     const valueForOther = goal - previousGoalData[0].goal - previousGoalData[1].goal - previousGoalData[2].goal - previousGoalData[3].goal - previousGoalData[4].goal
+    //     if (valueForOther >= 0) {
+    //       previousGoalData[5].goal = valueForOther
+    //     }
+    //     else {
+    //       setGoal((prevGoal) => prevGoal - valueForOther)
+    //     }
+    //   }
+    // }
     }
-    //SEts the goal data if it passes the checks
+
+    //Sets the goal data if it passes the checks
     setGoalData(previousGoalData)
   }
+
+  function matchSum() {
+    let sum = 0
+    for (const row of goalData) {
+      sum += row.goal
+    }
+
+    setGoal(sum)
+  }
+
   //Sets the constants of the categories
   const [keys, setKeys] = React.useState(["Entertainment", "Essentials", "Dining", "Gas", "Other", "Savings"])
 
@@ -99,7 +122,7 @@ function BudgetDetails() {
   //Function to cancel editing
   function cancel() {
     setEditOpen(false)
-
+    setNegativeWarn(false)
     getBudget()
   }
   //Updates the values
@@ -208,6 +231,7 @@ function BudgetDetails() {
             editOpen ?
             <>
              <button className={styles["cancel-button"]} onClick={() => {cancel()}}>Cancel</button>
+             <button className={styles["sum-button"]} onClick={() => {matchSum()}}>Set Total to Sum</button>
              <button className={styles["submit-button"]} style={{background: negativeWarn ? "#808080" : "#4CAF50"}} onClick={() => {if (negativeWarn == false) {submit()}}}>Submit</button>
             </>
             :
