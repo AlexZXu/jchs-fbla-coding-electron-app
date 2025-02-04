@@ -1,29 +1,22 @@
-/* eslint-disable */
-// src/Login.js
+//Imports
 import React from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../lib/firebase';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './styles/Auth.module.css'
 
-/*
-const docRef = doc(db, "transactions", "1");
-    const docSnap = await getDoc(docRef);
-
-    const data = await docSnap.data()
-
-    setFromUser(data?.FromUser)
-    setToUser(data?.ToUser)
-    */
-
+//Function to log in
 function Login() {
+  //Sets the constants
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [errorMessage, setErrorMessage] = React.useState("")
   const navigate = useNavigate()
 
+  //Function to log in
   async function login(e) {
     e.preventDefault();
+    //Makes sign in
     signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed in
@@ -33,6 +26,7 @@ function Login() {
 
       navigate("/home");
     })
+    //Catches for any errors
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;

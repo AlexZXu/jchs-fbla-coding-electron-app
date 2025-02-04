@@ -15,9 +15,11 @@ function AccountSettings() {
       <div className={styles["settings-content"]}>
         <div className={styles["account-box"]}>
           <h2 className={styles["section-title"]}>Account</h2>
-          <p><strong>Username:</strong> RichBoi64</p>
-          <p><strong>First Name:</strong> Warren</p>
-          <p><strong>Last Name:</strong> Buffet</p>
+          <div className={styles["settings-info"]}>
+            <p><strong>Username:</strong> RichBoi64</p>
+            <p><strong>First Name:</strong> Warren</p>
+            <p><strong>Last Name:</strong> Buffet</p>
+          </div>
           <div className={styles["account-actions"]}>
             <Link className={styles["back-button"]} to="/settings">Back</Link>
             <button className={styles["signout-button"]}>Sign out</button>

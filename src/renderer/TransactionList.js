@@ -1,5 +1,4 @@
-/* eslint-disable */
-
+//Imports
 import fetchRecords from '../../lib/fetchRecords';
 import React from 'react'
 import styles from './styles/Transactions.module.css'
@@ -9,11 +8,15 @@ import dayjs from 'dayjs'
 import { IoOpenOutline } from "react-icons/io5";
 import fetchRecordsFilter from '../../lib/fetchRecordsFilter';
 
+//Function of all the transactions
 function TransactionList({trigger, height, setTransactionDetailOpen, setTransactionId, category}) {
+  //Sets the constants
   const [transactionArray, setTransactionArray] = React.useState([]);
 
+  //Fetches the data from the database
   const fetchData = async () => {
     let transactionData;
+    //Check if ti is a category
     if (!category) {
       transactionData = await fetchRecords("transactions", "date", "desc");
     }
@@ -21,12 +24,15 @@ function TransactionList({trigger, height, setTransactionDetailOpen, setTransact
       console.log("CATEGORY: " + category)
       transactionData = await fetchRecordsFilter("transactions", "2025-02", category)
     }
+    //Logs it on console and sets the array of transactions
     console.log(transactionData)
 
     setTransactionArray(transactionData)
   }
 
+  //React
   React.useEffect(() => {
+    //Fetches the data
     fetchData()
   }, [trigger])
 
