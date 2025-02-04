@@ -19,11 +19,8 @@ function TransactionScreen() {
   const [transactionDetailOpen, setTransactionDetailOpen] = React.useState(false);
   const [transactionId, setTransactionId] = React.useState(0);
   const [trigger, setTrigger] = React.useState(false);
-  const [transactionConfirmOpen, setTransactionConfirmOpen] = React.useState(false);
 
   const [confirmRemoveOpen, setConfirmRemoveOpen] = React.useState(false);
-
-  const navigate = useNavigate()
 
   React.useEffect(() => {
     const day = dayjs(new Date()).format("YYYY-MM-DD")

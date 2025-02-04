@@ -6,7 +6,7 @@ import fetchSingleRecord from '../../lib/fetchSingleRecord';
 import { doc, setDoc } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 
-//Function to 
+//Function to
 function Budget() {
   const [focus, setFocus] = React.useState(0)
   const [focusAmount, setFocusAmount] = React.useState(0)
@@ -61,6 +61,15 @@ function Budget() {
     getBudget()
   }
 
+  function getProgressBarColor(percentage) {
+    if (percentage <= 30) {
+      return '#00d22a';
+    } else if (percentage <= 80) {
+      return '#fbc02d';
+    } else {
+      return '#e65100';
+    }
+  }
 
   React.useEffect(() => {
     getBudget()
@@ -104,7 +113,7 @@ function Budget() {
                 <div
                   className={styles['progress']}
                   style={{
-                    width: `${(budgetDetails.totalSpent / budgetDetails.goal) * 100}%`, background: '#00d22a',
+                    width: `${(budgetDetails.totalSpent / budgetDetails.goal) * 100}%`, background: getProgressBarColor((budgetDetails.totalSpent / budgetDetails.goal) * 100),
                   }}
                 ></div>
               </div>
@@ -118,7 +127,7 @@ function Budget() {
               <div className={styles['progress-bar']}>
                 <div
                   className={styles['progress']}
-                  style={{ width: `${(budgetDetails.categories.savings.spent / budgetDetails.categories.savings.goal) * 100}%` }}
+                  style={{ width: `${(budgetDetails.categories.savings.spent / budgetDetails.categories.savings.goal) * 100}%`, background: getProgressBarColor((budgetDetails.categories.savings.spent / budgetDetails.categories.savings.goal) * 100) }}
                 ></div>
               </div>
             </div>
@@ -131,7 +140,7 @@ function Budget() {
               <div className={styles['progress-bar']}>
                 <div
                   className={styles['progress']}
-                  style={{ width: `${(budgetDetails.categories.dining.spent / budgetDetails.categories.dining.goal) * 100}%` }}
+                  style={{ width: `${(budgetDetails.categories.dining.spent / budgetDetails.categories.dining.goal) * 100}%`, background: getProgressBarColor((budgetDetails.categories.dining.spent / budgetDetails.categories.dining.goal) * 100) }}
                 ></div>
               </div>
             </div>
