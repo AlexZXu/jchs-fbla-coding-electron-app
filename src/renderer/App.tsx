@@ -13,6 +13,7 @@ import Budget from './Budget';
 import BudgetDetails from './BudgetDetails';
 import Balance from './Balance';
 import BudgetTransactions from './BudgetTransactions'
+import BudgetHistory from './BudgetHistory'
 
 export default function App() {
   return (
@@ -25,6 +26,7 @@ export default function App() {
         <Route path="/budget" element={<Budget />} />
         <Route path="/budget/details" element={<BudgetDetails />} />
         <Route path="/budget/transactions" element={<BudgetTransactions />} />
+        <Route path="/budget/history" element={<BudgetHistory />} />
         <Route path="/transactions" element={<TransactionScreen />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/settings/account" element={<AccountSettings />} />

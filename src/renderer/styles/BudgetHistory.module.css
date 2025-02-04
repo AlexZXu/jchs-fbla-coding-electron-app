@@ -1,0 +1,134 @@
+body {
+  background-color: #007bff;
+  font-family: "Inter";
+  margin: 0;
+  padding: 0;
+}
+
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  background-color: #0056b3;
+  padding: 10px 0;
+}
+
+.nav-button {
+  background: none;
+  border: none;
+  color: #fff;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.nav-button.active {
+  background-color: #fff;
+  color: #0056b3;
+  border-radius: 5px;
+  position: relative;
+}
+
+.nav-button.active::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: lightblue;
+  z-index: -1;
+  border-radius: 5px;
+}
+
+.history-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.history-box {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: min(80%, 1320px);
+  display: flex;
+  flex-direction: column;
+}
+
+
+.section-title {
+  border: solid;
+  background: linear-gradient(to right, #006fe6d0 0%, #004696d0 100%);
+  color: white;
+  font-weight: 600;
+  font-size: 20px;
+  padding: 8px;
+  padding-left: 15px;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 15px;
+}
+
+.budget-record {
+  background: linear-gradient(to right, #006fe6d0 0%, #004696d0 100%);
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 0.1fr;
+  padding: 12px;
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 8px;
+}
+
+
+.back-button {
+  font-size: 16px;
+  padding: 5px;
+  padding-left: 10px;
+  color: black;
+  padding-right: 10px;
+  background: rgb(218, 215, 215);
+  border-radius: 5px;
+  margin-right: 4px;
+}
+
+.history-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1.04fr 0.1fr;
+  margin-bottom: 0px;
+  font-weight: 600;
+  border-bottom: 1px solid rgb(226, 222, 222);
+  font-size: 15px;
+  padding-bottom: 4px;
+  margin-bottom: 4px;
+}
+
+.close-details {
+
+}
+
+.budget-detail-container {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 25px;
+  border-radius: 12px;
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0px 5px 17px -7px rgba(0, 0, 0, 0.75);
+}

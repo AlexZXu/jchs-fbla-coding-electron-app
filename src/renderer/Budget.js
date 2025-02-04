@@ -203,9 +203,9 @@ function Budget() {
               {(pastBudgetDetails.totalSpent / pastIncomeMonth * 100).toFixed(2)}% of income that month
             </p>
             <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <button className={styles['check-history-button']}>
+              <Link to="/budget/history" className={styles['check-history-button']}>
                 Check History
-              </button>
+              </Link>
             </div>
           </div>
         </div>

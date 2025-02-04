@@ -150,6 +150,7 @@ body {
   border: none;
   padding: 10px;
   border-radius: 8px;
+  text-align: center;
   margin-top: 20px;
   display: inline-block;
   cursor: pointer;

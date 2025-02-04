@@ -7,7 +7,7 @@ import { db } from '../../lib/firebase';
 import { collection, addDoc, Timestamp, updateDoc, setDoc, doc } from 'firebase/firestore';
 import twoDecimal from "../../lib/TwoDecimal";
 import fetchSingleRecord from "../../lib/fetchSingleRecord";
-const BudgetDetails = () => {
+function BudgetDetails() {
   const [budgetData, setBudgetData] = React.useState({
     categories: {
       entertainment: {
@@ -186,7 +186,7 @@ const BudgetDetails = () => {
             }
           </div>
           <div className={styles["progress-bar"]}>
-            <div className={styles["progress"]} style={{ width: '45.7%' }}></div>
+            <div className={styles["progress"]} style={{ width: (budgetData.totalSpent / budgetData.goal) * 100 + '%' }}></div>
           </div>
         </div>
 
