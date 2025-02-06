@@ -4,7 +4,7 @@ import styles from './styles/Transactions.module.css'
 import { Link, useNavigate } from 'react-router-dom';
 import TransactionList from './TransactionList';
 import { db } from '../../lib/firebase';
-import { collection, addDoc, Timestamp, updateDoc, setDoc, doc, deleteDoc } from 'firebase/firestore';
+import { collection, addDoc, Timestamp, updateDoc, setDoc, getDoc, doc, deleteDoc } from 'firebase/firestore';
 import dayjs from 'dayjs';
 import { useHistory } from 'react-router'
 import fetchSingleRecordId from '../../lib/fetchSingleRecordId';
@@ -38,6 +38,7 @@ function TransactionScreen() {
   const [name, setName] = React.useState("")
   const [category, setCategory] = React.useState("")
   const [amount, setAmount] = React.useState("")
+  const [oldAmount, setOldAmount] = React.useState();
   const [additionalNotes, setAdditionalNotes] = React.useState("")
 
   const [balanceDetails, setBalanceDetails] = React.useState();
@@ -121,6 +122,7 @@ function TransactionScreen() {
         setName(transactionData.name)
         setCategory(transactionData.category)
         setAmount(transactionData.amount)
+        setOldAmount(transactionData.amount)
         setDate(transactionData.date)
         setAdditionalNotes(transactionData.additionalNotes)
       }
@@ -188,6 +190,7 @@ function TransactionScreen() {
     }
 
     await setDoc(docRef, payload)
+    updateBalanceandBudget(category, parseFloat(amount), oldAmount, false)
     setTrigger(!trigger)
     cancel()
   }

@@ -140,6 +140,7 @@ function App() {
 
     await setDoc(docRef, payload)
 
+
     setTrigger(!trigger)
 
     cancel()
