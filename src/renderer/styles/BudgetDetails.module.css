@@ -226,6 +226,16 @@ body {
   font-weight: 500;
 }
 
+.submit-button.enabled {
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.submit-button.disabled {
+  background: #808080;
+  cursor: not-allowed;
+}
+
 .warning-message {
   font-weight: 700;
   color: red;

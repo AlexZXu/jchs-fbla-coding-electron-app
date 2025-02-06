@@ -232,7 +232,7 @@ function BudgetDetails() {
             <>
              <button className={styles["cancel-button"]} onClick={() => {cancel()}}>Cancel</button>
              <button className={styles["sum-button"]} onClick={() => {matchSum()}}>Set Total to Sum</button>
-             <button className={styles["submit-button"]} style={{background: negativeWarn ? "#808080" : "#4CAF50"}} onClick={() => {if (negativeWarn == false) {submit()}}}>Submit</button>
+             <button className={`${styles["submit-button"]} ${negativeWarn ? styles["disabled"] : styles["enabled"]}`} disabled={negativeWarn} onClick={() => {if (negativeWarn == false) {submit()}}}>Submit</button>
             </>
             :
             <button className={styles["edit-button"]} onClick={() => {setEditOpen(true)}}>Edit Budgets</button>

@@ -29,7 +29,7 @@ function Budget() {
       }
     }
   })
-  //Constant setting all the past budgets initizaliting to 0
+  //Constant setting all the past budgets initializing to 0
   const [pastBudgetDetails, setPastBudgetDetails] = React.useState({
     goal: 0,
     totalSpent: 0
@@ -54,6 +54,8 @@ function Budget() {
   }
   //calculates the budget amount
   async function setAmountAsBudget() {
+    setFocus(0)
+    setFocusAmount(0)
     const newBudgetAmount = incomeMonth * focusAmount;
     const docRef = doc(db, "generalBudgets", budgetId);
     const payload = {
@@ -61,13 +63,16 @@ function Budget() {
     }
 
     await setDoc(docRef, payload, { merge: true })
-    getBudget()
+    await getBudget()
   }
 
   //Gets the budget and balances
   React.useEffect(() => {
-    getBudget()
-    getBalance()
+    const fetchData = async() => {
+      await getBudget()
+      await getBalance()
+    }
+    fetchData().then(() => {})
   }, [])
 
   return (
