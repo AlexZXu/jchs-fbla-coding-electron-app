@@ -1,4 +1,4 @@
-# Finscholar
+# FinScholar
 
 ___
 
