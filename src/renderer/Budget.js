@@ -26,10 +26,13 @@ function Budget() {
       dining: {
         goal: 0,
         spent: 0
+      },
+      other: {
+        goal: 0
       }
     }
   })
-  //Constant setting all the past budgets initizaliting to 0
+  //Constant setting all the past budgets initializing to 0
   const [pastBudgetDetails, setPastBudgetDetails] = React.useState({
     goal: 0,
     totalSpent: 0
@@ -54,20 +57,32 @@ function Budget() {
   }
   //calculates the budget amount
   async function setAmountAsBudget() {
+    console.log(budgetDetails)
+    console.log(budgetDetails.categories.other.goal)
+    setFocus(0)
+    setFocusAmount(0)
     const newBudgetAmount = incomeMonth * focusAmount;
     const docRef = doc(db, "generalBudgets", budgetId);
     const payload = {
-      goal: newBudgetAmount
+      goal: newBudgetAmount,
+      categories: {
+        other: {
+          goal: newBudgetAmount - budgetDetails.goal + budgetDetails.categories.other.goal
+        }
+      }
     }
 
     await setDoc(docRef, payload, { merge: true })
-    getBudget()
+    await getBudget()
   }
 
   //Gets the budget and balances
   React.useEffect(() => {
-    getBudget()
-    getBalance()
+    const fetchData = async() => {
+      await getBudget()
+      await getBalance()
+    }
+    fetchData().then(() => {})
   }, [])
 
   return (
