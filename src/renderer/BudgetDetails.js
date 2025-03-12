@@ -39,6 +39,8 @@ function BudgetDetails() {
     goal: 0,
     totalSpent: 0
   })
+  //Check is it is editable or not
+  const [editOpen, setEditOpen] = React.useState(false)
   //Sets the budget id
   const [budgetId, setBudgetId] = React.useState(0)
   //Creates the categories preused
@@ -59,7 +61,7 @@ function BudgetDetails() {
     let hasNegative = false
     previousGoalData.forEach((el, id) => {
       //checks if the category matches
-      if (el.category.toLowerCase() == category.toLowerCase()) {
+      if (el.category.toLowerCase() === category.toLowerCase()) {
         if (Number(value) < 0) {
           hasNegative = true;
         }
@@ -67,10 +69,9 @@ function BudgetDetails() {
       }
     })
     //If its negative set a warning
-    if (hasNegative == true) {
+    if (hasNegative) {
       setNegativeWarn(true);
-    }
-    else if (hasNegative == false) {
+    } else {
       setNegativeWarn(false);
 
     //   //shift
@@ -106,7 +107,7 @@ function BudgetDetails() {
 
   //Gets the budget
   async function getBudget() {
-    //fetches the recrods
+    //fetches the records
     const budgetData = await fetchSingleRecord("generalBudgets");
     //sets all the items of the goal
     for (const item of goalData) {
@@ -131,7 +132,7 @@ function BudgetDetails() {
     const docRef = doc(db, "generalBudgets", budgetId);
     const uid = sessionStorage.getItem("uid")
 
-    //Makes  alist of the categories and adding the goal data
+    //Makes a list of the categories and adding the goal data
     const payload = {
       categories: {
         entertainment: {
@@ -162,6 +163,7 @@ function BudgetDetails() {
   //Function to submit the changes
   async function submit() {
     //makes sure update and get the budget before locking changes
+    matchSum();
     await update()
 
     await getBudget()
@@ -171,8 +173,6 @@ function BudgetDetails() {
   React.useState(() => {
     getBudget()
   }, [])
-  //Check is it is editable or not
-  const [editOpen, setEditOpen] = React.useState(false)
 
   return (
     <div className={styles["dashboard-container"]}>
@@ -194,13 +194,13 @@ function BudgetDetails() {
                 <span className={styles.amount}>${twoDecimal(budgetData.categories[item.toLowerCase()].spent)} /</span>
                 {
                   editOpen ?
-                  <input className={styles["budget-input"]} value={goalData.find(i => i.category.toUpperCase() == item.toUpperCase()).goal} onChange={(e) => {modifyGoalData(item, e.target.value)}} type="number">
+                  <input className={styles["budget-input"]} value={goalData.find(i => i.category.toUpperCase() === item.toUpperCase()).goal} onChange={(e) => {modifyGoalData(item, e.target.value)}} type="number">
                   </input> :
                   <span className={styles["budget-goal"]}>
                     {twoDecimal(budgetData.categories[item.toLowerCase()].goal)}
                   </span>
                 }
-                <span className={styles.percentage}>{((goalData.find(i => i.category.toUpperCase() == item.toUpperCase()).goal / budgetData.goal) * 100).toFixed(1)}%</span>
+                <span className={styles.percentage}>{((goalData.find(i => i.category.toUpperCase() === item.toUpperCase()).goal / budgetData.goal) * 100).toFixed(1)}%</span>
               </div>
               <Link className={styles["see-more"]} to="/budget/transactions" state={{category: item}}>See More</Link>
             </div>
@@ -212,7 +212,7 @@ function BudgetDetails() {
             <span> ${budgetData.totalSpent.toFixed(2)} / </span>
             {
               editOpen ?
-              <input className={styles["goal-input"]} type="number" value={goal} onChange={(e) => {setGoal(e.target.value); if (Number(e.target.value) < 0) {setNegativeWarn(true)} else{setNegativeWarn(false)}}}></input>
+              <input className={styles["goal-input"]} type="number" value={goal} onChange={(e) => {setGoal(e.target.value); setNegativeWarn(Number(e.target.value) < 0)}}></input>
               :
               <span> ${budgetData.goal}</span>
             }
@@ -224,15 +224,14 @@ function BudgetDetails() {
 
         <div className={styles["button-group"]}>
           {
-            negativeWarn == true &&
+            negativeWarn === true &&
             <div className={styles["warning-message"]}>Budgets can't be negative!</div>
           }
           {
             editOpen ?
             <>
              <button className={styles["cancel-button"]} onClick={() => {cancel()}}>Cancel</button>
-             <button className={styles["sum-button"]} onClick={() => {matchSum()}}>Set Total to Sum</button>
-             <button className={`${styles["submit-button"]} ${negativeWarn ? styles["disabled"] : styles["enabled"]}`} disabled={negativeWarn} onClick={() => {if (negativeWarn == false) {submit()}}}>Submit</button>
+             <button className={`${styles["submit-button"]} ${negativeWarn ? styles["disabled"] : styles["enabled"]}`} disabled={negativeWarn} onClick={() => {if (!negativeWarn) {submit()}}}>Submit</button>
             </>
             :
             <button className={styles["edit-button"]} onClick={() => {setEditOpen(true)}}>Edit Budgets</button>
@@ -243,6 +242,6 @@ function BudgetDetails() {
       </div>
     </div>
   );
-};
+}
 
 export default BudgetDetails;

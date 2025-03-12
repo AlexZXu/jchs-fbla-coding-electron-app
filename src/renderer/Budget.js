@@ -26,6 +26,9 @@ function Budget() {
       dining: {
         goal: 0,
         spent: 0
+      },
+      other: {
+        goal: 0
       }
     }
   })
@@ -54,12 +57,19 @@ function Budget() {
   }
   //calculates the budget amount
   async function setAmountAsBudget() {
+    console.log(budgetDetails)
+    console.log(budgetDetails.categories.other.goal)
     setFocus(0)
     setFocusAmount(0)
     const newBudgetAmount = incomeMonth * focusAmount;
     const docRef = doc(db, "generalBudgets", budgetId);
     const payload = {
-      goal: newBudgetAmount
+      goal: newBudgetAmount,
+      categories: {
+        other: {
+          goal: newBudgetAmount - budgetDetails.goal + budgetDetails.categories.other.goal
+        }
+      }
     }
 
     await setDoc(docRef, payload, { merge: true })
