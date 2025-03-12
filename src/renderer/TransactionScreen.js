@@ -20,6 +20,7 @@ function TransactionScreen() {
   const [transactionDetailOpen, setTransactionDetailOpen] = React.useState(false);
   const [transactionId, setTransactionId] = React.useState(0);
   const [trigger, setTrigger] = React.useState(false);
+  const [toggle, setToggle] = React.useState(false);
   const [transactionConfirmOpen, setTransactionConfirmOpen] = React.useState(false);
 
   const [confirmRemoveOpen, setConfirmRemoveOpen] = React.useState(false);
@@ -238,7 +239,10 @@ function TransactionScreen() {
           </div>
           <div className={styles["transaction-field"]}>
             <div>Amount</div>
-            <input className={styles["transaction-input"]} onChange={(e) => {setAmount(e.target.value)}} value={amount} type="number" />
+            <div className={styles["transaction-amount-field"]}>
+              <button className={styles["amount-toggle"]} style={{background: toggle ? "#90EE90" : "#ffcccb", color: toggle ? "#4F7942" :"#EE2400" }} onClick={() => {setToggle(prevToggle => !prevToggle)}}>{toggle ? "+" : "-"}</button>
+              <input className={styles["transaction-input"]} onChange={(e) => {setAmount(e.target.value)}} value={amount} type="number" />
+            </div>
           </div>
           <div className={styles["transaction-field"]}>
             <div>Additional Notes</div>
@@ -260,16 +264,29 @@ function TransactionScreen() {
           <div className='text-lg text-center font-semibold m-[-10px] text-slate-900'>
             Transaction Details
           </div>
-          <div>Date</div>
-          <input className={styles["transaction-input"]} style={{borderColor: '#e6e6e6'}} type="date" onChange={(e) => {setDate(e.target.value)}} value={date} />
-          <div>Name</div>
-          <input className={styles["transaction-input"]} style={{borderColor: '#e6e6e6'}} onChange={(e) => {setName(e.target.value)}} value={name} />
-          <div>Category</div>
-          <input className={styles["transaction-input"]} style={{borderColor: '#e6e6e6'}} onChange={(e) => {setCategory(e.target.value)}} value={category} list="categories" />
-          <div>Amount</div>
-          <input className={styles["transaction-input"]} style={{borderColor: '#e6e6e6'}} onChange={(e) => {setAmount(e.target.value)}} value={amount} type="number" />
-          <div>Additional Notes</div>
-          <input className={styles["transaction-input"]} style={{borderColor: '#e6e6e6'}} onChange={(e) => {setAdditionalNotes(e.target.value)}} value={additionalNotes} />
+          <div className={styles["transaction-field"]}>
+            <div>Date</div>
+            <input className={styles["transaction-input"]} style={{borderColor: '#e6e6e6'}} type="date" onChange={(e) => {setDate(e.target.value)}} value={date} />
+          </div>
+          <div className={styles["transaction-field"]}>
+            <div>Name</div>
+            <input className={styles["transaction-input"]} style={{borderColor: '#e6e6e6'}} onChange={(e) => {setName(e.target.value)}} value={name} />
+          </div>
+          <div className={styles["transaction-field"]}>
+            <div>Category</div>
+            <input className={styles["transaction-input"]} style={{borderColor: '#e6e6e6'}} onChange={(e) => {setCategory(e.target.value)}} value={category} list="categories" />
+          </div>
+          <div className={styles["transaction-field"]}>
+            <div>Amount</div>
+            <div className={styles["transaction-amount-field"]}>
+              <button className={styles["amount-toggle"]} style={{background: toggle ? "#90EE90" : "#ffcccb", color: toggle ? "#4F7942" :"#EE2400" }} onClick={() => {setToggle(prevToggle => !prevToggle)}}>{toggle ? "+" : "-"}</button>
+              <input className={styles["transaction-input"]} style={{borderColor: '#e6e6e6'}} onChange={(e) => {setAmount(e.target.value)}} value={amount} type="number" />
+            </div>
+          </div>
+          <div className={styles["transaction-field"]}>
+            <div>Additional Notes</div>
+            <input className={styles["transaction-input"]} style={{borderColor: '#e6e6e6'}} onChange={(e) => {setAdditionalNotes(e.target.value)}} value={additionalNotes} />
+          </div>
           <div className={styles["button-container"]}>
             <button onClick={update} className={`${styles["submit-button"]} ${confirmRemoveOpen ? styles["disabled"] : styles["enabled"]}`} disabled={confirmRemoveOpen}>Update</button>
             <button onClick={() => {setConfirmRemoveOpen(true);}} className={`${styles["delete-button"]} ${confirmRemoveOpen ? styles["disabled"] : styles["enabled"]}`} disabled={confirmRemoveOpen}>Delete</button>
