@@ -170,6 +170,20 @@ th, td {
   gap: 5px;
 }
 
+.transaction-amount-field {
+  display: flex;
+  gap: 5px;
+}
+
+.amount-toggle {
+  background: lightgray;
+  padding-left: 12px;
+  padding-right: 12px;
+  font-size: 20px;
+  border-radius: 6px;
+  width: 45px;
+}
+
 .transaction-detail-container {
   position: fixed;
   left: 50%;
