@@ -6,6 +6,7 @@ import fetchSingleRecord from '../../lib/fetchSingleRecord';
 import { doc, setDoc } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 import getProgressBarColor from '../../lib/color';
+import twoDecimal from '../../lib/TwoDecimal';
 
 //Function for the budget section
 function Budget() {
@@ -43,7 +44,7 @@ function Budget() {
   //gets the data for the budget
   async function getBudget() {
     const balanceData = await fetchSingleRecord("generalBudgets");
-    const pastBalanceData = await fetchSingleRecord("generalBudgets", "2025-01")
+    const pastBalanceData = await fetchSingleRecord("generalBudgets", "2025-02")
     setBudgetDetails(balanceData)
     setPastBudgetDetails(pastBalanceData)
     setBudgetId(balanceData.id)
@@ -51,7 +52,7 @@ function Budget() {
   //gets the data for the balance
   async function getBalance() {
     const balanceData = await fetchSingleRecord("balances");
-    const pastBalanceData = await fetchSingleRecord("balances", "2025-01")
+    const pastBalanceData = await fetchSingleRecord("balances", "2025-02")
     setIncomeMonth(balanceData.incomeMonth)
     setPastIncomeMonth(pastBalanceData.incomeMonth)
   }
@@ -131,7 +132,7 @@ function Budget() {
             <div className={styles['budget-progress']}>
               <h3 className={styles['overview-subtitle']}>Monthly Savings</h3>
               <h1 style={{ fontWeight: '600', fontSize: '17px' }}>
-                ${budgetDetails.categories.savings.spent} / ${budgetDetails.categories.savings.goal}
+                ${twoDecimal(budgetDetails.categories.savings.spent)} / ${twoDecimal(budgetDetails.categories.savings.goal)}
               </h1>
               <div className={styles['progress-bar']}>
                 <div
@@ -144,7 +145,7 @@ function Budget() {
             <div className={styles['budget-progress']}>
               <h3 className={styles['overview-subtitle']}>Monthly Dining Budget</h3>
               <h1 style={{ fontWeight: '600', fontSize: '17px' }}>
-                ${budgetDetails.categories.dining.spent} / ${budgetDetails.categories.dining.goal}
+                ${twoDecimal(budgetDetails.categories.dining.spent)} / ${twoDecimal(budgetDetails.categories.dining.goal)}
               </h1>
               <div className={styles['progress-bar']}>
                 <div
