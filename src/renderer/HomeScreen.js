@@ -12,6 +12,7 @@ import { db } from '../../lib/firebase';
 import { collection, addDoc, Timestamp, updateDoc, setDoc, doc } from 'firebase/firestore';
 import { MdEdit } from "react-icons/md";
 import getProgressBarColor from '../../lib/color';
+import HelpInteractive from './HelpInteractive';
 
 
 //Function for the home page
@@ -178,6 +179,8 @@ function App() {
         <Link className={styles["nav-button"]} to="/transactions">Transactions</Link>
         <Link className={styles["nav-button"]} to="/settings">Settings</Link>
       </nav>
+
+      <HelpInteractive />
       <div className={styles["dashboard-content"]}>
         <div className={styles["overview-box"]}>
           <div style={{display: 'flex', height: '40px', alignItems: 'center', justifyContent: 'space-between'}}>
