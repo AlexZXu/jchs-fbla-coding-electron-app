@@ -1,119 +1,126 @@
+//import section
 import React from "react";
 import { FaArrowUp } from "react-icons/fa6";
 import { threadAddMessage } from "../../lib/openai";
 
+//function
 function createMessage() {
-  const streamId = params.threadId
-  const searchParams = req.nextUrl.searchParams
+    //constants
+    const streamId = params.threadId
+    const searchParams = req.nextUrl.searchParams
 
-  const input = searchParams.get('message')
+    const input = searchParams.get('message')
 
-  const messageId = await threadAddMessage(streamId, input)
+    const messageId = await threadAddMessage(streamId, input)
 
-  return Response.json({messageId: messageId})
+    return Response.json({messageId: messageId})
 
 }
+//function for the chatBot
 function AIChatBot() {
-  const [currMessage, setCurrMessage] = React.useState("");
-  const [streamId, setStreamId] = React.useState("");
-  const [aiResponse, setAiResponse] = React.useState("");
-  const [messagesList, setMessagesList] = React.useState([]);
+    //constants
+    const [currMessage, setCurrMessage] = React.useState("");
+    const [streamId, setStreamId] = React.useState("");
+    const [aiResponse, setAiResponse] = React.useState("");
+    const [messagesList, setMessagesList] = React.useState([]);
 
-  React.useEffect(() => {
-      const startThread = async () => {
-          const res = await fetch("/api/ai/create-thread")
-          const data = await res.json()
-          setStreamId(data.streamId)
+    //react use effect
+    React.useEffect(() => {
+        const startThread = async () => {
+            const res = await fetch("/api/ai/create-thread")
+            const data = await res.json()
+            setStreamId(data.streamId)
 
-          return data.streamId
-      }
+            return data.streamId
+        }
 
-      startThread()
+        startThread()
 
-      //get variable from session storage & consume
-      const retrievedFileList = JSON.parse(sessionStorage.getItem("fileList"))
+        //get variable from session storage & consume
+        const retrievedFileList = JSON.parse(sessionStorage.getItem("fileList"))
 
-      sessionStorage.removeItem("fileList");
+        sessionStorage.removeItem("fileList");
 
-      const retrievedStartDate = sessionStorage.getItem("startDate")
-      sessionStorage.removeItem("startDate")
+        const retrievedStartDate = sessionStorage.getItem("startDate")
+        sessionStorage.removeItem("startDate")
 
-      const retrievedEndDate = sessionStorage.getItem("endDate")
-      sessionStorage.removeItem("endDate")
-
-      const retrievedMessageList = JSON.parse(localStorage.getItem("messageList") || "[]")
-      if (retrievedFileList != null) {
-          console.log(retrievedFileList)
-          setFileList(retrievedFileList)
-      }
-      if (retrievedStartDate != null) {
-          setStartDate(retrievedStartDate)
-      }
-      if (retrievedEndDate != null) {
-          setEndDate(retrievedEndDate)
-      }
-      if (retrievedMessageList != null) {
-          setMessagesList(retrievedMessageList)
-      }
-  }, [])
-
-
-  async function messageAi() {
-      const resMessage = await fetch(`/api/ai/thread/${streamId}/create-message?message=${currMessage}`)
-      const dataMessage = await resMessage.json()
-      const messageId = dataMessage.messageId
+        const retrievedEndDate = sessionStorage.getItem("endDate")
+        sessionStorage.removeItem("endDate")
+        //gets the sessions and checks the retrieved file list
+        const retrievedMessageList = JSON.parse(localStorage.getItem("messageList") || "[]")
+        if (retrievedFileList != null) {
+            console.log(retrievedFileList)
+            setFileList(retrievedFileList)
+        }
+        if (retrievedStartDate != null) {
+            setStartDate(retrievedStartDate)
+        }
+        if (retrievedEndDate != null) {
+            setEndDate(retrievedEndDate)
+        }
+        if (retrievedMessageList != null) {
+            setMessagesList(retrievedMessageList)
+        }
+    }, [])
 
 
-      setMessagesList((messageList) => [...messageList, {
-          type: "user",
-          id: messageId,
-          message: currMessage
-      }]);
+    //async function inside
+    async function messageAi() {
+        const resMessage = await fetch(`/api/ai/thread/${streamId}/create-message?message=${currMessage}`)
+        const dataMessage = await resMessage.json()
+        const messageId = dataMessage.messageId
 
-      setCurrMessage("");
+        //sets the message list
+        setMessagesList((messageList) => [...messageList, {
+            type: "user",
+            id: messageId,
+            message: currMessage
+        }]);
 
-      //sleep for 200ms
-      await new Promise(r => setTimeout(r, 500));
+        setCurrMessage("");
 
-      setMessagesList((messageList) => [...messageList, {
-          type: "assistant",
-          id: "temp",
-          message: ""
-      }]);
+        //sleep for 200ms
+        await new Promise(r => setTimeout(r, 500));
 
-      const resRun = await fetch(`/api/ai/thread/${streamId}/run?message=${messageId}`)
-      const dataRun = await resRun.json()
-      const runId = dataRun.runId
+        setMessagesList((messageList) => [...messageList, {
+            type: "assistant",
+            id: "temp",
+            message: ""
+        }]);
+        //constants for the running and retrieving
+        const resRun = await fetch(`/api/ai/thread/${streamId}/run?message=${messageId}`)
+        const dataRun = await resRun.json()
+        const runId = dataRun.runId
 
-      const resRetrieve = await fetch(`/api/ai/thread/${streamId}/retrieve?runId=${runId}&messageId=${messageId}`)
-      const dataRetrieve = await resRetrieve.json()
-      setAiResponse(dataRetrieve.response);
+        const resRetrieve = await fetch(`/api/ai/thread/${streamId}/retrieve?runId=${runId}&messageId=${messageId}`)
+        const dataRetrieve = await resRetrieve.json()
+        setAiResponse(dataRetrieve.response);
+        //sets the message list
+        await setMessagesList((messageList) => [...messageList.slice(0, -1), {
+            type: "assistant",
+            id: dataRetrieve.response.id,
+            message: dataRetrieve.response.message
+        }])
+        //cfinds the state to push it out.
+        const currState = JSON.parse(localStorage.getItem("messageList") || "[]");
+        currState.push({
+            type: "user",
+            id: messageId,
+            message: currMessage
+        })
+        currState.push({
+            type: "assistant",
+            id: dataRetrieve.response.id,
+            message: dataRetrieve.response.message
+        })
 
-      await setMessagesList((messageList) => [...messageList.slice(0, -1), {
-          type: "assistant",
-          id: dataRetrieve.response.id,
-          message: dataRetrieve.response.message
-      }])
-
-      const currState = JSON.parse(localStorage.getItem("messageList") || "[]");
-      currState.push({
-          type: "user",
-          id: messageId,
-          message: currMessage
-      })
-      currState.push({
-          type: "assistant",
-          id: dataRetrieve.response.id,
-          message: dataRetrieve.response.message
-      })
-
-      localStorage.setItem("messageList", JSON.stringify(currState))
-  }
-
-  function resetMessages() {
-      localStorage.clear("messageList");
-      setMessagesList([]);
-  }
+        localStorage.setItem("messageList", JSON.stringify(currState))
+    }
+    //function to reset the messages
+    function resetMessages() {
+        localStorage.clear("messageList");
+        setMessagesList([]);
+    }
 
   return(
     <div>

@@ -1,7 +1,9 @@
+//imports section
 import styles from './styles/HelpInteractive.module.css'
 import HelpDetail from './HelpDetail';
 import React from 'react';
 
+//function for the help menu
 function HelpMenu({setHelp}) {
   const [currInput, setCurrInput] = React.useState("");
   return (
