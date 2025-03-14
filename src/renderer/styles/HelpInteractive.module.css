@@ -39,7 +39,9 @@
   margin-top: -3px;
   display: flex;
   cursor: pointer;
+
   justify-content: flex-end;
+  margin-bottom: 20px;
 }
 
 .help-menu-container {
@@ -47,10 +49,53 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  gap: 10px;
 }
 
 .help-input {
   border: solid 2px rgb(149, 143, 143);
   padding: 10px;
   border-radius: 10px;
+}
+
+
+.category-header {
+  background: rgb(231, 233, 235);
+  border: 2px solid rgb(41, 35, 32);
+  display: flex;
+  align-items: center;
+  padding: 6px;
+  justify-content: space-between;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.category-title {
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.category-desc {
+  border: solid;
+  margin-top: 6px;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 15px;
+}
+
+.help-title {
+  font-weight: 700;
+  text-align: center;
+  color: rgb(4, 82, 21);
+  margin-bottom: 10px;
+  font-size: 24px;
+}
+
+.content-container {
+  margin-top: -10px;
+  height: 100%;
+  overflow-y: auto;
+  border: solid;
 }
