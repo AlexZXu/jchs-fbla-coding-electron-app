@@ -13,7 +13,7 @@ import { collection, addDoc, Timestamp, updateDoc, setDoc, doc } from 'firebase/
 import { MdEdit } from "react-icons/md";
 import getProgressBarColor from '../../lib/color';
 import HelpInteractive from './HelpInteractive';
-
+import HelpButton from './HelpButton';
 
 //Function for the home page
 function App() {
@@ -44,7 +44,9 @@ function App() {
 
   const [newSavingsGoal, setNewSavingsGoal] = React.useState(0)
 
-  const [editingGoal, setEditingGoal] = React.useState(false)
+  const [editingGoal, setEditingGoal] = React.useState(false);
+
+  const [helpOpen, setHelpOpen] = React.useState(false);
 
   //Reacts
   React.useEffect(() => {
@@ -180,7 +182,6 @@ function App() {
         <Link className={styles["nav-button"]} to="/settings">Settings</Link>
       </nav>
 
-      <HelpInteractive />
       <div className={styles["dashboard-content"]}>
         <div className={styles["overview-box"]}>
           <div style={{display: 'flex', height: '40px', alignItems: 'center', justifyContent: 'space-between'}}>
@@ -281,6 +282,10 @@ function App() {
           </div>
         </div>
       }
+      <div>
+        {helpOpen && <HelpInteractive setHelp={setHelpOpen} />}
+        <HelpButton setHelp={setHelpOpen} />
+      </div>
     </div>
   );
 }

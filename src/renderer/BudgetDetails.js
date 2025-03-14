@@ -6,6 +6,9 @@ import { db } from '../../lib/firebase';
 import { collection, addDoc, Timestamp, updateDoc, setDoc, doc } from 'firebase/firestore';
 import twoDecimal from "../../lib/TwoDecimal";
 import fetchSingleRecord from "../../lib/fetchSingleRecord";
+import HelpInteractive from "./HelpInteractive";
+import HelpButton from "./HelpButton";
+
 //Budget Details Specifics
 function BudgetDetails() {
   //Constant of all the categories initialization
@@ -238,7 +241,11 @@ function BudgetDetails() {
           }
           <Link className={styles["go-back"]} to="/budget">Go Back</Link>
         </div>
+      </div>
 
+      <div>
+        <HelpInteractive />
+        <HelpButton />
       </div>
     </div>
   );

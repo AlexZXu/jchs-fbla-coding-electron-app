@@ -4,7 +4,53 @@
   top: 50%;
   transform: translate(-50%, -50%);
   border: solid;
-  width: 240px;
-  height: 200px;
+  width: 70%;
+  height: 65%;
   color: black;
+  background: white;
+  padding: 25px;
+  z-index: 999;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.help-button {
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  right: 4%;
+  bottom: 4%;
+  border: solid;
+  background: rgb(64, 195, 64);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  color: white;
+  cursor: pointer;
+  border-radius: 100%;
+  border: 2px solid black;
+}
+
+
+.help-close {
+  font-size: 22px;
+  margin-top: -3px;
+  display: flex;
+  cursor: pointer;
+  justify-content: flex-end;
+}
+
+.help-menu-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.help-input {
+  border: solid 2px rgb(149, 143, 143);
+  padding: 10px;
+  border-radius: 10px;
 }

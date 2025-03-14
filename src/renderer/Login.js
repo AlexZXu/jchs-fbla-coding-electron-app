@@ -4,7 +4,8 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../lib/firebase';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './styles/Auth.module.css'
-import HelpInteractive from './HelpInteractive';
+
+
 //Function to log in
 function Login() {
   //Sets the constants
@@ -61,10 +62,6 @@ function Login() {
           <a href="/">Forgot username or password?</a>
           <Link to="/signup">Sign Up</Link>
         </div>
-      </div>
-
-      <div>
-        <HelpInteractive />
       </div>
 
     </div>
