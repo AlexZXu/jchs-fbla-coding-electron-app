@@ -46,7 +46,6 @@
 
 .help-menu-container {
   width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -91,11 +90,17 @@
   color: rgb(4, 82, 21);
   margin-bottom: 10px;
   font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 .content-container {
   margin-top: -10px;
   height: 100%;
   overflow-y: auto;
-  border: solid;
+  overflow-x: auto;
+  padding-left: 5px;
+  padding-right: 5px;
 }

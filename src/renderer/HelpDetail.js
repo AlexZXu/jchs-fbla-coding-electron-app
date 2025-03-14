@@ -7,7 +7,7 @@ function HelpDetail({isShown, title, children}) {
   const [isOpen, setIsOpen] = React.useState(false);
 
   return (
-    <div>
+    <>
       {
         isShown &&
         <div>
@@ -23,7 +23,7 @@ function HelpDetail({isShown, title, children}) {
           }
         </div>
       }
-    </div>
+    </>
 
   )
 }
