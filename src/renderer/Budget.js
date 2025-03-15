@@ -7,13 +7,15 @@ import { doc, setDoc } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 import getProgressBarColor from '../../lib/color';
 import twoDecimal from '../../lib/TwoDecimal';
-
+import HelpButton from './HelpButton';
+import HelpInteractive from './HelpInteractive';
 //Function for the budget section
 function Budget() {
   //Constants to set the focus
   const [focus, setFocus] = React.useState(0)
   const [focusAmount, setFocusAmount] = React.useState(0)
   const [budgetId, setBudgetId] = React.useState("");
+  const [helpOpen, setHelpOpen] = React.useState(false);
   //constant to set the budget details
   const [budgetDetails, setBudgetDetails] = React.useState({
     //sets all the values to 0
@@ -230,6 +232,10 @@ function Budget() {
             </div>
           </div>
         </div>
+      </div>
+      <div>
+        {helpOpen && <HelpInteractive setHelp={setHelpOpen} />}
+        <HelpButton setHelp={setHelpOpen} />
       </div>
     </div>
   );

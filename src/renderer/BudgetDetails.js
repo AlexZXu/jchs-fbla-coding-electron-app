@@ -242,11 +242,6 @@ function BudgetDetails() {
           <Link className={styles["go-back"]} to="/budget">Go Back</Link>
         </div>
       </div>
-
-      <div>
-        <HelpInteractive />
-        <HelpButton />
-      </div>
     </div>
   );
 }

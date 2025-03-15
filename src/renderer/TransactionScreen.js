@@ -12,6 +12,8 @@ import { IoClose } from "react-icons/io5";
 import { MdCategory } from 'react-icons/md';
 import fetchSingleRecord from '../../lib/fetchSingleRecord';
 import { IoOpenOutline } from "react-icons/io5";
+import HelpButton from './HelpButton';
+import HelpInteractive from './HelpInteractive';
 
 //Functions for the transactions
 function TransactionScreen() {
@@ -44,6 +46,7 @@ function TransactionScreen() {
 
   const [balanceDetails, setBalanceDetails] = React.useState();
   const [budgetData, setBudgetData] = React.useState()
+  const [helpOpen, setHelpOpen] = React.useState(false)
 
   //Gets teh balance data
   async function getBalance() {
@@ -305,6 +308,10 @@ function TransactionScreen() {
           </div>
         </div>
       }
+      <div>
+        {helpOpen && <HelpInteractive setHelp={setHelpOpen} />}
+        <HelpButton setHelp={setHelpOpen} />
+      </div>
     </div>
   );
 }

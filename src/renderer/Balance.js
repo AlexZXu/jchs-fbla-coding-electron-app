@@ -8,6 +8,8 @@ import styles from './styles/Balance.module.css';
 import fetchSingleRecord from '../../lib/fetchSingleRecord';
 import { db } from '../../lib/firebase';
 import fetchRecords from '../../lib/fetchRecords';
+import HelpButton from './HelpButton';
+import HelpInteractive from './HelpInteractive';
 
 //Function for balance page
 function Balance() {
@@ -30,6 +32,7 @@ function Balance() {
   const [expenseMonth, setExpenseMonth] = React.useState(0);
   const [incomeYear, setIncomeYear] = React.useState(0);
   const [expenseYear, setExpenseYear] = React.useState(0);
+  const [helpOpen, setHelpOpen] = React.useState(false)
 
   //Function to edit the balance details
   function editBalanceStart() {
@@ -300,6 +303,10 @@ function Balance() {
             </div>
           </div>
         </div>
+      </div>
+      <div>
+        {helpOpen && <HelpInteractive setHelp={setHelpOpen} />}
+        <HelpButton setHelp={setHelpOpen} />
       </div>
     </div>
   );
