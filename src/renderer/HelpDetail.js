@@ -1,9 +1,12 @@
+//Imports Section
 import React from 'react';
 import styles from './styles/HelpInteractive.module.css'
 import { FaChevronUp } from "react-icons/fa";
 import { FaChevronDown } from "react-icons/fa6";
 
+//Function for help
 function HelpDetail({isShown, title, children}) {
+  //Constant for isOpen
   const [isOpen, setIsOpen] = React.useState(false);
 
   return (

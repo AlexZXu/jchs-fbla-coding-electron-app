@@ -22,26 +22,28 @@ function App() {
   const [transactionDetailOpen, setTransactionDetailOpen] = React.useState(false);
   const [transactionId, setTransactionId] = React.useState(0);
   const [trigger, setTrigger] = React.useState(false);
-
+  //Set the balance section
   const [currBalance, setCurrBalance] = React.useState(0)
   const [incomeMonth, setIncomeMonth] = React.useState(0)
   const [expenseMonth, setExpenseMonth] = React.useState(0)
-
+  //editMode check
   const [balanceEditMode, setBalanceEditMode] = React.useState(false)
 
+  //Transactions List
   const [date, setDate] = React.useState("")
   const [name, setName] = React.useState("")
   const [amount, setAmount] = React.useState("")
   const [additionalNotes, setAdditionalNotes] = React.useState("")
-
+  //Budget section of Home
   const [budgetGoal, setBudgetGoal] = React.useState(0)
   const [budgetSpent, setBudgetSpent] = React.useState(0)
   const [budgetRemaining, setBudgetRemaining] = React.useState(0)
 
+  //Savings section of Goal
   const [savingsGoal, setSavingsGoal] = React.useState(0)
   const [savings, setSavings] = React.useState(0)
   const [savingsId, setSavingsId] = React.useState(0)
-
+  //Consntants for the updating the Goal
   const [newSavingsGoal, setNewSavingsGoal] = React.useState(0)
 
   const [editingGoal, setEditingGoal] = React.useState(false);
