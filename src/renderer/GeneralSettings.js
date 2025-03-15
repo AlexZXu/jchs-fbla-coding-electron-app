@@ -1,4 +1,4 @@
-//imports
+//imports section
 import React from 'react';
 import styles from './styles/GeneralSettings.module.css';
 import { Link } from 'react-router-dom';

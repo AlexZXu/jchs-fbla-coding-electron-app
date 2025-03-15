@@ -1,4 +1,4 @@
-//imports
+//imports section
 import React from 'react';
 import styles from './styles/Transactions.module.css'
 import { Link, useNavigate } from 'react-router-dom';
