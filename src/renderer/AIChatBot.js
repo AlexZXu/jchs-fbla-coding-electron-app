@@ -4,124 +4,46 @@ import { FaArrowUp } from "react-icons/fa6";
 import { threadAddMessage } from "../../lib/openai";
 
 //function
-function createMessage() {
+async function setupAI() {
     //constants
-    const streamId = params.threadId
-    const searchParams = req.nextUrl.searchParams
-
-    const input = searchParams.get('message')
-
-    const messageId = await threadAddMessage(streamId, input)
-
-    return Response.json({messageId: messageId})
-
+    const assistant = await openai.beta.assistants.create({
+      name: "Math Tutor",
+      instructions: "You are a personal math tutor. Write and run code to answer math questions.",
+      tools: [{ type: "code_interpreter" }],
+      model: "gpt-4o"
+    });
 }
+
+
 //function for the chatBot
 function AIChatBot() {
     //constants
-    const [currMessage, setCurrMessage] = React.useState("");
-    const [streamId, setStreamId] = React.useState("");
-    const [aiResponse, setAiResponse] = React.useState("");
-    const [messagesList, setMessagesList] = React.useState([]);
+  React.useEffect(() => {
+    await setupAI();
 
-    //react use effect
-    React.useEffect(() => {
-        const startThread = async () => {
-            const res = await fetch("/api/ai/create-thread")
-            const data = await res.json()
-            setStreamId(data.streamId)
+    const thread = await openai.beta.threads.create();
+  }, [])
 
-            return data.streamId
-        }
+  async function addMessage() {
+    const message = await openai.beta.threads.messages.create(
+      thread.id,
+      {
+        role: "user",
+        content: "I need to solve the equation `3x + 11 = 14`. Can you help me?"
+      }
+    );
+    await startRun()
+  }
 
-        startThread()
-
-        //get variable from session storage & consume
-        const retrievedFileList = JSON.parse(sessionStorage.getItem("fileList"))
-
-        sessionStorage.removeItem("fileList");
-
-        const retrievedStartDate = sessionStorage.getItem("startDate")
-        sessionStorage.removeItem("startDate")
-
-        const retrievedEndDate = sessionStorage.getItem("endDate")
-        sessionStorage.removeItem("endDate")
-        //gets the sessions and checks the retrieved file list
-        const retrievedMessageList = JSON.parse(localStorage.getItem("messageList") || "[]")
-        if (retrievedFileList != null) {
-            console.log(retrievedFileList)
-            setFileList(retrievedFileList)
-        }
-        if (retrievedStartDate != null) {
-            setStartDate(retrievedStartDate)
-        }
-        if (retrievedEndDate != null) {
-            setEndDate(retrievedEndDate)
-        }
-        if (retrievedMessageList != null) {
-            setMessagesList(retrievedMessageList)
-        }
-    }, [])
-
-
-    //async function inside
-    async function messageAi() {
-        const resMessage = await fetch(`/api/ai/thread/${streamId}/create-message?message=${currMessage}`)
-        const dataMessage = await resMessage.json()
-        const messageId = dataMessage.messageId
-
-        //sets the message list
-        setMessagesList((messageList) => [...messageList, {
-            type: "user",
-            id: messageId,
-            message: currMessage
-        }]);
-
-        setCurrMessage("");
-
-        //sleep for 200ms
-        await new Promise(r => setTimeout(r, 500));
-
-        setMessagesList((messageList) => [...messageList, {
-            type: "assistant",
-            id: "temp",
-            message: ""
-        }]);
-        //constants for the running and retrieving
-        const resRun = await fetch(`/api/ai/thread/${streamId}/run?message=${messageId}`)
-        const dataRun = await resRun.json()
-        const runId = dataRun.runId
-
-        const resRetrieve = await fetch(`/api/ai/thread/${streamId}/retrieve?runId=${runId}&messageId=${messageId}`)
-        const dataRetrieve = await resRetrieve.json()
-        setAiResponse(dataRetrieve.response);
-        //sets the message list
-        await setMessagesList((messageList) => [...messageList.slice(0, -1), {
-            type: "assistant",
-            id: dataRetrieve.response.id,
-            message: dataRetrieve.response.message
-        }])
-        //cfinds the state to push it out.
-        const currState = JSON.parse(localStorage.getItem("messageList") || "[]");
-        currState.push({
-            type: "user",
-            id: messageId,
-            message: currMessage
-        })
-        currState.push({
-            type: "assistant",
-            id: dataRetrieve.response.id,
-            message: dataRetrieve.response.message
-        })
-
-        localStorage.setItem("messageList", JSON.stringify(currState))
-    }
-    //function to reset the messages
-    function resetMessages() {
-        localStorage.clear("messageList");
-        setMessagesList([]);
-    }
-
+  async function startRun() {
+    let run = await openai.beta.threads.runs.createAndPoll(
+      thread.id,
+      {
+        assistant_id: assistant.id,
+        instructions: "Please address the user as Jane Doe. The user has a premium account."
+      }
+    );
+  }
   return(
     <div>
       <div>

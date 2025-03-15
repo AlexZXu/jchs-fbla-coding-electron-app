@@ -48,6 +48,10 @@ function TransactionScreen() {
   const [budgetData, setBudgetData] = React.useState()
   const [helpOpen, setHelpOpen] = React.useState(false)
 
+
+  const [filterName, setFilterName] = React.useState("");
+  const [filterCategory, setFilterCategory] = React.useState("");
+
   //Gets teh balance data
   async function getBalance() {
     const balanceData = await fetchSingleRecord("balances");
@@ -212,7 +216,24 @@ function TransactionScreen() {
       <div className={styles["transactions-content"]}>
         <div className={styles["transactions-box"]}>
           <h2 className={styles["section-title"]}>All Transactions</h2>
-          <TransactionList trigger={trigger} height="370px" setTransactionDetailOpen={setTransactionDetailOpen} setTransactionId={setTransactionId}/>
+          <div className={styles["filter-box"]}>
+            <div className={styles["filter-field"]} style={{width: "70%"}}>
+              <div className={styles["filter-title"]}>Name</div>
+              <input className={styles["filter-input"]} placeholder='Enter transaction name' value={filterName} onChange={(e) => {setFilterName(e.target.value)}}/>
+            </div>
+            <div className={styles["filter-field"]} style={{width: "30%"}}>
+              <div className={styles["filter-title"]}>Category</div>
+              <select className={styles["filter-input"]} style={{height: "34px"}} value={filterCategory} onChange={(e) => {setFilterCategory(e.target.value)}}>
+                <option selected value="" style={{color: 'gray'}}>No category</option>
+                <option value="entertainment">Entertainment</option>
+                <option value="essentials">Essentials</option>
+                <option value="dining">Dining</option>
+                <option value="gas">Gas</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+          </div>
+          <TransactionList trigger={trigger} height="345px" setTransactionDetailOpen={setTransactionDetailOpen} setTransactionId={setTransactionId} filterName={filterName} filterCategory={filterCategory} />
           <button className={styles["add-button"]} onClick={() => {setAddOpen(true)}}>Add Transactions</button>
         </div>
       </div>

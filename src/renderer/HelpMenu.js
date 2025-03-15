@@ -14,6 +14,7 @@ function HelpMenu({setHelp}) {
       </HelpDetail>
       <HelpDetail title={"Navigation"} isShown={(("Navigation").toLowerCase()).includes(currInput.toLowerCase())}>
         <p>Click on any of the buttons in the top bar to quickly navigate between categories.</p>
+        <img src="https://wyvv.github.io/images/navigation.png" />
       </HelpDetail>
       <HelpDetail title={"Home Screen"} isShown={(("Navigation").toLowerCase()).includes(currInput.toLowerCase())}>
         <p>In the home screen, you can quickly view your balance, recent transactions, savings goal, and your current monthly budget. You can quickly edit these values as well.</p>
