@@ -296,3 +296,30 @@ th, td {
   color: #D32F2F;
   stroke-width: 500;
 }
+
+.filter-box {
+  width: 100%;
+  display: flex;
+  gap: 20px;
+  margin-bottom: 10px;
+}
+
+.filter-field {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.filter-title {
+  font-size: 12px;
+  color: gray;
+}
+
+.filter-input {
+  border: solid 1px rgb(149, 143, 143);
+  border-radius: 10px;
+  width: 100%;
+  padding: 4px;
+  padding-left: 8px;
+}
+

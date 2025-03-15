@@ -9,9 +9,10 @@ import { IoOpenOutline } from "react-icons/io5";
 import fetchRecordsFilter from '../../lib/fetchRecordsFilter';
 
 //Function of all the transactions
-function TransactionList({trigger, height, setTransactionDetailOpen, setTransactionId, category}) {
+function TransactionList({trigger, height, setTransactionDetailOpen, setTransactionId, category, filterName, filterCategory}) {
   //Sets the constants
   const [transactionArray, setTransactionArray] = React.useState([]);
+  const [filteredTransactionArray, setFilteredTransactionArray] = React.useState([])
 
   //Fetches the data from the database
   const fetchData = async () => {
@@ -28,7 +29,20 @@ function TransactionList({trigger, height, setTransactionDetailOpen, setTransact
     console.log(transactionData)
 
     setTransactionArray(transactionData)
+    setFilteredTransactionArray(transactionData)
   }
+
+  React.useEffect(() => {
+    let filterArray = transactionArray
+    if (filterName != undefined && filterName != "") {
+      filterArray = filterArray.filter((e) => e.name.toLowerCase().includes(filterName))
+    }
+    if (filterCategory != undefined && filterCategory != "") {
+      filterArray = filterArray.filter((e) => e.category.toLowerCase() == filterCategory)
+    }
+
+    setFilteredTransactionArray(filterArray)
+  }, [filterName, filterCategory])
 
   //React
   React.useEffect(() => {
@@ -55,7 +69,7 @@ function TransactionList({trigger, height, setTransactionDetailOpen, setTransact
       <OverlayScrollbarsComponent style={{height: height}}>
         <div style={{display: "flex", flexDirection: "column", gap: '6px'}}>
           {
-              transactionArray.map(item => {
+              filteredTransactionArray.map(item => {
                 return (
                   <div className={styles["transaction"]} key={item.id}>
                     <div>
